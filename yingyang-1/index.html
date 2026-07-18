@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第2课 · 吃动平衡，健康体重 — 晓晓老师互动课</title>
+<style>
+  :root{
+    --reading-size: 14pt;            /* 宋体 小四号偏大，便于阅读 */
+    --ink:#1f2a37; --sub:#5b6776; --line:#e3e8ef;
+    --accent:#1f7a8c; --accent2:#e07a5f; --warn:#c0392b; --ok:#2e7d5b;
+    --card:#ffffff; --bg:#f5f1e8; --soft:#eef3f4;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"SimSun","宋体",STSong,serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.9;
+    font-size:var(--reading-size);
+    padding-bottom:120px;            /* 给底部字幕条留位，绝不遮挡讲解 */
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:24px 20px 0;}
+  header.top{
+    background:linear-gradient(135deg,#1f7a8c,#2a9d8f);
+    color:#fff;border-radius:14px;padding:22px 26px;margin-bottom:20px;
+    box-shadow:0 6px 18px rgba(31,122,140,.25);
+  }
+  header.top h1{margin:0 0 6px;font-size:1.5em;letter-spacing:1px;}
+  header.top .sub{opacity:.92;font-size:.95em;}
+  .badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:2px 12px;font-size:.8em;margin-right:8px;}
+  section{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.04);
+  }
+  h2{color:var(--accent);border-left:6px solid var(--accent);padding-left:12px;margin-top:4px;font-size:1.25em;}
+  h3{color:#0f4c5c;margin-bottom:6px;font-size:1.05em;}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.95em;}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  th{background:var(--soft);color:var(--ink);}
+  tr:nth-child(even) td{background:#fafbfc;}
+  .recite{
+    background:#fff8e6;border:1px dashed #e0a106;border-radius:10px;
+    padding:12px 16px;margin:12px 0;font-size:1.02em;color:#7a5b00;
+  }
+  .recite b{color:#b8860b;}
+  .kou{font-family:"KaiTi","楷体",STKaiti,serif;font-size:1.08em;line-height:2;}
+  .tip{background:var(--soft);border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;}
+  .err{background:#fdecea;border:1px solid #f5c6c0;border-radius:10px;padding:12px 16px;margin:10px 0;}
+  .err h3{color:var(--warn);}
+  .err li{margin:6px 0;}
+  .steps{counter-reset:s;padding-left:0;list-style:none;}
+  .steps li{counter-increment:s;background:var(--soft);border-radius:10px;padding:10px 14px 10px 46px;position:relative;margin:8px 0;}
+  .steps li::before{content:counter(s);position:absolute;left:12px;top:10px;width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;text-align:center;line-height:24px;font-weight:bold;}
+  .ask{background:#eaf4f4;border:1px solid #bfe0e0;border-radius:10px;padding:12px 16px;margin:10px 0;}
+  .ask .q{color:#0f4c5c;font-weight:bold;}
+  .ask .a{color:var(--ok);}
+  .quiz{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0;background:#fff;}
+  .quiz .q{font-weight:bold;margin-bottom:8px;}
+  .quiz .opt{display:block;padding:6px 10px;border-radius:8px;margin:4px 0;background:#f7f9fa;cursor:pointer;}
+  .quiz .opt.correct{background:#e6f4ea;color:var(--ok);font-weight:bold;}
+  .quiz .opt.wrong{background:#fdecea;color:var(--warn);}
+  .quiz .reveal{display:none;margin-top:8px;padding:10px 12px;background:#fff8e6;border-radius:8px;color:#7a5b00;font-size:.95em;}
+  .quiz.open .reveal{display:block;}
+  .quiz .btn{margin-top:8px;font-family:inherit;font-size:.85em;border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 14px;cursor:pointer;}
+  .feyman label{display:block;padding:6px 10px;background:#f7f9fa;border-radius:8px;margin:6px 0;cursor:pointer;}
+  .feyman input{transform:scale(1.3);margin-right:10px;vertical-align:middle;}
+  .fig{text-align:center;margin:14px 0;}
+  .fig svg{max-width:100%;height:auto;}
+  .fig .cap{font-size:.85em;color:var(--sub);margin-top:6px;}
+  .next{background:#eaf4f4;border-radius:10px;padding:12px 16px;color:#0f4c5c;}
+
+  /* ===== 语音播放器（固定顶部工具条）===== */
+  .player{
+    position:sticky;top:0;z-index:30;background:rgba(15,76,92,.97);color:#fff;
+    border-radius:0 0 14px 14px;padding:10px 16px;margin-bottom:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.2);
+  }
+  .player .row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
+  .player button{
+    font-family:inherit;font-size:.92em;border:none;border-radius:9px;
+    padding:7px 14px;cursor:pointer;background:#fff;color:#0f4c5c;font-weight:bold;
+  }
+  .player button.primary{background:var(--accent2);color:#fff;}
+  .player button:disabled{opacity:.45;cursor:default;}
+  .player select{font-family:inherit;font-size:.85em;border-radius:8px;border:none;padding:6px 8px;color:#0f4c5c;}
+  .player .seek{flex:1;min-width:160px;accent-color:#e07a5f;}
+  .player .meta{font-size:.8em;opacity:.9;margin-top:6px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+  .fsbtn{background:rgba(255,255,255,.18)!important;color:#fff!important;font-weight:normal!important;}
+
+  /* ===== 底部字幕条（半透明，不遮挡正文）===== */
+  #subtitle{
+    position:fixed;left:0;right:0;bottom:0;z-index:40;
+    background:rgba(15,30,40,.82);color:#fff;
+    font-family:"SimSun","宋体",serif;font-size:1.05em;line-height:1.6;
+    padding:14px 22px 16px;text-align:center;
+    backdrop-filter:blur(3px);border-top:3px solid var(--accent2);
+    min-height:54px;display:flex;align-items:center;justify-content:center;
+  }
+  #subtitle .idx{color:var(--accent2);font-weight:bold;margin-right:10px;}
+  .status{font-size:.78em;opacity:.8;}
+  @media print{ .player,#subtitle{display:none;} body{padding-bottom:0;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="player" id="player">
+    <div class="row">
+      <button class="primary" id="playBtn">▶ 播放</button>
+      <button id="prevBtn">⏮ 上一句</button>
+      <button id="nextBtn">下一句 ⏭</button>
+      <input class="seek" id="seek" type="range" min="0" max="1" value="0" step="1" aria-label="播放进度">
+      <select id="speedSel" title="语速">
+        <option value="0.8">语速 0.8×</option>
+        <option value="1" selected>语速 1.0×</option>
+        <option value="1.2">语速 1.2×</option>
+        <option value="1.4">语速 1.4×</option>
+      </select>
+      <select id="voiceSel" title="语音"><option value="">默认中文语音</option></select>
+      <button class="fsbtn" id="fsDown">A−</button>
+      <button class="fsbtn" id="fsUp">A＋</button>
+    </div>
+    <div class="meta">
+      <span class="status" id="status">晓晓老师（XiaoxiaoNeural）神经网络语音 · 共 <b id="totalN">0</b> 句</span>
+      <span class="status" id="voiceNote"></span>
+    </div>
+  </div>
+
+  <header class="top">
+    <div><span class="badge">第 2 课</span><span class="badge">准则二</span><span class="badge">注册营养师考点</span></div>
+    <h1>吃动平衡，健康体重</h1>
+    <div class="sub">《中国居民膳食指南（2022）》· 先复习第1课「平衡膳食宝塔」，再新学今日考点。约一节高中生物课的量。</div>
+  </header>
+
+  <!-- 一、温故知新 -->
+  <section>
+    <h2>一、温故知新（复习第1课：宝塔 + 准则一）</h2>
+    <p>第1课我们记住了「一座塔，五层饭」——平衡膳食宝塔 2022 版每日推荐量：</p>
+    <table>
+      <tr><th>宝塔层</th><th>食物</th><th>每日推荐量（2022版）</th></tr>
+      <tr><td>第5层（塔尖）</td><td>油、盐</td><td>油 25–30 g；盐 <b>&lt; 5 g</b>（2016版&lt;6g，2022更严）</td></tr>
+      <tr><td>第4层</td><td>奶及奶制品、大豆及坚果</td><td>奶 <b>300–500 g</b>（2016为300g，上调）；大豆+坚果 25–35 g</td></tr>
+      <tr><td>第3层</td><td>鱼禽肉蛋等动物性食物</td><td>总量 120–200 g（每天1个蛋；每周≥2次水产）</td></tr>
+      <tr><td>第2层</td><td>蔬菜、水果</td><td>蔬菜 300–500 g；水果 200–350 g（<b>果蔬不能互换</b>）</td></tr>
+      <tr><td>第1层（塔底）</td><td>谷薯类</td><td>谷类 200–300 g（全谷物+杂豆 50–150 g；薯类 50–100 g）</td></tr>
+    </table>
+    <div class="recite"><b>准则一口诀回顾：</b><span class="kou">谷薯打底蔬果辅，鱼禽蛋肉适量补；奶豆坚果上层住，油盐塔尖要守住；一天十二种打底，一周二十五样足。</span></div>
+  </section>
+
+  <!-- 二、导入 -->
+  <section>
+    <h2>二、新课导入：一个生活小悬念</h2>
+    <div class="ask">
+      <div class="q">晓晓老师提问：小明「吃得不多」却还是长胖，健身教练天天吃三大碗却瘦。为什么？</div>
+      <div class="a">答案：今天的核心词——<b>能量平衡</b>。身体像一杆「能量天平」。</div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 420 230" width="420" role="img" aria-label="能量天平：吃=动">
+        <line x1="210" y1="40" x2="210" y2="120" stroke="#0f4c5c" stroke-width="5"/>
+        <circle cx="210" cy="38" r="8" fill="#0f4c5c"/>
+        <line x1="70" y1="120" x2="350" y2="120" stroke="#0f4c5c" stroke-width="5"/>
+        <polygon points="200,118 220,118 210,138" fill="#0f4c5c"/>
+        <line x1="70" y1="120" x2="70" y2="170" stroke="#1f7a8c" stroke-width="3"/>
+        <line x1="350" y1="120" x2="350" y2="170" stroke="#e07a5f" stroke-width="3"/>
+        <path d="M40 170 Q70 200 100 170 Z" fill="#1f7a8c" opacity=".85"/>
+        <path d="M320 170 Q350 200 380 170 Z" fill="#e07a5f" opacity=".85"/>
+        <text x="70" y="215" text-anchor="middle" font-size="15" fill="#0f4c5c" font-family="SimSun">吃（摄入）</text>
+        <text x="350" y="215" text-anchor="middle" font-size="15" fill="#0f4c5c" font-family="SimSun">动（消耗）</text>
+      </svg>
+      <div class="cap">图1 · 能量天平：左边「吃」= 右边「动」→ 体重稳</div>
+    </div>
+    <div class="tip">天平平了体重稳；左边重了长肉；右边重了掉秤。</div>
+  </section>
+
+  <!-- 三、知识讲解 -->
+  <section>
+    <h2>三、今日考点知识讲解（深入浅出）</h2>
+
+    <h3>1. 能量平衡三句话（底层逻辑）</h3>
+    <table>
+      <tr><th>状态</th><th>关系</th><th>后果</th></tr>
+      <tr><td>能量平衡</td><td>摄入 = 消耗</td><td>体重维持</td></tr>
+      <tr><td>能量正平衡</td><td>摄入 &gt; 消耗</td><td>多余能量变脂肪，体重↑</td></tr>
+      <tr><td>能量负平衡</td><td>摄入 &lt; 消耗</td><td>动用储备，体重↓</td></tr>
+    </table>
+    <div class="fig">
+      <svg viewBox="0 0 360 230" width="360" role="img" aria-label="能量消耗构成饼图">
+        <circle cx="180" cy="115" r="90" fill="#eef3f4"/>
+        <!-- BMR 65% -->
+        <path d="M180 115 L180 25 A90 90 0 0 1 263 75 Z" fill="#1f7a8c"/>
+        <!-- 身体活动 25% -->
+        <path d="M180 115 L263 75 A90 90 0 0 1 248 178 Z" fill="#2a9d8f"/>
+        <!-- TEF 10% -->
+        <path d="M180 115 L248 178 A90 90 0 1 1 180 25 Z" fill="#e07a5f"/>
+        <text x="205" y="70" font-size="13" fill="#fff" font-family="SimSun">基础代谢</text>
+        <text x="225" y="120" font-size="12" fill="#fff" font-family="SimSun">活动</text>
+        <text x="150" y="180" font-size="12" fill="#fff" font-family="SimSun">食物热效应</text>
+      </svg>
+      <div class="cap">图2 · 能量消耗构成：基础代谢(60–70%) + 身体活动(15–30%) + 食物热效应(≈10%)</div>
+    </div>
+    <div class="tip">身体活动弹性最大，是我们可以调控的「减肥开关」。节食把「吃」压太低，身体会<b>下调基础代谢</b>来省电——所以「光饿不运动」越减越难。</div>
+
+    <h3>2. 健康体重看 BMI（身体质量指数）</h3>
+    <p>公式（必背）：<b>BMI = 体重(kg) ÷ 身高(m)²</b></p>
+    <div class="fig">
+      <svg viewBox="0 0 640 80" width="640" role="img" aria-label="BMI分类色阶">
+        <rect x="0"   y="10" width="120" height="50" fill="#9aa7b0"/>
+        <rect x="120" y="10" width="200" height="50" fill="#2e7d5b"/>
+        <rect x="320" y="10" width="160" height="50" fill="#e0a106"/>
+        <rect x="480" y="10" width="160" height="50" fill="#c0392b"/>
+        <text x="60"  y="40" font-size="13" fill="#fff" text-anchor="middle" font-family="SimSun">&lt;18.5 过低</text>
+        <text x="220" y="40" font-size="13" fill="#fff" text-anchor="middle" font-family="SimSun">18.5–23.9 正常</text>
+        <text x="400" y="40" font-size="13" fill="#fff" text-anchor="middle" font-family="SimSun">24–27.9 超重</text>
+        <text x="560" y="40" font-size="13" fill="#fff" text-anchor="middle" font-family="SimSun">≥28 肥胖</text>
+      </svg>
+      <div class="cap">图3 · 中国成人 BMI 分类（注意：比 WHO 的 25/30 更严格）</div>
+    </div>
+
+    <h3>3. 光看 BMI 不够——还要看「腰围」</h3>
+    <div class="fig">
+      <svg viewBox="0 0 260 230" width="260" role="img" aria-label="腰围切点示意图">
+        <ellipse cx="130" cy="40" rx="26" ry="30" fill="#cfe3e6"/>
+        <rect x="112" y="68" width="36" height="80" rx="14" fill="#cfe3e6"/>
+        <rect x="86" y="150" width="34" height="60" rx="12" fill="#cfe3e6"/>
+        <rect x="140" y="150" width="34" height="60" rx="12" fill="#cfe3e6"/>
+        <line x1="90" y1="108" x2="170" y2="108" stroke="#c0392b" stroke-width="3" stroke-dasharray="5 4"/>
+        <text x="178" y="98" font-size="13" fill="#c0392b" font-family="SimSun">腰围</text>
+        <text x="178" y="120" font-size="13" fill="#0f4c5c" font-family="SimSun">男≥90</text>
+        <text x="178" y="138" font-size="13" fill="#0f4c5c" font-family="SimSun">女≥85</text>
+      </svg>
+      <div class="cap">图4 · 中国成人中心型肥胖腰围切点（男≥90 cm，女≥85 cm）</div>
+    </div>
+
+    <h3>4. 怎么动？「吃动平衡」运动处方</h3>
+    <div class="fig">
+      <svg viewBox="0 0 520 200" width="520" role="img" aria-label="每日6000步活动阶梯">
+        <polyline points="30,170 130,170 130,135 230,135 230,100 330,100 330,65 430,65" fill="none" stroke="#1f7a8c" stroke-width="4"/>
+        <circle cx="130" cy="170" r="6" fill="#1f7a8c"/><circle cx="230" cy="135" r="6" fill="#1f7a8c"/>
+        <circle cx="330" cy="100" r="6" fill="#1f7a8c"/><circle cx="430" cy="65" r="6" fill="#1f7a8c"/>
+        <text x="20" y="190" font-size="13" fill="#0f4c5c" font-family="SimSun">每周5天·150分钟</text>
+        <text x="120" y="155" font-size="13" fill="#0f4c5c" font-family="SimSun">每天6000步</text>
+        <text x="220" y="120" font-size="13" fill="#0f4c5c" font-family="SimSun">抗阻2–3天/周</text>
+        <text x="320" y="85" font-size="13" fill="#0f4c5c" font-family="SimSun">每小时起身动</text>
+      </svg>
+      <div class="cap">图5 · 运动处方阶梯：6000步是底线，不是上限</div>
+    </div>
+    <ul>
+      <li>各年龄段都应天天活动、保持健康体重；</li>
+      <li>食不过量，保持能量平衡；</li>
+      <li><b>每周至少 5 天中等强度活动，累计 150 分钟以上</b>；</li>
+      <li><b>主动身体活动最好每天 6000 步</b>（底线，非上限）；</li>
+      <li>鼓励高强度有氧 + 抗阻运动，<b>每周 2–3 天</b>；</li>
+      <li>减少久坐，<b>每小时起来动一动</b>。</li>
+    </ul>
+
+    <h3>5. 减重要多快才科学？</h3>
+    <div class="tip">1 kg 脂肪 ≈ 7700 kcal；每天能量亏空 <b>500 kcal</b> → 约<b>每周减 0.5 kg</b>。合理速度：<b>0.5–1 kg/周</b>（每月 2–4 kg），过快易反弹、掉肌肉。</div>
+  </section>
+
+  <!-- 四、口诀 -->
+  <section>
+    <h2>四、今日口诀（背下来就拿下选择题）</h2>
+    <div class="recite"><b>【综合口诀】吃动平衡体重稳</b>
+      <div class="kou">吃动平衡体重稳，BMI 二四二八分；<br>
+      男腰九零女八五，六千步里健康路；<br>
+      能量天平要持平，亏空五百半斤轻；<br>
+      久坐起来动一动，健康体重伴一生。</div>
+    </div>
+    <div class="recite"><b>【BMI 分类口诀】</b><div class="kou">一八点五算底界，二四二八超重肥；正常区间一八五，到二三九最稳妥。</div></div>
+    <div class="recite"><b>【腰围口诀】</b><div class="kou">中心肥胖看腰围，男九零来女八五。</div></div>
+    <div class="recite"><b>【运动口诀】</b><div class="kou">每周五天动一动，一百五十分钟中；每天六千主动步，抗阻两三天加重。</div></div>
+  </section>
+
+  <!-- 五、易错点 -->
+  <section>
+    <h2>五、6 大易错点（考试最爱挖坑）</h2>
+    <div class="err">
+      <h3>⚠ 红色警戒区</h3>
+      <ol>
+        <li><b>BMI 切点记混</b>：中国用 24/28，不是 WHO 的 25/30。题说「中国成人」一律按 24/28。</li>
+        <li><b>腰围切点记反</b>：中国男≥90、女≥85；不是男85女80，也不是白人102/88。</li>
+        <li><b>BMI 不区分肌肉和脂肪</b>：健身教练、运动员肌肉量大，BMI 可能「超重」但体脂正常——要配合腰围、体脂率。</li>
+        <li><b>6000 步理解错</b>：是「主动身体活动」的<b>最低推荐底线</b>，不是全天总步数，更不是上限。</li>
+        <li><b>「越瘦越健康」误区</b>：BMI &lt; 18.5 是体重过低，同样不健康（免疫力低、月经紊乱等）。</li>
+        <li><b>减重速度误区</b>：每周减 &gt; 1 kg 易反弹掉肌肉；合理是 0.5–1 kg/周。「饿」≠ 科学减。</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 六、三步解题法 -->
+  <section>
+    <h2>六、三步解题法（计算/判读类题通用）</h2>
+    <ol class="steps">
+      <li><b>算</b>：BMI = 体重(kg)÷身高(m)²；或算能量缺口（缺口×天数÷7700 = 可减公斤数）。</li>
+      <li><b>判</b>：按<b>中国标准</b>对号入座——BMI 分类 + 腰围是否达中心型肥胖切点。</li>
+      <li><b>给</b>：给建议/处方——吃动平衡；每周5天·150分钟中等强度；每天主动6000步；抗阻2–3天/周；每小时起身。</li>
+    </ol>
+  </section>
+
+  <!-- 七、课堂互动 -->
+  <section>
+    <h2>七、课堂互动 · 晓晓老师提问（费曼模拟）</h2>
+    <div class="ask">
+      <div class="q">提问1：小明每天吃进 2000 kcal，却只消耗 1800 kcal，体重会怎么变？为什么？</div>
+      <div class="a">引导：摄入 &gt; 消耗 → 能量正平衡 → 多余变脂肪 → 体重上升。</div>
+    </div>
+    <div class="ask">
+      <div class="q">提问2：反过来，每天吃 1800、消耗 2000 呢？</div>
+      <div class="a">引导：负平衡 → 动用脂肪储备 → 体重下降（但别饿到基础代谢罢工）。</div>
+    </div>
+    <div class="ask">
+      <div class="q">提问3（费曼输出）：用大白话给「不懂营养学的妈妈」讲清——为什么「光节食不运动」越减越难？</div>
+      <div class="a">提示词：基础代谢会随吃太少而下降，身体进入「省电模式」，一点零食就囤回来。</div>
+    </div>
+  </section>
+
+  <!-- 八、改编题 -->
+  <section>
+    <h2>八、改编题（动手练，点「显示解析」）</h2>
+
+    <div class="quiz" data-correct="B">
+      <div class="q">题2（单选）：据《中国居民膳食指南（2022）》，中国成人中心型肥胖的腰围切点是？</div>
+      <span class="opt" data-v="A">A. 男≥85 女≥80</span>
+      <span class="opt" data-v="B">B. 男≥90 女≥85</span>
+      <span class="opt" data-v="C">C. 男≥102 女≥88</span>
+      <span class="opt" data-v="D">D. 男≥95 女≥90</span>
+      <button class="btn">显示解析</button>
+      <div class="reveal"><b>答案：B。</b> A 是常见错位记忆，C 是 WHO 白人标准。中国切点更低（男90/女85）。</div>
+    </div>
+
+    <div class="quiz" data-correct="C">
+      <div class="q">题3（单选）：关于健康体重，错误的是？</div>
+      <span class="opt" data-v="A">A. BMI 18.5–23.9 为正常</span>
+      <span class="opt" data-v="B">B. 每天主动身体活动最好 6000 步</span>
+      <span class="opt" data-v="C">C. BMI 越高越健康</span>
+      <span class="opt" data-v="D">D. 每周至少 5 天中等强度活动</span>
+      <button class="btn">显示解析</button>
+      <div class="reveal"><b>答案：C。</b> BMI 过高（≥24）是超重/肥胖，过低（&lt;18.5）也不健康，「越高越健康」错。</div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">题1（计算+判读）：李女士身高 1.62 m、体重 60 kg、腰围 80 cm。求 BMI 并判读，是否中心型肥胖？</div>
+      <button class="btn">显示解析</button>
+      <div class="reveal">BMI = 60 ÷ 1.62² = 60 ÷ 2.6244 ≈ <b>22.9</b> → 正常（18.5–23.9）。腰围 80 &lt; 85 → <b>非</b>中心型肥胖。</div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">题4（案例计算）：王同学 70 kg 想减到 65 kg。若每天能量亏空 500 kcal，约需几周？（1 kg 脂肪≈7700 kcal）</div>
+      <button class="btn">显示解析</button>
+      <div class="reveal">需减 5 kg → 5×7700 = 38500 kcal；38500 ÷ 500 = <b>77 天 ≈ 11 周</b>。实际按 0.5–1 kg/周，约 5–10 周达标，体现「稳扎稳打」。</div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">题5（易错辨析）：健身教练身高 1.80 m、体重 90 kg，BMI = 27.8 显示「超重」，但体脂率仅 12%。如何解释？</div>
+      <button class="btn">显示解析</button>
+      <div class="reveal">BMI 不区分肌肉与脂肪，肌肉密度大。健身者 BMI 偏高但体脂正常，<b>不能单凭 BMI 判肥胖</b>，应结合腰围、体脂率综合判断。</div>
+    </div>
+  </section>
+
+  <!-- 九、费曼自检 -->
+  <section class="feyman">
+    <h2>九、费曼自检清单（学完打勾）</h2>
+    <label><input type="checkbox"> 我能默写出 BMI 公式，并说出中国成人四个分类的切点</label>
+    <label><input type="checkbox"> 我能说出中国中心型肥胖腰围切点（男/女）</label>
+    <label><input type="checkbox"> 我能讲清「能量天平」三句话（平衡/正/负）</label>
+    <label><input type="checkbox"> 我能背出运动处方「5天·150分钟·6000步·抗阻2–3天」</label>
+    <label><input type="checkbox"> 我能向别人解释「为什么光节食不运动越减越难」</label>
+    <label><input type="checkbox"> 我能用三步解题法做对一道 BMI 判读题</label>
+  </section>
+
+  <section class="next">
+    <b>下节课预告 · 第3课 准则三：多吃蔬果、奶类、全谷、大豆</b><br>
+    果蔬为什么不能互换？全谷物好在哪？奶量为什么从 300 g 调到 300–500 g？下节课见！
+  </section>
+
+</div>
+
+<!-- 底部字幕条（半透明，不遮挡正文） -->
+<div id="subtitle"><span class="idx" id="subIdx">00</span><span id="subText">点击「▶ 播放」开始晓晓老师的语音讲解…</span></div>
+
+<script>
+(function(){
+  "use strict";
+  // ===== 语音讲解稿（晓晓老师逐句朗读）=====
+  var narration = [
+    "同学们好，我是晓晓老师。今天我们接着讲《中国居民膳食指南2022》的第二课，准则二：吃动平衡，健康体重。",
+    "上节课我们记住了平衡膳食宝塔，食物要多样、合理搭配。今天的关键词是——能量平衡。",
+    "把身体想象成一杆能量天平。左边托盘是吃进去的能量，右边托盘是动掉的能量。",
+    "天平平了，体重就稳；左边比右边重，你就长肉；右边比左边重，你就掉秤。",
+    "人体每天花的能量分三块：基础代谢占六到七成，身体活动占一到三成，食物热效应占一成左右。",
+    "其中身体活动弹性最大，是我们可以调控的减肥开关。",
+    "判断体重健不健康，第一个法宝是BMI，也就是身体质量指数。",
+    "公式是：体重公斤，除以身高米的平方。这个一定要背下来。",
+    "中国成人的标准是这样的：低于十八点五是体重过低；十八点五到二十三点九是正常；二十四到二十七点九是超重；二十八及以上是肥胖。",
+    "注意，这是咱们中国的标准，比世界卫生组织的二十四和三十更严格，因为亚洲人更容易长肚子上的肉。",
+    "光看BMI还不够，还要看腰围，因为脂肪长在哪里很重要。",
+    "中国男人的腰围大于等于九十厘米，女人大于等于八十五厘米，就叫中心型肥胖，也就是肚子大。",
+    "那该怎么动呢？指南给了明确的运动处方。",
+    "每周至少五天中等强度活动，累计一百五十分钟以上。",
+    "每天主动身体活动最好走到六千步。记住，六千步是底线，不是上限。",
+    "再鼓励做高强度有氧加抗阻运动，每周两到三天，练练肌肉。",
+    "还有，减少久坐，每小时起来动一动。",
+    "想减重多快才科学？一公斤脂肪大约七千七百千卡。",
+    "每天能量亏空五百千卡，大约每周能减半斤，也就是零点五公斤。",
+    "合理速度是每周减零点五到一公斤，太快容易反弹，还掉肌肉。",
+    "这里有个大坑：很多人光节食不运动，结果越减越难。",
+    "因为吃得太少，身体会下调基础代谢来省电，进入省电模式，一点零食就囤回来。",
+    "来，背一下今天的口诀：吃动平衡体重稳，BMI二四二八分；男腰九零女八五，六千步里健康路。",
+    "能量天平要持平，亏空五百半斤轻；久坐起来动一动，健康体重伴一生。",
+    "考试最爱挖的坑有六个：BMI切点记成世卫的；腰围切点记反；以为BMI高就是胖其实可能是肌肉大；把六千步当上限；以为越瘦越好；减重求快。",
+    "做题用三步法：第一步算BMI或能量差；第二步按中国标准判读；第三步给吃动平衡的运动处方。",
+    "现在我考考你：如果每天吃进两千千卡，只消耗一千八，体重会怎么变？为什么？",
+    "再反过来想：每天吃一千八、消耗两千呢？",
+    "最后给你一个费曼任务：用大白话给妈妈讲清楚，为什么光节食不运动越减越难。",
+    "好，今天课就到这。下节课我们讲准则三：多吃蔬果、奶类、全谷、大豆。同学们，加油！"
+  ];
+
+  var synth = window.speechSynthesis;
+  var current = 0, playing = false, rate = 1.0, chosenVoice = null, keepAlive = null;
+
+  var playBtn = document.getElementById('playBtn');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var seek = document.getElementById('seek');
+  var speedSel = document.getElementById('speedSel');
+  var voiceSel = document.getElementById('voiceSel');
+  var subText = document.getElementById('subText');
+  var subIdx = document.getElementById('subIdx');
+  var statusEl = document.getElementById('status');
+  var voiceNote = document.getElementById('voiceNote');
+  document.getElementById('totalN').textContent = narration.length;
+  seek.max = narration.length - 1;
+
+  function pad(n){ n = (n+1); return (n<10?'0':'') + n; }
+  function updateSub(){
+    subIdx.textContent = pad(current);
+    subText.textContent = narration[current];
+  }
+  function updatePlayBtn(){
+    playBtn.textContent = playing ? '⏸ 暂停' : '▶ 播放';
+  }
+
+  function loadVoices(){
+    var vs = synth.getVoices();
+    var zh = vs.filter(function(v){ return /zh|cmn|Chinese/i.test(v.lang) || /Xiaoxiao|晓晓|Chinese/i.test(v.name); });
+    voiceSel.innerHTML = '<option value="">默认中文语音</option>';
+    zh.forEach(function(v){
+      var o = document.createElement('option');
+      o.value = v.voiceURI; o.textContent = v.name + ' (' + v.lang + ')';
+      if(/Xiaoxiao|晓晓/i.test(v.name)){ o.selected = true; chosenVoice = v; o.textContent += ' ★'; }
+      voiceSel.appendChild(o);
+    });
+    if(zh.length){
+      var hasXiao = zh.some(function(v){ return /Xiaoxiao|晓晓/i.test(v.name); });
+      voiceNote.textContent = hasXiao ? '已优选晓晓神经网络语音 ✓' : '当前环境无晓晓语音，已用其他中文语音';
+    } else {
+      voiceNote.textContent = '未检测到中文语音，请换 Edge/Win 浏览器体验晓晓语音';
+    }
+  }
+  if(synth){
+    if(typeof synth.onvoiceschanged !== 'undefined'){ synth.onvoiceschanged = loadVoices; }
+    loadVoices();
+  } else {
+    voiceNote.textContent = '当前浏览器不支持语音合成';
+  }
+
+  function pickVoice(){
+    if(chosenVoice) return chosenVoice;
+    var vs = synth.getVoices();
+    var v = vs.filter(function(x){ return /Xiaoxiao|晓晓/i.test(x.name); })[0]
+          || vs.filter(function(x){ return /zh|cmn/i.test(x.lang); })[0];
+    return v || null;
+  }
+
+  function speak(i){
+    if(!synth) return;
+    if(i < 0 || i >= narration.length) return;
+    current = i; seek.value = i; updateSub();
+    synth.cancel();
+    var u = new SpeechSynthesisUtterance(narration[i]);
+    u.lang = 'zh-CN'; u.rate = rate;
+    var v = pickVoice(); if(v) u.voice = v;
+    u.onend = function(){
+      if(playing && current < narration.length - 1){
+        speak(current + 1);
+      } else if(current === narration.length - 1){
+        playing = false; updatePlayBtn();
+      }
+    };
+    synth.speak(u);
+    if(keepAlive) clearInterval(keepAlive);
+    keepAlive = setInterval(function(){
+      if(playing && synth.speaking && synth.paused) synth.resume();
+    }, 2500);
+  }
+
+  function stopKeep(){ if(keepAlive){ clearInterval(keepAlive); keepAlive = null; } }
+
+  playBtn.addEventListener('click', function(){
+    if(!synth){ voiceNote.textContent='浏览器不支持语音合成'; return; }
+    if(playing){
+      playing = false; synth.pause(); updatePlayBtn();
+    } else {
+      playing = true; updatePlayBtn();
+      if(synth.paused){ synth.resume(); }
+      else { speak(current); }
+    }
+  });
+  prevBtn.addEventListener('click', function(){ playing = true; updatePlayBtn(); speak(current - 1); });
+  nextBtn.addEventListener('click', function(){ playing = true; updatePlayBtn(); speak(current + 1); });
+  seek.addEventListener('input', function(){
+    playing = true; updatePlayBtn(); speak(parseInt(seek.value, 10));
+  });
+  speedSel.addEventListener('change', function(){
+    rate = parseFloat(speedSel.value);
+    if(playing){ speak(current); }
+  });
+  voiceSel.addEventListener('change', function(){
+    var uri = voiceSel.value;
+    if(!uri){ chosenVoice = null; return; }
+    chosenVoice = synth.getVoices().filter(function(v){ return v.voiceURI === uri; })[0] || null;
+    if(playing){ speak(current); }
+  });
+
+  // 字号调节（满足「字体可以大一些」）
+  var root = document.documentElement;
+  function getSize(){ return parseFloat(getComputedStyle(root).getPropertyValue('--reading-size')); }
+  document.getElementById('fsUp').addEventListener('click', function(){
+    var s = Math.min(22, getSize() + 1); root.style.setProperty('--reading-size', s + 'pt');
+  });
+  document.getElementById('fsDown').addEventListener('click', function(){
+    var s = Math.max(11, getSize() - 1); root.style.setProperty('--reading-size', s + 'pt');
+  });
+
+  // 选择题交互
+  Array.prototype.forEach.call(document.querySelectorAll('.quiz'), function(q){
+    var btn = q.querySelector('.btn');
+    var opts = q.querySelectorAll('.opt');
+    if(btn){
+      btn.addEventListener('click', function(){ q.classList.toggle('open'); btn.textContent = q.classList.contains('open') ? '隐藏解析' : '显示解析'; });
+    }
+    var correct = q.getAttribute('data-correct');
+    opts.forEach(function(op){
+      op.addEventListener('click', function(){
+        opts.forEach(function(o){ o.classList.remove('correct','wrong'); });
+        if(correct){
+          q.querySelector('.opt[data-v="'+correct+'"]').classList.add('correct');
+          if(op.getAttribute('data-v') !== correct) op.classList.add('wrong');
+        }
+      });
+    });
+  });
+
+  updateSub(); updatePlayBtn();
+})();
+</script>
+</body>
+</html>
