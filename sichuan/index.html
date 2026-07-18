@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>晓晓老师的风土课堂 · 第1课 四川</title>
+<style>
+  :root{
+    --pink:#ff7eb3; --pink-d:#e85a93; --blue:#5b8def; --ink:#2b2b3a;
+    --paper:#fffdf7; --board:#fff7fb; --line:#ffe1ee;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0; font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
+    background:linear-gradient(160deg,#fff0f6 0%,#eef4ff 100%); color:var(--ink);
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:14px;
+  }
+  .app{width:100%; max-width:880px;}
+  header.top{ text-align:center; margin-bottom:10px;}
+  header.top h1{ font-size:22px; margin:0 0 4px; color:var(--pink-d);}
+  header.top p{ margin:0; font-size:13px; color:#888;}
+  .stage{
+    position:relative; background:var(--paper); border-radius:22px;
+    box-shadow:0 12px 30px rgba(255,126,179,.18); overflow:hidden;
+    border:2px solid #fff; min-height:520px; display:flex; flex-direction:column;
+  }
+  .scene-banner{
+    display:flex; align-items:center; gap:12px; padding:14px 18px;
+    background:linear-gradient(90deg,#ffe3f1,#e7eeff); border-bottom:1px solid var(--line);
+  }
+  .scene-emoji{ font-size:34px; filter:drop-shadow(0 2px 3px rgba(0,0,0,.12));}
+  .scene-title{ font-size:18px; font-weight:700;}
+  .scene-sub{ font-size:12px; color:#9a7; margin-top:2px;}
+  .chat{ flex:1; overflow-y:auto; padding:16px 18px 90px; display:flex; flex-direction:column; gap:14px;}
+  .row{ display:flex; gap:10px; align-items:flex-end;}
+  .row.teacher{ align-self:flex-start;}
+  .row.student{ align-self:flex-end; flex-direction:row-reverse;}
+  .avatar{ width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:22px; flex:none; box-shadow:0 3px 8px rgba(0,0,0,.12);}
+  .avatar.t{ background:radial-gradient(circle at 30% 30%,#ffd0e4,#ff7eb3);}
+  .avatar.s{ background:radial-gradient(circle at 30% 30%,#cfe0ff,#5b8def);}
+  .bubble{ max-width:74%; padding:11px 14px; border-radius:16px; font-size:15.5px; line-height:1.6;
+    animation:pop .28s ease;}
+  .teacher .bubble{ background:#fff0f6; border:1px solid #ffd6e7; border-bottom-left-radius:4px;}
+  .student .bubble{ background:#eef3ff; border:1px solid #d6e2ff; border-bottom-right-radius:4px;}
+  .who{ font-size:11px; color:#aaa; margin-bottom:3px;}
+  @keyframes pop{ from{transform:translateY(8px) scale(.98); opacity:0;} to{transform:none; opacity:1;} }
+  /* 字幕条：固定在底部，半透明渐变，不遮挡讲解 */
+  .subtitle{
+    position:absolute; left:0; right:0; bottom:0; padding:14px 20px 16px;
+    background:linear-gradient(to top, rgba(43,43,58,.92), rgba(43,43,58,.0));
+    color:#fff; font-size:16px; line-height:1.5; text-align:center; min-height:34px;
+    pointer-events:none; font-weight:500;
+  }
+  .subtitle .sp{ display:inline-block; border-bottom:2px solid var(--pink); padding-bottom:1px;}
+  .controls{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:12px;
+    background:#fff; padding:12px 14px; border-radius:16px; box-shadow:0 6px 16px rgba(0,0,0,.06);}
+  button.ctrl{ border:none; border-radius:12px; padding:9px 16px; font-size:14px; cursor:pointer;
+    background:var(--pink); color:#fff; font-weight:600; transition:.15s;}
+  button.ctrl:hover{ background:var(--pink-d);}
+  button.ghost{ background:#eef1f7; color:#555;}
+  button.ghost:hover{ background:#e2e7f0;}
+  label.lbl{ font-size:13px; color:#666; display:flex; align-items:center; gap:6px;}
+  select,input[type=range]{ font-size:13px;}
+  select{ border:1px solid #ddd; border-radius:8px; padding:5px 8px; background:#fff;}
+  .hint{ font-size:12px; color:#999; margin-top:8px; text-align:center; line-height:1.5;}
+  /* 弹窗：提问 / 费曼记忆 */
+  .overlay{ position:absolute; inset:0; background:rgba(43,43,58,.55); display:none;
+    align-items:center; justify-content:center; padding:18px; z-index:5;}
+  .overlay.show{ display:flex; animation:fade .25s ease;}
+  @keyframes fade{ from{opacity:0;} to{opacity:1;} }
+  .card{ background:#fff; border-radius:18px; padding:20px; width:100%; max-width:520px;
+    box-shadow:0 16px 40px rgba(0,0,0,.3); max-height:90%; overflow:auto;}
+  .card h3{ margin:0 0 6px; color:var(--pink-d); font-size:18px; display:flex; align-items:center; gap:8px;}
+  .card .q{ font-size:15px; line-height:1.6; margin:10px 0 14px;}
+  .opt{ display:block; width:100%; text-align:left; border:1.5px solid #eed7e3; background:#fff7fb;
+    border-radius:12px; padding:11px 14px; margin:8px 0; font-size:15px; cursor:pointer; transition:.12s;}
+  .opt:hover{ border-color:var(--pink);}
+  .opt.right{ background:#e6f9ec; border-color:#5fc97e; color:#1f7a3d;}
+  .opt.wrong{ background:#ffeaea; border-color:#f08a8a; color:#c0392b;}
+  .opt:disabled{ cursor:default;}
+  .fb{ font-size:14px; line-height:1.6; margin:10px 0; padding:10px 12px; border-radius:10px;
+    background:#fff4e6; color:#8a5a00; display:none;}
+  .fb.show{ display:block;}
+  textarea{ width:100%; min-height:84px; border:1.5px solid #eed7e3; border-radius:12px;
+    padding:10px 12px; font-size:14px; font-family:inherit; resize:vertical;}
+  .model{ font-size:14px; line-height:1.7; background:#f3f7ff; border:1px solid #d6e2ff;
+    border-radius:12px; padding:12px 14px; margin-top:10px; display:none;}
+  .model.show{ display:block;}
+  .model b{ color:var(--blue);}
+  .rhyme{ background:linear-gradient(135deg,#fff0f6,#eef3ff); border-radius:14px; padding:14px 18px;
+    font-size:17px; line-height:2; text-align:center; color:var(--ink); letter-spacing:1px; margin:4px 0;}
+  .tag{ display:inline-block; background:#fff; border:1px solid var(--line); border-radius:999px;
+    padding:3px 10px; font-size:12px; color:#c06; margin:2px;}
+  .finish{ text-align:center; padding:18px; color:#888; font-size:14px; display:none;}
+  .progress{ height:6px; background:#ffe1ee; border-radius:999px; overflow:hidden; margin-top:8px;}
+  .progress > i{ display:block; height:100%; width:0; background:var(--pink); transition:width .3s;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <h1>🐼 晓晓老师的风土课堂 · 第1课</h1>
+    <p>每天认识一个省 · 今天：四川（天府之国）· 初中生也能听懂</p>
+  </header>
+
+  <div class="stage">
+    <div class="scene-banner">
+      <div class="scene-emoji" id="sceneEmoji">🐼</div>
+      <div>
+        <div class="scene-title" id="sceneTitle">准备上课…</div>
+        <div class="scene-sub" id="sceneSub">点击下方「开始上课」听晓晓老师讲</div>
+      </div>
+    </div>
+    <div class="chat" id="chat"></div>
+    <div class="subtitle" id="subtitle"><span class="sp">字幕会在这里同步显示，不挡讲解～</span></div>
+    <div class="finish" id="finish">🎉 今天的课就上到这里啦！记得用今天的方法，给爸爸妈妈讲一遍四川哦～</div>
+
+    <!-- 提问弹窗 -->
+    <div class="overlay" id="quizOverlay">
+      <div class="card">
+        <h3>🙋 晓晓老师提问</h3>
+        <div class="q" id="quizQ"></div>
+        <div id="quizOpts"></div>
+        <div class="fb" id="quizFb"></div>
+        <button class="ctrl" id="quizNext" style="display:none;">继续上课 →</button>
+      </div>
+    </div>
+
+    <!-- 费曼记忆弹窗 -->
+    <div class="overlay" id="teachOverlay">
+      <div class="card">
+        <h3>🧠 费曼记忆时间</h3>
+        <div class="q" id="teachPrompt"></div>
+        <textarea id="teachInput" placeholder="用自己的话写一写，就像讲给同桌听～"></textarea>
+        <button class="ctrl ghost" id="teachShow" style="margin-top:10px;">对照老师的参考答案</button>
+        <div class="model" id="teachModel"></div>
+        <button class="ctrl" id="teachNext" style="display:none; margin-top:12px;">我记住啦，继续 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl" id="btnPlay">▶ 开始上课</button>
+    <button class="ctrl ghost" id="btnRestart">↻ 重来</button>
+    <label class="lbl">语速
+      <input type="range" id="rate" min="0.6" max="1.2" step="0.1" value="0.95" />
+    </label>
+    <label class="lbl">声音
+      <select id="voiceSel"><option value="">（加载中…）</option></select>
+    </label>
+    <label class="lbl"><input type="checkbox" id="capChk" checked /> 字幕</label>
+  </div>
+  <div class="progress"><i id="progBar"></i></div>
+  <p class="hint">💡 提示：用 Windows 的 Edge 或 Chrome 打开，声音里选「晓晓 / Xiaoxiao（在线·自然）」就是晓晓老师的神经网络语音啦！手机/其他浏览器会自动用系统中文嗓音。</p>
+</div>
+
+<script>
+/* ============ 课堂剧本（费曼式·初中生能懂） ============ */
+const SCRIPT = [
+  { who:'teacher', scene:'intro', emoji:'🐼', title:'开场', sub:'天府之国是哪儿？',
+    text:'同学们好！我是晓晓老师。从今天起，我们每天认识一个省。第一站——四川！大家先猜猜，四川为什么叫「天府之国」？' },
+
+  { who:'teacher', scene:'intro', emoji:'🏞️', title:'天府之国', sub:'天赐的粮仓',
+    text:'「天府」就是「老天赏的粮仓」。四川有块大平原叫成都平原，两千多年前的李冰父子修了都江堰，旱涝都不怕，年年大丰收，所以叫天府之国。' },
+
+  { who:'student', scene:'climate', emoji:'☁️', title:'同学发问', sub:'小川同学',
+    text:'晓晓老师，四川是不是特别湿呀？我听说那儿总下雨、还少见太阳。' },
+
+  { who:'teacher', scene:'climate', emoji:'☁️', title:'气候', sub:'盆地像口大锅', tags:['盆地','少日照','潮湿'],
+    text:'问得好！四川像个被大山围起来的大盆子，叫「四川盆地」。暖湿空气进来出不去，就变成云雾。这里一年日照只有1000多小时，比同纬度别的地方少600多小时。古人说「蜀犬吠日」——四川的狗见到太阳都稀奇得叫！' },
+
+  { who:'teacher', scene:'climate', emoji:'🌶️', title:'怎么对付潮湿', sub:'吃麻辣祛湿寒', tags:['火锅','麻辣'],
+    text:'那四川人怎么对付潮湿？妙招就是——吃麻辣！花椒和辣椒能让身体发热，把寒气和湿气赶跑。所以火锅、串串成了全民最爱。' },
+
+  { who:'teacher', scene:'climate', emoji:'🧠', title:'先考考你', sub:'小测验',
+    quiz:{ q:'四川人为什么这么爱吃麻辣？',
+      opts:['A. 为了赶时髦','B. 盆地潮湿阴冷，麻辣能驱寒祛湿','C. 政府规定的','D. 因为不爱吃甜的'],
+      correct:1,
+      fb:'答对啦！盆地又湿又阴冷，古人发现花椒、辣椒能让身体暖起来、把湿气赶跑，于是麻辣就成了四川人的「抗湿法宝」。' } },
+
+  { who:'teacher', scene:'clothing', emoji:'👕', title:'穿衣也有讲究', sub:'洋葱式穿衣', tags:['吊带','洋葱式'],
+    text:'穿衣也有妙招。盆地闷热又湿，夏天姑娘们爱穿吊带透气；冬天湿冷像「魔法攻击」，大家用「洋葱式穿衣」——一层层叠，热了脱、冷了加，特别灵活。' },
+
+  { who:'teacher', scene:'migrant', emoji:'🚄', title:'外出打工', sub:'有人的地方就有川菜馆', tags:['劳务大省'],
+    text:'再说打工。四川人多、山多、好岗位有限，很多人外出打工。你去全国任何地方，几乎都能碰到四川人——俗话说「有人的地方就有川菜馆」。' },
+
+  { who:'teacher', scene:'migrant', emoji:'🗺️', title:'去哪儿打工', sub:'广东最多', tags:['广东','浙江','福建'],
+    text:'他们主要去哪儿？第一是广东，占了外出打工快4成；然后是浙江、福建，也就是珠三角、长三角。还有人去新疆、西藏搞基建。干的活多是餐饮、建筑、工厂、服务员。' },
+
+  { who:'teacher', scene:'migrant', emoji:'🧠', title:'抢答题', sub:'小测验',
+    quiz:{ q:'四川人外出打工，去得最多的省份是？',
+      opts:['A. 北京','B. 新疆','C. 广东','D. 浙江'],
+      correct:2,
+      fb:'没错，是广东！广东的工厂、服务业吸纳了大量四川老乡，占了外出打工人数的将近4成，浙江、福建排后面。' } },
+
+  { who:'teacher', scene:'resources', emoji:'⚡', title:'聚宝盆', sub:'能源与矿产全国第一', tags:['水电第一','天然气第一','钛钒锂'],
+    text:'四川还是个「聚宝盆」。水电全国第一——全国每用100度电，约30度来自四川的大电站；天然气也全国第一。钛矿世界第一，钒世界第三，锂很多。地里还产粮700亿斤以上，生猪、油菜、花椒等14种农产品全国第一！' },
+
+  { who:'teacher', scene:'resources', emoji:'🧠', title:'又考你', sub:'小测验',
+    quiz:{ q:'四川哪两类能源都排全国第一？',
+      opts:['A. 煤炭和石油','B. 水电和天然气','C. 风能和太阳能','D. 不知道'],
+      correct:1,
+      fb:'正是水电和天然气！四川大江大河多（长江、雅砻江等），水电站密布；地下天然气也极丰富，两类都是全国第一。' } },
+
+  { who:'student', scene:'attitude', emoji:'🍵', title:'同学发问', sub:'小川同学',
+    text:'晓晓老师，四川这么安逸，为啥还有那么多人出去打工呀？' },
+
+  { who:'teacher', scene:'attitude', emoji:'🍵', title:'生活态度', sub:'安逸 vs 闯荡', tags:['达观','巴适'],
+    text:'这问题问到骨节眼上了！安逸，是因为物产多、生活舒服；但盆地里年轻人多、好岗位不够，所以出去闯闯赚钱。赚了钱，回来喝喝茶、搓搓麻将，又安逸了——这就是四川人的循环。' },
+
+  { who:'teacher', scene:'attitude', emoji:'🤝', title:'对人的态度', sub:'达观友善·不排外', tags:['多一双筷子','不排外'],
+    text:'四川人待人什么样？四个字：达观友善。因为祖上大多是从湖广等地搬来的，大家都是「外来户」，所以不排外、随和。有句俗话：「多一个人，多一双筷子」——家里来客，添双筷子就开饭，特别好客！' },
+
+  { who:'teacher', scene:'habits', emoji:'🀄', title:'生活习惯', sub:'茶馆·麻将·龙门阵', tags:['茶馆','麻将','摆龙门阵'],
+    text:'生活节奏慢。茶馆是「民间客厅」，麻将是「社交货币」，「摆龙门阵」就是神侃闲聊——一件小事经四川人嘴一说，像说书一样精彩。消费上，舍得吃舍得玩，不太攀比。' },
+
+  { who:'teacher', scene:'habits', emoji:'🧠', title:'费曼记忆', sub:'讲给同桌听',
+    teach:{ prompt:'请你用自己的话，给同桌讲讲：「四川人为什么既安逸，又爱外出打工？」写完对照老师答案。',
+      model:'<b>参考答案：</b>四川盆地物产丰富、生活成本低，本地生活很安逸（喝茶、搓麻将、摆龙门阵）。但山多、年轻人多，好工作不够，所以很多年轻人外出到广东、浙江等地打工赚钱；赚了钱又回来享受安逸。一边安逸、一边闯荡，是这个循环。' } },
+
+  { who:'teacher', scene:'rhyme', emoji:'📜', title:'口诀来啦', sub:'念三遍就记住',
+    rhyme:[
+      '四川像个聚宝盆，四面环山盆地深。',
+      '日照偏少雨纷纷，麻辣火锅祛湿寒。',
+      '出门打工去粤闽，川菜开遍天下村。',
+      '水电天然气第一，钛钒锂矿都是金。',
+      '喝茶搓麻摆龙门，巴适安逸待客亲。',
+      '多添筷子多个人，天府之国好乡邻。'
+    ] },
+
+  { who:'teacher', scene:'intro', emoji:'🌟', title:'下课', sub:'明天见',
+    text:'今天我们就学到这儿。明天晓晓老师带你去下一个省！记得用今天的方法，给爸爸妈妈讲一遍四川哦～' }
+];
+
+/* ============ 语音 + 播放引擎 ============ */
+const chat = document.getElementById('chat');
+const subtitle = document.getElementById('subtitle');
+const sceneEmoji = document.getElementById('sceneEmoji');
+const sceneTitle = document.getElementById('sceneTitle');
+const sceneSub = document.getElementById('sceneSub');
+const btnPlay = document.getElementById('btnPlay');
+const btnRestart = document.getElementById('btnRestart');
+const rateEl = document.getElementById('rate');
+const voiceSel = document.getElementById('voiceSel');
+const capChk = document.getElementById('capChk');
+const progBar = document.getElementById('progBar');
+const finishEl = document.getElementById('finish');
+
+let voices = [];
+let selectedVoice = null;
+let idx = 0, started = false, paused = false, currentTimer = null;
+
+function loadVoices(){
+  voices = speechSynthesis.getVoices();
+  voiceSel.innerHTML = '';
+  const zh = voices.filter(v=>/zh|chinese|cmn|han/i.test(v.lang)||/中文|普通话|晓晓| Xiaoxiao/i.test(v.name));
+  const list = zh.length? zh : voices;
+  list.forEach((v,i)=>{
+    const o=document.createElement('option');
+    o.value=i; o.textContent=v.name+(v.lang?(' · '+v.lang):'');
+    voiceSel.appendChild(o);
+  });
+  // 优先选 晓晓 / Xiaoxiao（神经网络自然嗓音）
+  const xi = list.findIndex(v=>/晓晓|xiaoxiao/i.test(v.name));
+  if(xi>=0){ voiceSel.value=xi; selectedVoice=list[xi]; }
+  else if(list.length){ selectedVoice=list[0]; }
+}
+if('speechSynthesis' in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}else{
+  voiceSel.innerHTML='<option>本浏览器不支持语音</option>';
+}
+
+function setScene(s){
+  sceneEmoji.textContent = s.emoji||'📖';
+  sceneTitle.textContent = s.title||'';
+  sceneSub.textContent = s.sub||'';
+}
+
+function addBubble(s){
+  const row=document.createElement('div');
+  row.className='row '+(s.who==='teacher'?'teacher':'student');
+  const av=document.createElement('div');
+  av.className='avatar '+(s.who==='teacher'?'t':'s');
+  av.textContent = s.who==='teacher'?'👩‍🏫':'🧒';
+  const wrap=document.createElement('div');
+  const who=document.createElement('div'); who.className='who';
+  who.textContent = s.who==='teacher'?'晓晓老师':'小川同学';
+  const b=document.createElement('div'); b.className='bubble';
+  b.textContent = s.text||'';
+  wrap.appendChild(who); wrap.appendChild(b);
+  row.appendChild(av); row.appendChild(wrap);
+  chat.appendChild(row);
+  chat.scrollTop = chat.scrollHeight;
+  // 知识点标签
+  if(s.tags){
+    const tg=document.createElement('div'); tg.style.marginTop='6px';
+    s.tags.forEach(t=>{ const sp=document.createElement('span'); sp.className='tag'; sp.textContent=t; tg.appendChild(sp); });
+    b.appendChild(tg);
+  }
+}
+
+function setSub(t){
+  if(capChk.checked){
+    subtitle.style.display='block';
+    subtitle.innerHTML='<span class="sp">'+ (t||'') +'</span>';
+  }else{
+    subtitle.style.display='none';
+  }
+}
+
+function speak(text, cb){
+  setSub(text);
+  if(!('speechSynthesis' in window)){ // 不支持语音则直接过
+    currentTimer = setTimeout(()=>{ if(!paused) cb&&cb(); }, 1200);
+    return;
+  }
+  const u=new SpeechSynthesisUtterance(text);
+  u.rate=parseFloat(rateEl.value)||0.95;
+  u.lang='zh-CN';
+  if(selectedVoice) u.voice=selectedVoice;
+  u.onend=()=>{ if(paused) return; cb&&cb(); };
+  u.onerror=()=>{ if(paused) return; cb&&cb(); };
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+function showRhyme(lines){
+  const row=document.createElement('div'); row.className='row teacher';
+  row.innerHTML='<div class="avatar t">👩‍🏫</div><div><div class="who">晓晓老师</div><div class="bubble"><div class="rhyme">'+lines.join('<br>')+'</div></div></div>';
+  chat.appendChild(row); chat.scrollTop=chat.scrollHeight;
+}
+
+/* 提问弹窗 */
+const quizOverlay=document.getElementById('quizOverlay');
+const quizQ=document.getElementById('quizQ');
+const quizOpts=document.getElementById('quizOpts');
+const quizFb=document.getElementById('quizFb');
+const quizNext=document.getElementById('quizNext');
+
+function showQuiz(q, done){
+  quizQ.textContent=q.q;
+  quizOpts.innerHTML=''; quizFb.className='fb'; quizFb.textContent='';
+  quizNext.style.display='none';
+  q.opts.forEach((opt,i)=>{
+    const b=document.createElement('button'); b.className='opt'; b.textContent=opt;
+    b.onclick=()=>{
+      [...quizOpts.children].forEach(x=>x.disabled=true);
+      if(i===q.correct){ b.classList.add('right'); quizFb.textContent='✅ '+q.fb; }
+      else{ b.classList.add('wrong'); quizOpts.children[q.correct].classList.add('right'); quizFb.textContent='❌ 再想想～ '+q.fb; }
+      quizFb.className='fb show'; quizNext.style.display='inline-block';
+    };
+    quizOpts.appendChild(b);
+  });
+  quizOverlay.classList.add('show');
+  quizNext.onclick=()=>{ quizOverlay.classList.remove('show'); done&&done(); };
+}
+
+/* 费曼记忆弹窗 */
+const teachOverlay=document.getElementById('teachOverlay');
+const teachPrompt=document.getElementById('teachPrompt');
+const teachInput=document.getElementById('teachInput');
+const teachShow=document.getElementById('teachShow');
+const teachModel=document.getElementById('teachModel');
+const teachNext=document.getElementById('teachNext');
+
+function showTeach(t, done){
+  teachPrompt.textContent=t.prompt;
+  teachInput.value=''; teachModel.className='model'; teachModel.innerHTML=t.model;
+  teachNext.style.display='none'; teachShow.style.display='inline-block';
+  teachShow.onclick=()=>{ teachModel.classList.add('show'); teachNext.style.display='inline-block'; };
+  teachNext.onclick=()=>{ teachOverlay.classList.remove('show'); done&&done(); };
+  teachOverlay.classList.add('show');
+}
+
+/* 主流程 */
+function run(){
+  if(idx>=SCRIPT.length){
+    finishEl.style.display='block';
+    btnPlay.textContent='▶ 已下课'; btnPlay.disabled=true;
+    setSub('今天课就上完啦，记得讲给爸妈听～');
+    return;
+  }
+  const s=SCRIPT[idx];
+  setScene(s);
+  if(s.rhyme){ showRhyme(s.rhyme); speak('口诀来啦，跟着我念：'+s.rhyme.join('，')+'。', ()=>{ idx++; updateProg(); setTimeout(run,500); }); return; }
+  if(s.quiz){
+    speak(s.text, ()=>{ showQuiz(s.quiz, ()=>{ idx++; updateProg(); setTimeout(run,400); }); });
+    return;
+  }
+  if(s.teach){
+    speak(s.text, ()=>{ showTeach(s.teach, ()=>{ idx++; updateProg(); setTimeout(run,400); }); });
+    return;
+  }
+  addBubble(s);
+  speak(s.text, ()=>{ idx++; updateProg(); setTimeout(run,400); });
+}
+
+function updateProg(){ progBar.style.width = (idx/SCRIPT.length*100)+'%'; }
+
+function start(){
+  if(started && !paused) return;
+  if(!started){ started=true; btnPlay.textContent='⏸ 暂停'; idx=0; chat.innerHTML=''; finishEl.style.display='none'; run(); return; }
+  // 从暂停恢复
+  paused=false; btnPlay.textContent='⏸ 暂停'; run();
+}
+
+btnPlay.onclick=()=>{
+  if(!started){ start(); return; }
+  if(paused){ start(); }
+  else{ paused=true; speechSynthesis.cancel(); btnPlay.textContent='▶ 继续'; setSub('（已暂停）'); }
+};
+btnRestart.onclick=()=>{
+  speechSynthesis.cancel(); started=false; paused=false; idx=0; chat.innerHTML='';
+  finishEl.style.display='none'; progBar.style.width='0'; btnPlay.disabled=false;
+  btnPlay.textContent='▶ 开始上课'; sceneEmoji.textContent='🐼'; sceneTitle.textContent='准备上课…';
+  sceneSub.textContent='点击下方「开始上课」听晓晓老师讲'; setSub('字幕会在这里同步显示，不挡讲解～');
+};
+voiceSel.onchange=()=>{ if(voices[voiceSel.value]) selectedVoice=voices[voiceSel.value]; };
+capChk.onchange=()=>{ if(!capChk.checked) subtitle.style.display='none'; else if(started) setSub(subtitle.textContent); };
+</script>
+</body>
+</html>
