@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师的「不慌课」第6课 · 看见别人被当众羞辱，我学「用一句公道话稳稳站在对的一边」</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --board:#2f5d50; --board2:#3a6f60; --chalk:#f7f3e8;
+    --ink:#2b2b2b; --pink:#ef8fa0; --blue:#6ea8d8; --yellow:#f3c969;
+    --card:#ffffff; --soft:#fff8ec; --fs:20px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:"宋体","SimSun",serif;
+    background:var(--bg); color:var(--ink); line-height:1.85;
+    font-size:var(--fs);
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:14px 16px 150px;}
+  header{display:flex; align-items:center; gap:12px; padding:10px 4px 14px;}
+  header .ttl{font-size:1.15em; font-weight:800;}
+  header .ttl small{display:block; font-weight:500; font-size:0.7em; color:#777;}
+
+  .avatar{width:56px; height:56px; border-radius:50%; flex:0 0 auto;
+    background:radial-gradient(circle at 50% 35%, #ffe2c2, #ffc89b);
+    border:3px solid #fff; box-shadow:0 4px 10px rgba(0,0,0,.12); position:relative;}
+  .avatar svg{width:100%;height:100%;}
+  .speaking{animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 4px 10px rgba(0,0,0,.12);}50%{box-shadow:0 0 0 8px rgba(239,143,160,.25);}}
+
+  .board{background:linear-gradient(160deg,var(--board),var(--board2)); color:var(--chalk);
+    border-radius:18px; padding:22px 22px 26px; min-height:200px; position:relative;
+    box-shadow:0 10px 24px rgba(0,0,0,.18), inset 0 0 0 4px rgba(255,255,255,.06);}
+  .board h2{margin:.1em 0 .5em; font-size:1.2em; color:#ffe7a8;}
+  .board p{margin:.5em 0; font-size:1.05em;}
+  .board .tag{display:inline-block; background:rgba(255,255,255,.14);
+    padding:2px 10px; border-radius:999px; font-size:0.72em; margin-bottom:8px;}
+  .board .rhyme{font-family:"KaiTi","STKaiti",serif; font-size:1.08em; line-height:2;
+    background:rgba(0,0,0,.18); border-left:4px solid var(--yellow); padding:10px 14px; border-radius:8px; margin-top:10px;}
+
+  .caseimg{width:100%; max-width:380px; height:auto; display:block; margin:12px auto;
+    background:#fff; border:2px solid #efe8da; border-radius:14px; padding:8px;}
+
+  .peer{display:flex; gap:12px; align-items:flex-start; background:var(--soft);
+    border:2px dashed #e6c98a; border-radius:16px; padding:14px 16px; margin-top:14px;}
+  .peer .who{font-weight:800; color:#c97b2c; white-space:nowrap; font-size:1em;}
+  .peer .q{font-size:1.05em;}
+
+  .dots{display:flex; flex-wrap:wrap; gap:6px; margin:16px 0 4px;}
+  .dot{width:13px; height:13px; border-radius:50%; background:#d8d2c4; cursor:pointer; transition:.15s;}
+  .dot:hover{transform:scale(1.2);}
+  .dot.done{background:#6ea8d8;}
+  .dot.cur{background:var(--pink); transform:scale(1.35);}
+
+  .seekwrap{display:flex; align-items:center; gap:10px; margin:12px 0 4px;
+    background:var(--card); border:2px solid #efe8da; border-radius:12px; padding:8px 12px;}
+  .seekwrap input[type=range]{flex:1; accent-color:var(--pink); height:6px; cursor:pointer;}
+  .seekwrap .mini{font-size:0.72em; color:#888; white-space:nowrap;}
+
+  .bar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:14px;}
+  button.ctrl{background:var(--card); border:2px solid #e3ddd0; border-radius:12px;
+    padding:9px 16px; font-size:0.9em; font-weight:700; cursor:pointer; color:var(--ink);
+    font-family:inherit; transition:.15s;}
+  button.ctrl:hover{border-color:var(--pink);}
+  button.primary{background:var(--pink); color:#fff; border-color:var(--pink);}
+  button.primary:hover{filter:brightness(1.05);}
+  button.ctrl:disabled{opacity:.4; cursor:not-allowed; border-color:#e3ddd0;}
+  select.ctrl{border:2px solid #e3ddd0; border-radius:12px; padding:8px 10px; font-size:0.85em;
+    background:#fff; font-family:inherit;}
+  .mini{font-size:0.78em; color:#888;}
+  .sent{font-size:0.78em; color:#9a9486; margin-left:auto;}
+
+  .ask{background:var(--card); border-radius:16px; padding:18px; margin-top:14px;
+    box-shadow:0 6px 16px rgba(0,0,0,.08); border:2px solid #efe8da;}
+  .ask .label{font-weight:800; color:#3a6f60; margin-bottom:8px; font-size:1em;}
+  .ask .opts{display:flex; flex-direction:column; gap:8px; margin:10px 0;}
+  .ask .opt{border:2px solid #e3ddd0; border-radius:12px; padding:10px 14px; cursor:pointer; font-size:1em;}
+  .ask .opt:hover{border-color:var(--blue);}
+  .ask .opt.pick{border-color:var(--pink); background:#fff3f5;}
+  .ask .opt.right{border-color:#4caf72; background:#eefaf1;}
+  .ask .opt.wrong{border-color:#e57373; background:#fdeeee;}
+  textarea{width:100%; min-height:90px; border:2px solid #e3ddd0; border-radius:12px;
+    padding:10px 12px; font-size:1em; font-family:inherit; resize:vertical; line-height:1.7;}
+  .fb{margin-top:12px; padding:12px 14px; border-radius:12px; font-size:1em; display:none;}
+  .fb.ok{background:#eefaf1; border:1px solid #bfe6c9; display:block;}
+  .fb.no{background:#fff6ec; border:1px solid #f0d3a6; display:block;}
+
+  .subbar{position:fixed; left:0; right:0; bottom:0; background:rgba(20,20,20,.92);
+    color:#fff; padding:12px 16px; font-size:calc(var(--fs) * 0.95); text-align:center; min-height:54px;
+    display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); z-index:50;}
+  .subbar .now{color:#ffe7a8; font-weight:700; margin-right:6px; white-space:nowrap;}
+  .hint{font-size:0.74em; color:#9a9486; margin-top:10px;}
+  .badge{display:inline-block; background:var(--yellow); color:#5a4410; font-weight:800;
+    border-radius:8px; padding:1px 8px; font-size:0.85em; margin-right:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="avatar" id="teaAvatar">
+      <svg viewBox="0 0 100 100"><circle cx="50" cy="40" r="26" fill="#ffd9b8"/><circle cx="41" cy="38" r="3.4" fill="#3b2b22"/><circle cx="59" cy="38" r="3.4" fill="#3b2b22"/><path d="M40 50 q10 9 20 0" stroke="#b5614a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M30 30 q20 -18 40 0" stroke="#7a4a2b" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M22 78 q28 -26 56 0 l0 14 -56 0 z" fill="#ef8fa0"/></svg>
+    </div>
+    <div class="ttl">晓晓老师的「不慌课」· 第6课
+      <small>看见别人被当众羞辱，我学「用一句公道话稳稳站在对的一边」· 费曼互动课堂</small>
+    </div>
+  </header>
+
+  <div class="dots" id="dots"></div>
+
+  <div class="board" id="board">
+    <div class="tag" id="segTag">准备上课</div>
+    <h2 id="segTitle">点下面的「开始上课」，晓晓老师用晓晓神经网络语音给你讲～</h2>
+    <div id="segBody"><p>建议在 <b>Edge 浏览器</b> 中打开，能用到「晓晓（XiaoxiaoNeural）」真人神经网络语音。手机也可用，但声音会因设备不同而变化。</p><p>这一课借 <b>2025 年 4 月北京地铁 5 号线</b> 一个真实新闻：一位老大爷反复辱骂邻座衣服沾灰的乘客，一位姓杨的女乘客没有争吵，而是坐到被骂的人身边说「我愿意跟他挨着，我不嫌脏」，警方后来依法拘留了辱骂者。咱们换个角度学——<b>亲眼看见别人被当众羞辱、被说难听话时，怎么管才不慌、不溜、不硬吵，用一句公道话稳稳站在对的一边</b>。</p></div>
+  </div>
+
+  <div class="seekwrap">
+    <span class="mini">播放位置</span>
+    <input type="range" id="seek" min="0" max="0" value="0" step="1">
+    <span class="mini" id="seekInfo">0/0</span>
+  </div>
+
+  <div class="bar">
+    <button class="ctrl primary" id="btnStart">▶ 开始上课</button>
+    <button class="ctrl" id="btnPrev" style="display:none">⤺ 上一句</button>
+    <button class="ctrl" id="btnNext" style="display:none">下一句 ⤼</button>
+    <button class="ctrl" id="btnReplay" style="display:none">🔁 再听一遍</button>
+    <span class="mini">语速</span>
+    <select class="ctrl" id="rate"><option value="0.8">慢</option><option value="1" selected>正常</option><option value="1.2">快</option></select>
+    <span class="mini">声音</span>
+    <select class="ctrl" id="voiceSel"></select>
+    <span class="mini">字号</span>
+    <select class="ctrl" id="fontSel"><option value="16">小四</option><option value="20" selected>大</option><option value="26">特大</option></select>
+    <span class="sent" id="sentInfo">第 0 / 0 句</span>
+  </div>
+
+  <div id="askArea"></div>
+
+  <div class="hint">💡 字幕在最底部，不挡黑板讲解。听的时候可以用 <b>「上一句 / 下一句」按钮</b>、<b>拖动「播放位置」滑块</b>、或<b>点进度圆点</b>随意调播放位置——哪里没听清就回去重听。课堂中间晓晓老师会<b>不定时提问你</b>，用你自己的话回答，这就是费曼记忆法。</div>
+</div>
+
+<div class="subbar" id="subbar"><span class="now">字幕：</span><span id="subText">（点击开始上课后显示）</span></div>
+
+<script>
+/* ============ 课程内容（费曼式，初中生也能懂；真实事例：2025年4月 北京地铁5号线 杨女士「我不嫌脏」） ============ */
+const SEG = [
+  /* —— 复习区：把前5课翻出来 —— */
+  { type:'talk', tag:'复习小课堂', title:'先复习前5课（上课前先翻笔记）',
+    lines:[
+      '上课前，咱们先把前5课学的招数翻出来复习一下。',
+      '第1课：别人慌的时候你在旁边看，叫旁观者清，偷师学冷静，口诀是一停二看三想四做。',
+      '第2课：慌到说不出话，喊个帮手也不孬，找老师、找大人。',
+      '第3课：万一出丑的人就是你自己，用自嘲加转身做正事，还能替别人关上一扇门。',
+      '第4课：提前彩排，给慌张写个剧本，出事之前先练好。',
+      '第5课：亲眼看见别人被欺负，先稳住、大声制止、喊帮手，稳稳出手。',
+      '今天，咱们加第6课：看见别人被当众羞辱、被说难听话，我怎么学「不慌、不溜、不硬吵，用一句公道话稳稳站在对的一边」。'
+    ],
+    html:`<p>上课前，咱们先把前5课学的招数翻出来复习一下。</p>
+      <svg class="caseimg" viewBox="0 0 360 200" role="img" aria-label="复习第1到5课，第6课新加">
+        <circle cx="46" cy="100" r="38" fill="#f3c969"/>
+        <text x="46" y="109" font-size="26" text-anchor="middle" fill="#5a4410">复习</text>
+        <rect x="104" y="14" width="244" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="30" font-size="13" fill="#5a5448">第1课 · 旁观者清 ＋ 一停二看三想四做</text>
+        <rect x="104" y="42" width="244" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="58" font-size="13" fill="#5a5448">第2课 · 喊帮手也是冷静</text>
+        <rect x="104" y="70" width="244" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="86" font-size="13" fill="#5a5448">第3课 · 自嘲 ＋ 转身做正事 ＋ 关门</text>
+        <rect x="104" y="98" width="244" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="114" font-size="13" fill="#5a5448">第4课 · 提前彩排 ＋ 写剧本</text>
+        <rect x="104" y="126" width="244" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="142" font-size="13" fill="#5a5448">第5课 · 看见别人被欺负，稳稳出手</text>
+        <rect x="104" y="154" width="244" height="22" rx="8" fill="#ffe7a8" stroke="#e6c98a"/>
+        <text x="116" y="170" font-size="13" fill="#5a4410">第6课（新）· 用一句公道话，站对的一边</text>
+      </svg>
+      <p>前5课你学会了：看别人慌（第1课）、喊帮手（第2课）、自己出丑怎么圆（第3课）、提前彩排（第4课）、看见别人被欺负怎么稳稳出手（第5课）。今天加第6课——<b>亲眼看见别人被当众羞辱、被说难听话，怎么管才不慌、不溜、不硬吵，用一句公道话稳稳站在对的一边</b>。</p>`
+  },
+  { type:'ask', mode:'open',
+    q:'费曼复习：用你自己的话，说说第5课那首顺口溜的最后一句话是什么？（随便说，接不上是正常的，说出来就算赢）',
+    hint:'五课连成串，见义又敢为又稳。',
+    fbOk:'说出来了就好！费曼学习法最管用的一招就是「讲出来」。记不住也没事，今天上完课，几首口诀你会背得更熟。'
+  },
+
+  /* —— 第6课 新内容 —— */
+  { type:'talk', tag:'新角度', title:'第6课：看见别人被当众羞辱，我怎么管',
+    lines:[
+      '前5课，你学会了看别人慌、喊帮手、自己出丑怎么圆、提前彩排，还有看见别人被欺负怎么稳稳出手。',
+      '可还有种场面你一定也怕：要是你看见别人被当众说难听话、被羞辱、被看不起，你站在一旁，会不会慌？会不会不知道该不该管、怎么管？',
+      '这种羞辱不是动手打人，而是用话伤人：嫌弃别人的衣服脏、嘲笑别人的口音、当众否定一个人。',
+      '今天这一课，就讲这个——该亮相时，怎么用一句公道话，稳稳地站在对的一边。'
+    ],
+    html:`<p>前5课，你学会了看别人慌、喊帮手、自己出丑怎么圆、提前彩排，还有看见别人被欺负怎么稳稳出手。</p><p>可还有种场面你一定也怕：<b>要是你看见别人被当众说难听话、被羞辱、被看不起，你站在一旁，会不会慌？会不会不知道该不该管、怎么管？</b></p><p>这种羞辱不是动手打人，而是用话伤人：嫌弃别人的衣服脏、嘲笑别人的口音、当众否定一个人。</p><p>今天这一课，就讲这个——<b>该亮相时，怎么用一句公道话，稳稳地站在对的一边</b>。</p>`
+  },
+  { type:'talk', tag:'真实事例', title:'真实新闻：北京地铁5号线，一句「我不嫌脏」暖了全网',
+    lines:[
+      '2025年4月，北京地铁5号线上。一位老大爷嫌邻座一位男乘客衣服脏，说人家跟要饭似的，还不停辱骂。',
+      '其实那位男乘客衣服上只是有点灰，他连椅背都没靠，干干净净地坐着。',
+      '这时候，一位姓杨的女乘客看不下去了。她没有跟大爷吵架，而是直接坐到被骂的男乘客身边，说：我愿意跟他挨着，我不嫌脏。',
+      '她还轻声安慰那个被骂的人：没事儿。旁边不少乘客也看不过去，帮着说话。',
+      '后来警方通报：那个反复辱骂、扰乱秩序的老大爷，被依法行政拘留了。杨女士的一句公道话，让无数网友点赞。'
+    ],
+    html:`<p>2025 年 4 月，北京地铁 5 号线上。一位老大爷嫌邻座一位男乘客衣服脏，说人家跟要饭似的，还不停辱骂。</p><p>其实那位男乘客衣服上只是有点灰，他连椅背都没靠，干干净净地坐着。</p>
+      <svg class="caseimg" viewBox="0 0 360 175" role="img" aria-label="地铁上杨女士坐到被骂乘客身边说我不嫌脏">
+        <text x="180" y="28" font-size="26" text-anchor="middle">🚇 地铁5号线车厢</text>
+        <text x="70" y="104" font-size="44" text-anchor="middle">🙢</text>
+        <text x="70" y="146" font-size="13" text-anchor="middle" fill="#888">大爷辱骂</text>
+        <text x="180" y="104" font-size="44" text-anchor="middle">🧑</text>
+        <text x="180" y="146" font-size="13" text-anchor="middle" fill="#5a5448">被骂的乘客</text>
+        <text x="290" y="104" font-size="44" text-anchor="middle">🤝</text>
+        <text x="290" y="146" font-size="13" text-anchor="middle" fill="#2e7d4f">杨女士坐下</text>
+        <text x="180" y="170" font-size="13" text-anchor="middle" fill="#5a5448">「我愿意跟他挨着，我不嫌脏」</text>
+      </svg>
+      <p>这时候，一位姓杨的女乘客看不下去了。她<b>没有跟大爷吵架</b>，而是直接坐到被骂的男乘客身边，说：<b>我愿意跟他挨着，我不嫌脏</b>。</p><p>她还轻声安慰那个被骂的人：<b>没事儿</b>。旁边不少乘客也看不过去，帮着说话。</p><p>后来警方通报：那个反复辱骂、扰乱秩序的老大爷，被<b>依法行政拘留</b>了。杨女士的一句公道话，让无数网友点赞。</p>`
+  },
+  { type:'talk', tag:'对比一下', title:'同样看见别人被羞辱，三种「慌」法',
+    lines:[
+      '你可能会想，这杨女士真勇敢。可你再想想：同样看见别人被说难听话，很多人会怎么慌？',
+      '第一种，跟着起哄，或者假装没看见赶紧躲开，心想少管闲事。',
+      '第二种，不敢出声，低着头装忙，等风波过去。这种人心里其实也觉得不对，就是不敢吱声。',
+      '第三种，最上头的一种：冲上去跟骂人者大吵大闹，结果吵成一团，反而把被羞辱的人更晾在中间。',
+      '杨女士聪明在哪？她不吵不溜也不硬怼，而是用一句平和但有底气的话，直接站到了被羞辱的人那边。'
+    ],
+    html:`<p>你可能会想，这杨女士真勇敢。可你再想想：同样看见别人被说难听话，很多人会怎么慌？</p>
+      <svg class="caseimg" viewBox="0 0 360 150" role="img" aria-label="三种慌乱旁观者对比一种稳的">
+        <text x="58" y="64" font-size="40" text-anchor="middle">🙈</text>
+        <text x="58" y="108" font-size="13" text-anchor="middle" fill="#5a5448">装没看见溜走</text>
+        <text x="150" y="64" font-size="40" text-anchor="middle">🤐</text>
+        <text x="150" y="108" font-size="13" text-anchor="middle" fill="#5a5448">不敢出声装忙</text>
+        <text x="242" y="64" font-size="40" text-anchor="middle">💥</text>
+        <text x="242" y="108" font-size="13" text-anchor="middle" fill="#5a5448">冲上去硬吵</text>
+        <text x="318" y="64" font-size="38" text-anchor="middle">✅</text>
+        <text x="318" y="108" font-size="13" text-anchor="middle" fill="#2e7d4f">一句公道话</text>
+      </svg>
+      <p>第一种，<b>跟着起哄或假装没看见赶紧躲开</b>，心想少管闲事。第二种，<b>不敢出声，低着头装忙</b>，等风波过去——心里其实也觉得不对，就是不敢吱声。第三种，最上头：<b>冲上去跟骂人者大吵大闹</b>，结果吵成一团，反而把被羞辱的人更晾在中间。</p><p>杨女士聪明在哪？她<b>不吵不溜也不硬怼</b>，而是用一句平和但有底气的话，直接站到了被羞辱的人那边。</p>`
+  },
+  { type:'ask', mode:'choice',
+    q:'杨女士做对了哪一步？',
+    options:['A. 她假装没看见，赶紧换到别的车厢','B. 她冲上去跟大爷大吵大闹','C. 她没吵架，而是坐到被骂的人身边说「我愿意跟他挨着，我不嫌脏」','D. 她拿出手机猛拍发到网上'],
+    answer:2,
+    fbOk:'答对！选 C。她既不溜也不硬吵，而是用一句平和却有底气的话，直接站到被羞辱的人那边。这才是又稳又有力量的帮忙方式。',
+    fbNo:'再想想～装没看见（A）、硬吵（B）、只拍不发（D）都不算帮上忙。关键是 C：用一句公道话，安静地站在对的一边。'
+  },
+  { type:'talk', tag:'提炼', title:'今天的三招：用一句公道话，稳稳站在对的一边',
+    lines:[
+      '招1，先把人和事分开。别人骂的往往不是「你这个人」，而是他的情绪和偏见。被骂的人没做错，错在骂人者。',
+      '招2，用一句公道话代替争吵。不用跟骂人者吵，而是对被欺负的人说一句支持的话，比如「不是你的错」「我愿意挨着你」。这比吵架更暖、更有力量。',
+      '招3，该喊帮手就喊帮手。像第5课那样，必要时找工作人员、乘警或报警。这次警方依法处理了骂人者，就是一个例子。'
+    ],
+    html:`<p><span class="badge">招1</span><b>先把人和事分开</b>：别人骂的往往不是「你这个人」，而是他的情绪和偏见。被骂的人没做错，错在骂人者。</p><p><span class="badge">招2</span><b>用一句公道话代替争吵</b>：不用跟骂人者吵，而是对被欺负的人说一句支持的话，比如「不是你的错」「我愿意挨着你」。这比吵架更暖、更有力量。</p><p><span class="badge">招3</span><b>该喊帮手就喊帮手</b>：像第 5 课那样，必要时找工作人员、乘警或报警。这次警方依法处理了骂人者，就是一个例子。</p>
+      <svg class="caseimg" viewBox="0 0 360 130" role="img" aria-label="分开人/事-一句公道话-喊帮手">
+        <text x="60" y="78" font-size="44" text-anchor="middle">🔍</text>
+        <text x="60" y="116" font-size="13" text-anchor="middle" fill="#5a5448">人和事分开</text>
+        <text x="180" y="78" font-size="44" text-anchor="middle">💬</text>
+        <text x="180" y="116" font-size="13" text-anchor="middle" fill="#5a5448">一句公道话</text>
+        <text x="300" y="78" font-size="44" text-anchor="middle">🚔</text>
+        <text x="300" y="116" font-size="13" text-anchor="middle" fill="#5a5448">喊帮手</text>
+      </svg>`
+  },
+  { type:'peer',
+    who:'同学小问号', q:'老师，我要是也怕，不敢出声怎么办？',
+    lines:[
+      '不敢出声，一点都不丢人，那是正常的反应。',
+      '你只要做三件不危险的事：记下来，记好时间地点；悄悄找工作人员或打110；再找身边的大人、乘务员帮忙。',
+      '哪怕你只是事后对被欺负的人说一句「刚才不是你的错」，那也是帮忙。',
+      '帮忙不一定要冲在最前面。能替对方说一句公道话，或者叫来救兵，你就是那个温暖的人。'
+    ],
+    html:`<p>不敢出声，<b>一点都不丢人</b>，那是正常的反应。</p><p>你只要做三件不危险的事：<b>记下来</b>，记好时间地点；<b>悄悄找工作人员或打 110</b>；再<b>找身边的大人、乘务员</b>帮忙。</p><p>哪怕你只是事后对被欺负的人说一句<b>「刚才不是你的错」</b>，那也是帮忙。</p><p>帮忙不一定要冲在最前面。<b>能替对方说一句公道话，或者叫来救兵，你就是那个温暖的人。</b></p>`
+  },
+  { type:'talk', tag:'口诀', title:'来，背新口诀（接前5课一起念）',
+    lines:[
+      '把今天的招数，也压成顺口溜，接在前几句后面一起念。',
+      '别人被羞辱，我先稳住神；',
+      '不溜不吵不硬怼，一句公道话暖心；',
+      '人和事要分开看，帮手电话提前存；',
+      '六课连成串，见义又敢为又稳。'
+    ],
+    rhyme:[
+      '别人被羞辱，我先稳住神；',
+      '不溜不吵不硬怼，一句公道话暖心；',
+      '人和事要分开看，帮手电话提前存；',
+      '六课连成串，见义又敢为又稳。'
+    ],
+    html:`<p>把今天的招数，也压成顺口溜，接在前几句后面一起念——</p><div class="rhyme">别人被羞辱，我先稳住神；<br>不溜不吵不硬怼，一句公道话暖心；<br>人和事要分开看，帮手电话提前存；<br>六课连成串，见义又敢为又稳。</div>`
+  },
+  { type:'ask', mode:'open',
+    q:'费曼时间到！用自己的话，把「把人和事分开」讲给想象中的同学听——你会怎么解释？最好举一个你生活里能用的例子。',
+    hint:'比如：别人骂你，骂的不是你这个人，是他自己的坏情绪。被骂的人没做错，错在骂人者。',
+    fbOk:'能讲出来就赢了！费曼法就是说：你讲得清，才是真懂。哪怕只说出「骂的是情绪不是我」，这就对了。'
+  },
+  { type:'ask', mode:'choice',
+    q:'模拟演练：在地铁上看见有人因为衣服脏被旁边的人辱骂，你一个人又劝不住，第一步该干嘛？',
+    options:['A. 装没看见赶紧换车厢','B. 判断安全后，坐到被骂的人身边说「我愿意挨着你」，并找乘务员或报警','C. 冲上去跟骂人者扭打','D. 站旁边拍视频发网上'],
+    answer:1,
+    fbOk:'对！选 B。不溜不硬吵，用一句公道话站到对的一边，再找工作人员/报警。A逃避、C最危险、D只是围观。',
+    fbNo:'想想「用一句公道话稳稳站在对的一边」。A逃避、C硬吵最危险、D只是围观。最好选 B。'
+  },
+  { type:'talk', tag:'下课', title:'今天的小结',
+    lines:[
+      '今天借北京地铁那个真实新闻，学了一招：该亮相时，用一句公道话稳稳地站在对的一边。',
+      '别人被羞辱，你不慌、不溜、不硬吵，先把人和事分开，再替对方说一句公道话、喊对帮手，就是最好的帮忙。',
+      '前5课加今天这课，你已经攒了六招：旁观、喊帮手、自圆场、提前彩排、稳稳出手、用一句公道话站在对的一边。',
+      '下课！下次在新闻里、生活里看见别人被羞辱、被说难听话，记得偷偷在心里彩排一遍：要是我，我会怎么稳稳地站在对的一边。'
+    ],
+    html:`<p>今天借北京地铁那个真实新闻，学了一招：<b>该亮相时，用一句公道话稳稳地站在对的一边</b>。</p><p>别人被羞辱，你<b>不慌、不溜、不硬吵</b>，先把人和事分开，再替对方说一句公道话、喊对帮手，就是最好的帮忙。</p><p>前5课加今天这课，你已经攒了六招：<b>旁观、喊帮手、自圆场、提前彩排、稳稳出手、用一句公道话站在对的一边</b>。</p><p>下课！下次在新闻里、生活里看见别人被羞辱、被说难听话，记得偷偷在心里彩排一遍：<b>要是我，我会怎么稳稳地站在对的一边。</b></p>`
+  }
+];
+
+/* ============ 全局播放位置映射（用于「播放位置」滑块） ============ */
+function getLines(s){ return (s.type==='ask') ? [s.q] : (s.lines||[]); }
+const GLOBAL = [];
+SEG.forEach((s,si)=>{ const n=getLines(s).length; for(let l=0;l<n;l++) GLOBAL.push({seg:si,line:l}); });
+SEG.forEach(s=>{ if(s.type==='ask' && !s.lines) s.lines=[s.q]; });
+
+/* ============ 语音 ============ */
+let voices=[], curVoice=null, speakingGen=0;
+const synth = window.speechSynthesis;
+function loadVoices(){
+  voices = synth ? synth.getVoices() : [];
+  const sel = document.getElementById('voiceSel'); sel.innerHTML='';
+  const zh = voices.filter(v=>/^zh/i.test(v.lang));
+  zh.forEach((v,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=v.name; sel.appendChild(o); });
+  let idx = zh.findIndex(v=>/xiaoxiao|晓晓|neural/i.test(v.name));
+  if(idx<0) idx = zh.findIndex(v=>/female|女|huihui|yaoyao|xiaoyi/i.test(v.name));
+  if(idx>=0){ sel.value=idx; curVoice=zh[idx]; }
+}
+if(synth){
+  loadVoices();
+  synth.onvoiceschanged = loadVoices;
+}
+document.getElementById('voiceSel').addEventListener('change',e=>{
+  const zh=voices.filter(v=>/^zh/i.test(v.lang)); curVoice=zh[e.target.value];
+});
+
+function updateSub(t){ document.getElementById('subText').textContent = t||''; }
+function globalIndexOf(seg,line){ for(let i=0;i<GLOBAL.length;i++){ if(GLOBAL[i].seg===seg && GLOBAL[i].line===line) return i; } return -1; }
+function updateSent(seg, line){
+  const n=getLines(SEG[seg]).length;
+  document.getElementById('sentInfo').textContent = `第 ${line+1} / ${n} 句`;
+  const gi=globalIndexOf(seg,line);
+  if(gi>=0){ seek.value=gi; seekInfo.textContent=`${gi+1}/${GLOBAL.length}`; }
+}
+
+/* 朗读某一句；cont=true 时自动连播下一句 */
+function speakLine(segIdx, lineIdx, cont, onDone){
+  const s=SEG[segIdx]; const lines=getLines(s);
+  if(lineIdx<0 || lineIdx>=lines.length){ onDone&&onDone(); return; }
+  const myGen=++speakingGen;
+  synth.cancel();
+  const u=new SpeechSynthesisUtterance(lines[lineIdx]);
+  u.lang='zh-CN'; u.rate=parseFloat(document.getElementById('rate').value); u.pitch=1.0;
+  if(curVoice) u.voice=curVoice;
+  const av=document.getElementById('teaAvatar'); av.classList.add('speaking');
+  u.onend=()=>{
+    if(myGen!==speakingGen) return;            // 已被上一句/下一句打断
+    av.classList.remove('speaking');
+    if(cont && lineIdx+1<lines.length){ speakLine(segIdx, lineIdx+1, true, onDone); }
+    else { onDone&&onDone(); }
+  };
+  u.onerror=()=>{ if(myGen!==speakingGen) return; av.classList.remove('speaking'); onDone&&onDone(); };
+  curLine=lineIdx; updateSub(lines[lineIdx]); updateSent(segIdx, lineIdx);
+  synth.speak(u);
+}
+
+/* ============ 渲染 ============ */
+const board=document.getElementById('board');
+const segTag=document.getElementById('segTag');
+const segTitle=document.getElementById('segTitle');
+const segBody=document.getElementById('segBody');
+const dots=document.getElementById('dots');
+const askArea=document.getElementById('askArea');
+const btnStart=document.getElementById('btnStart');
+const btnPrev=document.getElementById('btnPrev');
+const btnNext=document.getElementById('btnNext');
+const btnReplay=document.getElementById('btnReplay');
+const seek=document.getElementById('seek');
+const seekInfo=document.getElementById('seekInfo');
+
+let curSeg=0, curLine=0, askAnswered=false, finished=false;
+
+function buildDots(){
+  dots.innerHTML='';
+  SEG.forEach((s,i)=>{ const d=document.createElement('div'); d.className='dot'; d.dataset.i=i;
+    d.addEventListener('click',()=>{ if(synth) synth.cancel(); renderSeg(i); }); dots.appendChild(d); });
+}
+function refreshDots(){
+  [...dots.children].forEach((d,i)=>{ d.className='dot'+(i<curSeg?' done':'')+(i===curSeg?' cur':''); });
+}
+function showSegControls(i){
+  btnReplay.style.display='inline-block';
+  btnNext.style.display='inline-block';
+  if(i+1>=SEG.length){ btnNext.textContent='✓ 完成'; } else { btnNext.textContent='下一句 ⤼'; }
+}
+
+function renderSeg(i, opt){
+  opt=opt||{};
+  curSeg=i; refreshDots(); askArea.innerHTML=''; askAnswered=false; finished=false;
+  btnNext.style.display='none'; btnReplay.style.display='none'; btnPrev.style.display='inline-block';
+  const s=SEG[i];
+  if(s.type==='ask'){ renderAsk(s); return; }
+  segTag.textContent = s.tag||'课堂';
+  segTitle.textContent = s.title||'';
+  let body = s.html||'';
+  if(s.type==='peer'){ body += `<div class="peer"><div class="who">${s.who}：</div><div class="q">「${s.q}」</div></div>`; }
+  segBody.innerHTML = body;
+  const lines=getLines(s);
+  let start = (opt.from==='last') ? Math.max(0,lines.length-1) : (opt.from||0);
+  let cont = (opt.cont!==false);
+  if(lines.length){ speakLine(i, start, cont, ()=>showSegControls(i)); }
+}
+
+function renderAsk(s){
+  segTag.textContent='晓晓老师提问';
+  segTitle.textContent='✋ 停一下，该你出场了';
+  segBody.innerHTML = `<p>${s.q}</p>`;
+  const box=document.createElement('div'); box.className='ask';
+  let inner = `<div class="label">📝 你的回答（费曼记忆：讲出来才算懂）</div>`;
+  if(s.mode==='choice'){
+    inner += `<div class="opts">`+s.options.map((o,oi)=>`<div class="opt" data-i="${oi}">${o}</div>`).join('')+`</div>`;
+  }else{
+    inner += `<textarea id="ans" placeholder="${s.hint||'在这里写你的想法…'}"></textarea>`;
+  }
+  const fb=document.createElement('div'); fb.className='fb'; fb.id='fb';
+  const go=document.createElement('button'); go.className='ctrl primary'; go.textContent='提交回答'; go.style.marginTop='10px';
+  box.innerHTML=inner; box.appendChild(go); box.appendChild(fb); askArea.appendChild(box);
+
+  if(s.mode==='choice'){
+    box.querySelectorAll('.opt').forEach(opt=>{ opt.addEventListener('click',()=>{
+      box.querySelectorAll('.opt').forEach(o=>o.classList.remove('pick')); opt.classList.add('pick'); }); });
+    go.addEventListener('click',()=>{
+      const picked=box.querySelector('.opt.pick'); if(!picked){ alert('先选一个答案哦～'); return; }
+      const pi=+picked.dataset.i;
+      box.querySelectorAll('.opt').forEach(o=>o.classList.remove('pick','right','wrong'));
+      if(pi===s.answer){ picked.classList.add('right'); showFb('ok',s.fbOk); }
+      else{ picked.classList.add('wrong'); box.querySelectorAll('.opt')[s.answer].classList.add('right'); showFb('no',s.fbNo); }
+      go.style.display='none'; askAnswered=true; showSegControls(curSeg);
+      speakLine(curSeg,0,false,null);
+    });
+  }else{
+    go.addEventListener('click',()=>{
+      const t=document.getElementById('ans').value.trim(); if(!t){ alert('先写几句吧，哪怕一句话也行～'); return; }
+      showFb('ok', s.fbOk); go.style.display='none'; askAnswered=true; showSegControls(curSeg);
+      speakLine(curSeg,0,false,null);
+    });
+  }
+  function showFb(cls,txt){ fb.className='fb '+cls; fb.textContent=txt; }
+  const gi=globalIndexOf(curSeg,0); if(gi>=0){ seek.value=gi; seekInfo.textContent=`${gi+1}/${GLOBAL.length}`; }
+  speakLine(curSeg,0,false,null);   // 老师先读题
+}
+
+/* ============ 上一句 / 下一句（逐句调位置） ============ */
+function prevSentence(){
+  const s=SEG[curSeg];
+  if(s.type==='ask'){ if(curSeg>0) renderSeg(curSeg-1); return; }
+  speakingGen++; if(synth) synth.cancel();
+  const lines=getLines(s);
+  if(curLine>0){ speakLine(curSeg, curLine-1, false, null); }
+  else if(curSeg>0){ renderSeg(curSeg-1, {from:'last', cont:false}); }
+}
+function nextSentence(){
+  const s=SEG[curSeg];
+  if(s.type==='ask'){
+    if(askAnswered){ if(curSeg+1<SEG.length) renderSeg(curSeg+1); else finish(); }
+    else { alert('先回答晓晓老师的问题，再往后走哦～'); }
+    return;
+  }
+  speakingGen++; if(synth) synth.cancel();
+  const lines=getLines(s);
+  if(curLine < lines.length-1){ speakLine(curSeg, curLine+1, false, null); }
+  else { if(curSeg+1<SEG.length) renderSeg(curSeg+1); else finish(); }
+}
+
+function finish(){
+  finished=true; speakingGen++; if(synth) synth.cancel();
+  segTag.textContent='下课'; segTitle.textContent='🎉 这节课上完啦！';
+  segBody.innerHTML=`<p>你跟着晓晓老师，从北京地铁那个真实新闻里，学会了<b>看见别人被羞辱，怎么稳住、用一句公道话、站到对的一边</b>。</p><p>加上前5课，你已经攒了六招：旁观、喊帮手、自圆场、提前彩排、稳稳出手、用一句公道话站在对的一边。记住那首顺口溜，下次看见不公，先稳住自己。</p>`;
+  document.getElementById('subText').textContent='下课！有问题随时来找晓晓老师。';
+  btnNext.style.display='none'; btnReplay.style.display='none'; btnPrev.style.display='none'; btnStart.style.display='none';
+  if(GLOBAL.length) seek.value=GLOBAL.length-1;
+  refreshDots();
+}
+
+/* ============ 控制绑定 ============ */
+btnStart.addEventListener('click',()=>{ btnStart.style.display='none'; buildDots(); renderSeg(0); });
+btnPrev.addEventListener('click', prevSentence);
+btnNext.addEventListener('click', nextSentence);
+btnReplay.addEventListener('click',()=>{
+  const s=SEG[curSeg];
+  if(s.type==='ask'){ speakLine(curSeg,0,false,null); }
+  else { speakLine(curSeg, 0, true, ()=>showSegControls(curSeg)); }
+});
+seek.addEventListener('input', ()=>{
+  const g=+seek.value; const m=GLOBAL[g]; if(!m) return;
+  speakingGen++; if(synth) synth.cancel();
+  renderSeg(m.seg, {from:m.line, cont:false});
+});
+document.getElementById('fontSel').addEventListener('change',e=>{
+  document.documentElement.style.setProperty('--fs', e.target.value+'px');
+});
+/* 初始字号 */
+document.documentElement.style.setProperty('--fs', document.getElementById('fontSel').value+'px');
+</script>
+</body>
+</html>
