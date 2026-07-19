@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>第八课 · MECE 分类框（晓晓老师·神经网络语音·可听可调可练）</title>
+<style>
+  :root{
+    --bg1:#eaf4ff; --bg2:#fef6ff; --card:#ffffff; --ink:#27324b;
+    --soft:#5b6b8c; --brand:#5b8def; --brand2:#9b6bff; --ok:#1faa6b;
+    --warn:#e8833a; --pink:#ff8fab; --sub-bg:rgba(20,28,48,.88);
+    --base:18px; /* 宋体 小四偏大，看得清 */
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"宋体","SimSun","Songti SC","STSong",serif; /* 宋体 */
+    font-size:var(--base); color:var(--ink);
+    background:linear-gradient(160deg,var(--bg1),var(--bg2));
+    min-height:100vh; padding-bottom:150px; /* 给底部字幕留位，字幕不挡讲解 */
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:14px 16px 10px}
+
+  /* 顶部固定控制条 */
+  header{
+    position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);
+    backdrop-filter:blur(8px);border-radius:0 0 18px 18px;
+    box-shadow:0 6px 20px rgba(91,141,239,.12);
+    padding:10px 14px;margin-bottom:14px;
+  }
+  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .logo{font-size:20px;font-weight:800;color:var(--brand);font-family:"宋体","SimSun",serif}
+  .logo small{font-weight:600;color:var(--soft);font-size:12px;margin-left:6px;font-family:"宋体","SimSun",serif}
+  .prog{flex:1;height:14px;background:#e6ecf7;border-radius:99px;overflow:hidden;min-width:140px;cursor:pointer;position:relative}
+  .prog>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .3s}
+  .ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  button.b{
+    border:0;cursor:pointer;border-radius:12px;padding:9px 13px;font-size:15px;
+    background:#eef3ff;color:var(--brand);font-weight:700;transition:.15s;
+    font-family:"宋体","SimSun",serif;
+  }
+  button.b:hover{background:#e0e9ff}
+  button.b.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
+  button.b.warn{background:#fff0e2;color:var(--warn)}
+  .speed{font-size:13px;color:var(--soft);display:flex;align-items:center;gap:6px;font-family:"宋体","SimSun",serif}
+  input[type=range]{accent-color:var(--brand)}
+
+  /* 开场遮罩 */
+  .gate{
+    position:fixed;inset:0;z-index:60;background:linear-gradient(160deg,#dbe9ff,#f3e6ff);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;
+  }
+  .gate h1{font-size:27px;margin:10px 0 6px;font-family:"宋体","SimSun",serif}
+  .gate p{color:var(--soft);max-width:540px;line-height:1.9;font-family:"宋体","SimSun",serif;font-size:17px}
+  .gate .big{
+    margin-top:18px;border:0;cursor:pointer;font-size:19px;font-weight:800;color:#fff;
+    padding:14px 36px;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand2));
+    box-shadow:0 10px 26px rgba(123,107,255,.35);font-family:"宋体","SimSun",serif;
+  }
+
+  /* 卡片 */
+  .card{
+    background:var(--card);border-radius:20px;padding:18px 18px 16px;margin:14px 0;
+    box-shadow:0 8px 22px rgba(60,90,160,.10);border:1px solid #eef2fb;
+  }
+  .card h2{margin:4px 0 10px;font-size:21px;display:flex;align-items:center;gap:10px;font-family:"宋体","SimSun",serif}
+  .card h2 .em{font-size:26px}
+  .card p{line-height:1.95;margin:9px 0;font-size:var(--base)}
+  .card ul,.card ol{line-height:2.0;font-size:17px;padding-left:24px}
+  .kou{background:#fff7e6;border-left:5px solid var(--warn);border-radius:12px;padding:11px 14px;margin:12px 0;font-weight:700;color:#8a5a12;font-size:17px;line-height:1.8}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:16px}
+  th,td{border:1px solid #e6ecf7;padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:#f3f7ff;color:var(--soft)}
+  .listen{
+    display:inline-flex;align-items:center;gap:8px;margin-top:8px;border:0;cursor:pointer;
+    background:linear-gradient(90deg,#eaf1ff,#f1e9ff);color:var(--brand);font-weight:800;
+    padding:11px 17px;border-radius:14px;font-size:16px;font-family:"宋体","SimSun",serif;
+  }
+  .listen:hover{filter:brightness(.98)}
+  .listen .dot{width:9px;height:9px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 0 rgba(91,141,239,.6);animation:pulse 1.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(91,141,239,.5)}70%{box-shadow:0 0 0 10px rgba(91,141,239,0)}100%{box-shadow:0 0 0 0 rgba(91,141,239,0)}}
+
+  /* 句子高亮（跟着朗读走） */
+  .s{display:inline;padding:1px 2px;border-radius:6px;transition:background .2s}
+  .s.on{background:#fff3bf;box-shadow:0 0 0 2px #ffd43b}
+  .s.done{color:#9aa6c2}
+
+  /* 老师头像 */
+  .teacher{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(135deg,#eef4ff,#f6eeff);border-radius:16px;padding:14px;margin:8px 0 4px}
+  .teacher svg{flex:0 0 76px}
+  .teacher .say{font-size:16.5px;line-height:1.9;color:var(--ink);font-family:"宋体","SimSun",serif}
+
+  /* 测验 */
+  .quiz{border:2px dashed #c9d6f5;background:#fbfdff;border-radius:14px;padding:14px;margin-top:14px}
+  .quiz .q{font-weight:800;font-size:17px;margin-bottom:10px}
+  .opt{display:block;width:100%;text-align:left;border:1.5px solid #e2e9f7;background:#fff;border-radius:12px;padding:11px 14px;margin:8px 0;cursor:pointer;font-size:16px;transition:.12s;font-family:"宋体","SimSun",serif}
+  .opt:hover{border-color:var(--brand)}
+  .opt.right{background:#e7f8ef;border-color:var(--ok);color:#127a4c;font-weight:700}
+  .opt.wrong{background:#fdecec;border-color:#e36;color:#b22}
+  .feedback{margin-top:10px;font-size:15.5px;line-height:1.8;display:none;border-radius:12px;padding:10px 12px}
+  .feedback.show{display:block}
+  .feedback.ok{background:#e7f8ef;color:#127a4c}
+  .feedback.no{background:#fdecec;color:#b22}
+
+  /* 课堂问答 */
+  .qa{background:#fff;border:1px solid #eceffb;border-radius:14px;margin:10px 0;overflow:hidden}
+  .qa .ask{display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;font-weight:700;font-family:"宋体","SimSun",serif;font-size:16px}
+  .qa .ask .tag{background:#ffe3ec;color:#d6336c;border-radius:8px;padding:2px 8px;font-size:12px}
+  .qa .ans{display:none;padding:0 14px 14px 14px;line-height:1.9;color:var(--ink);font-family:"宋体","SimSun",serif;font-size:16px}
+  .qa.open .ans{display:block}
+  .qa .ans .t{color:var(--brand);font-weight:700;margin-right:6px}
+
+  /* 费曼 */
+  textarea{width:100%;min-height:120px;border:1.5px solid #e2e9f7;border-radius:14px;padding:12px;font-size:16px;font-family:"宋体","SimSun",serif;resize:vertical;line-height:1.8}
+  .memo{margin-top:12px;background:linear-gradient(135deg,#fff7e6,#ffeef6);border-radius:16px;padding:14px;display:none}
+  .memo.show{display:block}
+  .memo h3{margin:0 0 6px;color:#b8690f;font-family:"宋体","SimSun",serif}
+  .memo .txt{white-space:pre-wrap;line-height:1.9;font-size:16px}
+
+  /* 底部字幕条（半透明，不挡主讲解） */
+  .sub{
+    position:fixed;left:0;right:0;bottom:0;z-index:40;
+    background:var(--sub-bg);color:#fff;padding:16px 20px;
+    font-size:21px;line-height:1.6;text-align:center;
+    box-shadow:0 -6px 20px rgba(0,0,0,.18);
+    display:none;min-height:62px;align-items:center;justify-content:center;
+    font-family:"宋体","SimSun",serif;
+  }
+  .sub.show{display:flex}
+  .sub .said{color:#9fb4e6}
+  .sub .unsaid{color:#fff}
+  .sub .hint{position:absolute;left:14px;bottom:6px;font-size:11px;color:#8fa3cf}
+
+  /* 老师点名 弹窗 */
+  .modal{
+    position:fixed;inset:0;z-index:70;background:rgba(30,40,70,.55);
+    display:none;align-items:center;justify-content:center;padding:22px;
+  }
+  .modal.show{display:flex}
+  .mbox{background:#fff;border-radius:22px;max-width:560px;width:100%;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+  .mbox h3{margin:0 0 6px;color:var(--brand);font-family:"宋体","SimSun",serif;font-size:20px}
+  .mbox .q{font-size:18px;line-height:2;font-weight:700;margin:10px 0;font-family:"宋体","SimSun",serif}
+  .mbox textarea{margin:6px 0 12px}
+  .mbox .row2{display:flex;gap:10px;flex-wrap:wrap}
+  .pill{display:inline-block;background:#eef3ff;color:var(--brand);border-radius:99px;padding:4px 11px;font-size:13px;margin:3px 5px 3px 0;font-family:"宋体","SimSun",serif}
+  .foot{text-align:center;color:var(--soft);font-size:13px;margin:22px 0 4px;font-family:"宋体","SimSun",serif}
+  .navrow{display:flex;justify-content:space-between;gap:10px;margin-top:6px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<!-- 开场遮罩：点击后允许语音播放（浏览器自动播放策略要求用户手势） -->
+<div class="gate" id="gate">
+  <svg width="120" height="120" viewBox="0 0 120 120">
+    <circle cx="60" cy="46" r="30" fill="#ffd9a0"/>
+    <path d="M30 44 q30 -34 60 0 q-6 -6 -30 -6 q-24 0 -30 6z" fill="#6b4a2b"/>
+    <circle cx="50" cy="44" r="4" fill="#3a2a1a"/><circle cx="70" cy="44" r="4" fill="#3a2a1a"/>
+    <path d="M50 56 q10 9 20 0" stroke="#3a2a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="44" cy="52" r="5" fill="#ff9bb0" opacity=".6"/><circle cx="76" cy="52" r="5" fill="#ff9bb0" opacity=".6"/>
+    <rect x="40" y="86" width="40" height="26" rx="6" fill="#5b8def"/>
+    <path d="M40 92 h40 M60 86 v26" stroke="#fff" stroke-width="2"/>
+  </svg>
+  <h1>第八课 · MECE 分类框</h1>
+  <p>同学你好，我是晓晓老师。你说自己"有话说不出、脑子里东西太少"。前面装了"抽屉"（5W1H/三步复刻/费曼）、"工具墙"（芒格多模型）、"开口公式"（PREP），还装了"三件套"（拆乐高/剥洋葱/搭梯子）。<br>今天，我教你一个"分类框"——MECE，让乱糟糟的料分进整齐的格子，脑子一下清爽。<br>点下面按钮，听我慢慢讲（微软晓晓神经网络语音）。</p>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="row">
+      <div class="logo">🧠 第八课 · MECE <small>晓晓老师 · 神经网络语音</small></div>
+      <div class="prog" id="prog" title="点进度条可跳到任意一句"><i id="progBar"></i></div>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <div class="ctl">
+        <button class="b" id="prevBtn">⏮ 上一句</button>
+        <button class="b primary" id="playBtn">▶ 播放</button>
+        <button class="b" id="nextBtn">下一句 ⏭</button>
+        <button class="b" id="stopBtn">⏹ 停止</button>
+        <button class="b" id="restartBtn">🔁 从头</button>
+      </div>
+      <div class="speed">语速
+        <input type="range" id="rate" min="0.7" max="1.3" step="0.05" value="1">
+        <span id="rateVal">1.0×</span>
+      </div>
+      <div class="speed">字号
+        <button class="b" id="fontMinus" style="padding:6px 10px">A−</button>
+        <span id="fontVal">18</span>
+        <button class="b" id="fontPlus" style="padding:6px 10px">A＋</button>
+      </div>
+      <button class="b" id="askBtn" style="margin-left:auto">🙋 老师考考你</button>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <div class="speed" id="voiceInfo">语音：加载中…</div>
+      <div class="speed" id="posInfo" style="margin-left:auto">第 0 / 0 句</div>
+    </div>
+  </header>
+
+  <div id="lessonRoot"></div>
+
+  <div class="card">
+    <h2><span class="em">🙋</span>课堂互动：学生小问 × 晓晓老师</h2>
+    <p style="color:var(--soft);font-size:15px">点下面的问题，看老师怎么答（也可点"听"让晓晓老师读出来）。</p>
+    <div id="qaRoot"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="em">✍️</span>费曼记忆：用你自己的话讲一遍</h2>
+    <p>学完别走。请<strong>合上眼睛</strong>，用大白话给一个"小学生"讲清楚：<br>
+    <span class="pill">什么是 SCQA 故事框</span><span class="pill">脑白金/亮甲广告的 S-C-Q-A</span><span class="pill">SCQA 和 PREP 啥关系</span><span class="pill">怎么建话题弹药库</span><span class="pill">思维地图（连线成网）</span><span class="pill">MECE 分类框</span></p>
+    <p style="color:var(--soft);font-size:15px">讲不出来=有漏洞，回去补。能讲出来，就写在这里（自动存成本机"记忆卡"，下次打开还在）：</p>
+    <textarea id="feynman" placeholder="比如：MECE就是不重不漏地分类。月考没考好，别只说"我菜"，按同一角度分三类——知识类(公式没懂)、习惯类(会做但粗心)、心态类(一考就慌)。三类互不重叠、合起来全覆盖，一眼就知道该补哪块。"></textarea>
+    <div class="navrow">
+      <button class="b" id="saveFeynman">💾 存成我的记忆卡</button>
+      <button class="b" id="listenFeynman">🔊 听我读一遍（晓晓老师）</button>
+    </div>
+    <div class="memo" id="memo">
+      <h3>📌 我的费曼记忆卡</h3>
+      <div class="txt" id="memoTxt"></div>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,#eef4ff,#f6eeff)">
+    <h2><span class="em">📜</span>总口诀（背熟这几句）</h2>
+    <p style="font-weight:800;font-size:18px;line-height:2.1">
+      观抽连用四步走，骨血肉里找道理。<br>
+      五 W 一 H 问到底，费曼教人记心里。<br>
+      一把锤子不够用，多把工具挂墙上。<br>
+      先观点再理由举例子，重复观点开口有料。<br>
+      拆乐高看到底，剥洋葱问到底，搭梯子搬已知；三个框一上手，脑子从此有模型。<br>
+      分两类，不重叠；列清单，不漏掉；MECE 一上手，脑子有条理。
+    </p>
+    <p style="color:var(--soft);font-size:14px">21 天行动：每天 1 集纪录片用 5W1H 记 3 点；每周 1 本书做 3 张概念卡；每天用 PREP 开口；每天用三件套试一试；每周用 MECE 给杂乱信息分类查漏，分完问自己"还有漏的吗"。</p>
+  </div>
+
+  <div class="foot">本课由 WorkBuddy 整理 · 配套答案已存入你的 ima 知识库「imao」</div>
+</div>
+
+<!-- 底部字幕条：半透明、固定底部，不遮挡上方讲解 -->
+<div class="sub" id="sub"><span class="said"></span><span class="unsaid"></span><span class="hint">字幕</span></div>
+
+<!-- 老师点名 弹窗 -->
+<div class="modal" id="askModal">
+  <div class="mbox">
+    <h3>🙋 晓晓老师点名啦！</h3>
+    <div class="q" id="askQ"></div>
+    <textarea id="askAns" placeholder="在心里或小声用你自己的话答一答；答完点下面听老师的标准答案对照～"></textarea>
+    <div class="row2">
+      <button class="b primary" id="askListen">🔊 听老师的标准答案</button>
+      <button class="b" id="askClose">✅ 我答完，继续上课</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ 语音引擎 ============ */
+let synth = window.speechSynthesis;
+let voice = null;
+let rate = 1;
+let speaking = false;
+let queue = [];
+let qIndex = 0;
+let onAllDone = null;
+
+function pickVoice(){
+  const vs = synth.getVoices();
+  if(!vs.length) return null;
+  let v = vs.find(x=>/xiaoxiao/i.test(x.name) && /zh/i.test(x.lang));
+  if(!v) v = vs.find(x=>/xiaoxiao/i.test(x.name));
+  if(!v) v = vs.find(x=>/zh[-_]?CN/i.test(x.lang));
+  if(!v) v = vs.find(x=>/^zh/i.test(x.lang));
+  return v || null;
+}
+function refreshVoice(){
+  voice = pickVoice();
+  const info = document.getElementById('voiceInfo');
+  if(voice){
+    info.textContent = '语音：' + (voice.name.includes('Xiaoxiao')?'晓晓老师（神经网络）':voice.name);
+  }else{
+    info.textContent = '语音：未找到中文语音（字幕仍可用）';
+  }
+}
+if('speechSynthesis' in window){
+  refreshVoice();
+  synth.onvoiceschanged = refreshVoice;
+}else{
+  document.getElementById('voiceInfo').textContent='本浏览器不支持语音';
+}
+
+function showSub(text, charIndex){
+  const sub = document.getElementById('sub');
+  sub.classList.add('show');
+  sub.querySelector('.said').textContent = text.slice(0, charIndex);
+  sub.querySelector('.unsaid').textContent = text.slice(charIndex);
+}
+function hideSub(){ document.getElementById('sub').classList.remove('show'); }
+
+function speakPart(text, done){
+  if(!voice){
+    showSub(text,0);
+    let i=0; const step=Math.max(1,Math.floor(text.length/30));
+    const t=setInterval(()=>{ i+=step; if(i>=text.length){clearInterval(t);hideSub();done&&done();}else showSub(text,i); },90);
+    return;
+  }
+  const u = new SpeechSynthesisUtterance(text);
+  u.voice = voice; u.lang = voice.lang; u.rate = rate; u.pitch = 1.05;
+  u.onboundary = e=> showSub(text, e.charIndex||0);
+  u.onend = ()=>{ hideSub(); done&&done(); };
+  u.onerror = ()=>{ hideSub(); done&&done(); };
+  showSub(text,0);
+  synth.speak(u);
+}
+function stopSpeak(){ try{synth.cancel();}catch(e){} hideSub(); speaking=false; }
+
+/* ============ 课程内容（本页 = 第十课 独立页） ============ */
+const LESSONS = [
+  {
+    "title": "先复习：第七课 · 三个万能思考框",
+    "emoji": "🔁",
+    "parts": [
+      "同学你好，我是晓晓老师。先复习昨天的第七课——三个万能思考框。",
+      "你说前面装了抽屉和模型，可有人还是\"看啥都看不透\"——那是缺思维模型。第七课教了三件套：拆乐高看本质、剥洋葱找真因、搭梯子用已知懂未知。",
+      "口诀：拆乐高看到底，剥洋葱问到底，搭梯子搬已知。今天，我们再加一个\"分类框\"——MECE，让你把乱糟糟的料分进整齐的格子。"
+    ]
+  },
+  {
+    "title": "第八课：MECE 框——给脑子做\"分类整理\"（不重不漏）",
+    "emoji": "🗂",
+    "parts": [
+      "上几课装了抽屉，又学了看透本质、找真因、用类比。可你还是会有\"看了不少、记了，但脑子里一团浆糊，要用时东抓西抓\"。那是因为你还缺一个分类框。",
+      "今天教你麦肯锡顾问天天用的框，叫 MECE（读\"美-西\"），四个字：不重不漏。MECE = 互不重叠 + 合起来全覆盖。说人话：一堆东西分类，要求每类不打架、所有东西都有地方放。",
+      "打个比方整理书包：语文书放语文夹层、数学书放数学夹层——不重叠；所有书都进了夹层，没一本掉地上——全覆盖。MECE，就是给脑子里的\"粥\"分碗。",
+      "为啥重要？你\"脑子里东西太少\"很多时候不是真没东西，而是东西乱成一锅粥。MECE 是那把分粥的勺子：把混在一起的信息切进井井有条的几格，一眼看出有啥、缺啥、哪块薄弱。",
+      "案例：看《地球脉动》讲物种消失，原因一大堆很乱。用 MECE 一分：①栖息地没了 ②被人偷猎 ③气候变了 ④外来物种抢地盘。四类互不重叠、合起来几乎全覆盖，脑子立刻清爽。",
+      "生活里也能用：月考没考好别只说\"我菜\"。用 MECE 拆：知识类(公式没懂)、习惯类(会做但粗心)、心态类(一上考场就慌)。三类不重叠、全覆盖，知道补哪块就不瞎努力。",
+      "MECE 三步法：第一步先想一共分几类；第二步画条线让各类互不重叠；第三步检查有没有漏的，有就补一类。一个坑：一次只用一把尺子（同一个角度），别中途换标准。",
+      "MECE 口诀：分两类，不重叠；列清单，不漏掉；MECE 一上手，脑子有条理。"
+    ],
+    "note": "<div class=\"kou\">🔑 MECE 口诀：分两类，不重叠；列清单，不漏掉；MECE 一上手，脑子有条理。</div><svg viewBox=\"0 0 700 150\" width=\"100%\" style=\"max-width:700px;display:block;margin:10px auto\" font-family=\"宋体,SimSun,serif\">\n<text x=\"120\" y=\"36\" text-anchor=\"middle\" font-size=\"14\" fill=\"#5b6b8c\">乱成一锅粥</text>\n<circle cx=\"120\" cy=\"78\" r=\"22\" fill=\"#e6ecf7\"/><circle cx=\"152\" cy=\"68\" r=\"15\" fill=\"#e6ecf7\"/><circle cx=\"142\" cy=\"104\" r=\"17\" fill=\"#e6ecf7\"/><circle cx=\"104\" cy=\"100\" r=\"13\" fill=\"#e6ecf7\"/>\n<path d=\"M178 80 H252\" stroke=\"#5b6b8c\" stroke-width=\"3\"/><path d=\"M252 80 l-11 -6 v12 z\" fill=\"#5b6b8c\"/>\n<text x=\"420\" y=\"30\" text-anchor=\"middle\" font-size=\"13\" fill=\"#1faa6b\">MECE 分好后</text>\n<rect x=\"300\" y=\"50\" width=\"150\" height=\"30\" rx=\"8\" fill=\"#eaf1ff\" stroke=\"#5b8def\" stroke-width=\"1.5\"/><text x=\"375\" y=\"70\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"#27324b\">①栖息地没了</text>\n<rect x=\"300\" y=\"88\" width=\"150\" height=\"30\" rx=\"8\" fill=\"#eaf1ff\" stroke=\"#5b8def\" stroke-width=\"1.5\"/><text x=\"375\" y=\"108\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"#27324b\">②被人偷猎</text>\n<rect x=\"470\" y=\"50\" width=\"150\" height=\"30\" rx=\"8\" fill=\"#eaf1ff\" stroke=\"#5b8def\" stroke-width=\"1.5\"/><text x=\"545\" y=\"70\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"#27324b\">③气候变了</text>\n<rect x=\"470\" y=\"88\" width=\"150\" height=\"30\" rx=\"8\" fill=\"#eaf1ff\" stroke=\"#5b8def\" stroke-width=\"1.5\"/><text x=\"545\" y=\"108\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"#27324b\">④外来物种</text>\n<text x=\"350\" y=\"140\" text-anchor=\"middle\" font-size=\"12\" fill=\"#5b6b8c\">互不重叠(不重) · 合起来全覆盖(不漏)</text>\n</svg><p style=\"color:var(--soft);font-size:15px\">怎么用：下次脑子乱，先写\"本次按____分\"，再分格子，分完问自己\"还有漏的吗\"。</p>",
+    "quiz": {
+      "q": "MECE 的核心要求是？",
+      "options": [
+        "按\"没学懂/会但粗心/考场慌\"分三类，互不重叠又全覆盖",
+        "把东西随便塞一起",
+        "只分两类不管漏不漏",
+        "按不同标准混着分"
+      ],
+      "answer": 0,
+      "why": "MECE=互不重叠(不重)+合起来全覆盖(不漏)。月考失利按\"知识/习惯/心态\"同一角度分，才能精准知道补哪块。中途换标准(既按科目又按原因)就重了也漏了。"
+    }
+  }
+];
+
+const QAS = [
+  {
+    "q": "MECE 和 5W1H、三步复刻有啥不一样？",
+    "a": "它们不是抢活儿，是接力！5W1H 帮\"找料\"，三步复刻帮\"拆概念\"，MECE 帮\"把料分门别类、不重不漏\"，三件套帮\"往深里挖\"，PREP 帮\"讲出来\"。一个管收集，一个管拆解，一个管整理，一个管深挖，一个管表达。"
+  },
+  {
+    "q": "我分类总漏东西咋办？",
+    "a": "漏是正常的，MECE 第三步就是专门查漏。每次分完强制问自己：\"还有没有掉在格子外面的？\"想到就补一类。练几次直觉就出来了。"
+  },
+  {
+    "q": "分类标准老变咋办？",
+    "a": "一把尺子原则——一次只用同一个角度。分类前在小本本写一句\"本次按____分\"，写下来就不会中途跑偏。"
+  },
+  {
+    "q": "内容太多分不过来？",
+    "a": "先粗分3类就够，别追求一步完美。MECE 是工具不是考试，先有\"不重不漏\"意识，分糙点也行，用熟了越分越细。"
+  }
+];
+
+/* 老师"点名"提问：进入某课第一句时触发（针对本课内容） */
+const ASK = {
+  "1": {
+    "q": "晓晓老师点你啦：用 MECE 给\"你最近一次没做好的事\"分个类——互不重叠、合起来全覆盖，分完说说你该补哪一块？",
+    "a": "参考：我用 MECE 给\"月考没考好\"分三类——知识类(这章公式没懂)、习惯类(会做但粗心算错)、心态类(一上考场就慌)。三类不重叠、全覆盖。我该先补\"知识类\"，因为那是根。"
+  }
+};
+
+/* ============ 渲染课程（每句话一个可高亮的 span） ============ */
+const SENTENCES = [];
+LESSONS.forEach((L,li)=> L.parts.forEach((p,pi)=> SENTENCES.push({lesson:li, partIdx:pi, text:p})));
+const lessonStart = {};
+(function(){ let gi=0; LESSONS.forEach((L,li)=>{ lessonStart[li]=gi; gi+=L.parts.length; }); })();
+
+const root = document.getElementById('lessonRoot');
+LESSONS.forEach((L,idx)=>{
+  const card = document.createElement('div');
+  card.className='card';
+  let html = `<h2><span class="em">${L.emoji}</span>${L.title}</h2>`;
+  L.parts.forEach(p=>{
+    const gi = lessonStart[idx] + L.parts.indexOf(p);
+    html += `<p><span class="s" id="s${gi}">${p}</span></p>`;
+  });
+  if(L.note) html += L.note;
+  html += `<button class="listen" data-idx="${idx}"><span class="dot"></span>🔊 听晓晓老师讲这一节</button>`;
+  if(L.quiz){
+    const qz=L.quiz;
+    html += `<div class="quiz" style="padding:2px">
+      <div class="q">📝 小测验：${qz.q}</div>`;
+    qz.options.forEach((o,oi)=>{
+      html += `<button class="opt" data-correct="${oi===qz.answer?1:0}" data-q="${idx}">${String.fromCharCode(65+oi)}. ${o}</button>`;
+    });
+    html += `<div class="feedback" id="fb-${idx}"></div></div>`;
+  }
+  card.innerHTML = html;
+  root.appendChild(card);
+});
+
+let totalParts = SENTENCES.length;
+let cur = 0;
+let playing = false;
+let autoAsk = false; // 仅"从头/连续播放"时自动点名
+
+function bumpProgress(){
+  const pct = Math.min(100, Math.round((cur)/totalParts*100));
+  document.getElementById('progBar').style.width = pct+'%';
+  document.getElementById('posInfo').textContent = '第 '+(cur+1)+' / '+totalParts+' 句';
+}
+function highlight(i){
+  document.querySelectorAll('.s.on').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.s.done').forEach(e=>e.classList.remove('done'));
+  for(let k=0;k<i;k++){ const el=document.getElementById('s'+k); if(el) el.classList.add('done'); }
+  const el=document.getElementById('s'+i);
+  if(el){ el.classList.add('on'); el.scrollIntoView({block:'center', behavior:'smooth'}); }
+}
+function setPlayBtn(){ document.getElementById('playBtn').textContent = playing?'⏸ 暂停':'▶ 播放'; }
+
+function afterSentence(){
+  if(!playing) return;
+  const li = SENTENCES[cur].lesson;
+  const isFirst = SENTENCES[cur].partIdx===0;
+  if(autoAsk && isFirst && li>=1 && ASK[li]){
+    playing=false; setPlayBtn();
+    openAsk(li);
+    return;
+  }
+  cur++;
+  if(cur>=totalParts){ playing=false; setPlayBtn(); bumpProgress(); return; }
+  bumpProgress(); highlight(cur);
+  speakPart(SENTENCES[cur].text, afterSentence);
+}
+
+function playRange(start, end, useAutoAsk){
+  stopSpeak();
+  playing=true; autoAsk = !!useAutoAsk; setPlayBtn();
+  cur=start;
+  if(cur>=totalParts){ playing=false; setPlayBtn(); return; }
+  if(autoAsk && SENTENCES[cur].partIdx===0 && SENTENCES[cur].lesson>=1 && ASK[SENTENCES[cur].lesson]){
+    playing=false; setPlayBtn(); openAsk(SENTENCES[cur].lesson); return;
+  }
+  bumpProgress(); highlight(cur);
+  speakPart(SENTENCES[cur].text, afterSentence);
+}
+
+function playAll(){ playRange(0, totalParts, true); }
+function playLesson(idx){
+  const start = lessonStart[idx];
+  const end = (idx+1<LESSONS.length)? lessonStart[idx+1] : totalParts;
+  playRange(start, end, false);
+}
+function gotoSentence(i){
+  stopSpeak(); playing=false; autoAsk=false; setPlayBtn();
+  cur=Math.max(0,Math.min(totalParts-1,i));
+  bumpProgress(); highlight(cur);
+  speakPart(SENTENCES[cur].text, null);
+}
+
+/* 按钮 */
+document.getElementById('playBtn').onclick = ()=>{
+  if(playing){
+    try{ if(synth && synth.speaking) synth.pause(); }catch(e){}
+    playing=false; setPlayBtn();
+  } else {
+    if(cur>=totalParts) cur=0;
+    playRange(cur, totalParts, true);
+  }
+};
+document.getElementById('prevBtn').onclick = ()=> gotoSentence(cur-1);
+document.getElementById('nextBtn').onclick = ()=> gotoSentence(cur+1);
+document.getElementById('stopBtn').onclick = ()=>{ stopSpeak(); playing=false; autoAsk=false; setPlayBtn(); };
+document.getElementById('restartBtn').onclick = ()=> playAll();
+document.getElementById('rate').oninput = e=>{ rate=parseFloat(e.target.value); document.getElementById('rateVal').textContent=rate.toFixed(1)+'×'; };
+let baseFont = 18;
+function setFont(px){ baseFont=Math.max(14,Math.min(30,px)); document.documentElement.style.setProperty('--base', baseFont+'px'); document.getElementById('fontVal').textContent=baseFont; }
+document.getElementById('fontPlus').onclick = ()=> setFont(baseFont+2);
+document.getElementById('fontMinus').onclick = ()=> setFont(baseFont-2);
+
+// 进度条点击跳转（能调播放位置）
+document.getElementById('prog').onclick = e=>{
+  const r=e.currentTarget.getBoundingClientRect();
+  const frac=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+  gotoSentence(Math.round(frac*(totalParts-1)));
+};
+
+/* 听某一节 */
+root.addEventListener('click', e=>{
+  const btn = e.target.closest('.listen');
+  if(btn){ playLesson(+btn.dataset.idx); return; }
+  const opt = e.target.closest('.opt');
+  if(opt){
+    if(opt.classList.contains('right')||opt.classList.contains('wrong')) return;
+    const correct = opt.dataset.correct==='1';
+    const idx = opt.dataset.q;
+    opt.parentElement.querySelectorAll('.opt').forEach(o=>{
+      if(o.dataset.correct==='1') o.classList.add('right');
+      else o.classList.add('wrong');
+    });
+    const fb = document.getElementById('fb-'+idx);
+    fb.className = 'feedback show '+(correct?'ok':'no');
+    fb.innerHTML = (correct?'✅ 答对啦！':'❌ 答错咯。') + ' ' + LESSONS[idx].quiz.why;
+    if(correct){ speakPart('答对啦，' + LESSONS[idx].quiz.why, null); }
+    else { speakPart('答错咯。' + LESSONS[idx].quiz.why, null); }
+    return;
+  }
+});
+
+/* 课堂问答 */
+const qaRoot = document.getElementById('qaRoot');
+QAS.forEach((item,i)=>{
+  const d=document.createElement('div'); d.className='qa';
+  d.innerHTML = `<div class="ask"><span class="tag">学生小问</span>${item.q} <span style="margin-left:auto;color:var(--brand)">▾</span></div>
+    <div class="ans"><span class="t">晓晓老师：</span>${item.a}<br><br><button class="listen" data-qa="${i}"><span class="dot"></span>🔊 听老师回答</button></div>`;
+  d.querySelector('.ask').onclick = ()=> d.classList.toggle('open');
+  qaRoot.appendChild(d);
+});
+qaRoot.addEventListener('click', e=>{
+  const b=e.target.closest('[data-qa]');
+  if(b){ stopSpeak(); speakPart('晓晓老师说。'+QAS[+b.dataset.qa].a, null); }
+});
+
+/* 老师点名弹窗 */
+const askModal=document.getElementById('askModal');
+let pendingAskLesson=null;
+function openAsk(li){
+  const a=ASK[li]; if(!a) return;
+  pendingAskLesson=li;
+  document.getElementById('askQ').textContent=a.q;
+  document.getElementById('askAns').value='';
+  askModal.classList.add('show');
+  stopSpeak();
+  speakPart('同学，' + a.q, null);
+}
+document.getElementById('askListen').onclick=()=>{
+  const a=ASK[pendingAskLesson]; if(a) speakPart('老师给你一个参考：' + a.a, null);
+};
+document.getElementById('askClose').onclick=()=>{
+  askModal.classList.remove('show');
+  if(pendingAskLesson!=null){
+    const start=lessonStart[pendingAskLesson];
+    playRange(start, totalParts, false);
+    pendingAskLesson=null;
+  }
+};
+document.getElementById('askBtn').onclick=()=>{
+  const keys=Object.keys(ASK).map(Number);
+  const li=keys[Math.floor(Math.random()*keys.length)];
+  openAsk(li);
+};
+
+/* 费曼记忆卡 */
+const KEY='feynman_memo_l8';
+function loadMemo(){
+  const t=localStorage.getItem(KEY);
+  if(t){ document.getElementById('memo').classList.add('show'); document.getElementById('memoTxt').textContent=t; }
+}
+loadMemo();
+document.getElementById('saveFeynman').onclick=()=>{
+  const v=document.getElementById('feynman').value.trim();
+  if(!v){ alert('先写点你的理解再存哦～'); return; }
+  localStorage.setItem(KEY,v);
+  document.getElementById('memoTxt').textContent=v;
+  document.getElementById('memo').classList.add('show');
+  speakPart('存好啦，这就是你的费曼记忆卡。以后多讲几遍，框架就越来越牢。', null);
+};
+document.getElementById('listenFeynman').onclick=()=>{
+  const v=document.getElementById('feynman').value.trim();
+  if(!v){ alert('先写点你的理解，再让我读哦～'); return; }
+  stopSpeak(); speakPart('你写的：'+v, null);
+};
+
+/* 开场 */
+document.getElementById('startBtn').onclick=()=>{
+  document.getElementById('gate').style.display='none';
+  if(!voice) refreshVoice();
+  try{ synth.cancel(); }catch(e){}
+  cur=0; playAll();
+};
+
+bumpProgress();
+</script>
+</body>
+</html>
