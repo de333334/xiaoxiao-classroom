@@ -1,0 +1,6 @@
+# 旧的「单页演进」模式遗留文件（已被 lessons/ 永久网页取代，不再入库）
+audio/
+content.js
+manifest.json
+build_content.py
+gen_audio.py

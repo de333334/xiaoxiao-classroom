@@ -284,7 +284,11 @@ def build_content(manifest):
     return lesson
 
 def build_lesson_html():
-    tpl = open(os.path.join(HERE, "index.html"), encoding="utf-8").read()
+    # 模板优先用“已冻结的第7课原始页”（含可替换 token），避免根目录已被改成 hub 后找不到 token
+    tpl_src = os.path.join(HERE, "lessons", "lesson_07", "index.html")
+    if not os.path.exists(tpl_src):
+        tpl_src = os.path.join(HERE, "index.html")
+    tpl = open(tpl_src, encoding="utf-8").read()
     repl = [
       ("第7课 书面据理力争 · 晓晓老师", "第8课 被拒绝后如何再争取 · 晓晓老师"),
       (" · 第7课</h1>", " · 第8课</h1>"),
