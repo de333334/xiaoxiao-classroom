@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师的课堂 · 永久网课主页</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+    background: linear-gradient(160deg, #fff7e6 0%, #ffe9c7 45%, #ffd9b3 100%);
+    color: #4a3f35; min-height: 100vh; padding: 28px 16px 48px;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 10px; }
+  .logo {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 72px; height: 72px; border-radius: 50%;
+    background: #ff8a3d; color: #fff; font-size: 34px; box-shadow: 0 6px 18px rgba(255,138,61,.4);
+  }
+  h1 { font-size: 30px; margin: 14px 0 6px; color: #d35400; }
+  .sub { font-size: 15px; color: #8a6d52; line-height: 1.7; }
+  .tip {
+    background: #fff; border: 1px dashed #ffb877; border-radius: 14px;
+    padding: 12px 16px; margin: 18px 0 24px; font-size: 13.5px; color: #9a6a3c; line-height: 1.7;
+  }
+  .tip b { color: #d35400; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    display: block; text-decoration: none; color: inherit;
+    background: #fff; border-radius: 16px; padding: 18px 18px 16px;
+    box-shadow: 0 4px 14px rgba(180,120,60,.12); transition: transform .15s, box-shadow .15s;
+    border: 2px solid transparent;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(180,120,60,.2); border-color: #ffd0a0; }
+  .badge {
+    display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 999px;
+    background: #fff0e0; color: #e67e22; margin-bottom: 10px; font-weight: 600;
+  }
+  .badge.rec { background: #e6f7ec; color: #1e9e57; }
+  .card h2 { font-size: 18px; margin-bottom: 8px; color: #5a4632; }
+  .card p { font-size: 13.5px; color: #8a7560; line-height: 1.65; }
+  .go { margin-top: 12px; font-size: 14px; color: #ff7a1a; font-weight: 700; }
+  .go::after { content: " →"; }
+  footer { text-align: center; margin-top: 34px; font-size: 12.5px; color: #a98; line-height: 1.7; }
+  footer a { color: #c0671f; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">📚</div>
+    <h1>晓晓老师的课堂</h1>
+    <p class="sub">这里收藏了晓晓老师讲过的互动课，<br>用「晓晓神经网络语音」讲给你听，随时能打开，永久不丢。</p>
+  </header>
+
+  <div class="tip">
+    💡 <b>怎么听最好？</b><br>
+    · <b>不慌课（带🎙真人录音）</b>：手机、电脑、微信直接点开就能放，不用装任何东西，最稳。<br>
+    · 另外三节课用<b>浏览器自带语音</b>：请用 <b>Edge 或 Chrome</b> 浏览器打开，声音最清楚（手机也行）。
+  </div>
+
+  <div class="grid">
+    <a class="card" href="buhuang-heji/" style="border-color:#ef8fa0; box-shadow:0 6px 18px rgba(239,143,160,.25);">
+      <span class="badge" style="background:#fde3ea; color:#d6336c;">📚 全集 · 一体复习</span>
+      <h2>不慌课 · 全集（第5-6课 ＋ 六课总复习）</h2>
+      <p>把晓晓老师讲过的「不慌课」合成一本：一页里翻完第5课、第6课全文，再加六课总复习。带章目录、晓晓神经网络语音、字幕不挡、能拖动播放位置、能上一句下一句。</p>
+      <span class="go">去上课</span>
+    </a>
+    <a class="card" href="buhuang-ke/">
+      <span class="badge rec">🎙 真人录音 · 随时可听</span>
+      <h2>不慌课 · 第5课</h2>
+      <p>看见别人被欺负，我怎么管才不慌、不添乱？借真实新闻学「稳稳出手」的三招，附费曼提问与口诀。</p>
+      <span class="go">去上课</span>
+    </a>
+    <a class="card" href="buhuang-ke6/">
+      <span class="badge">🗣 浏览器语音（晓晓）</span>
+      <h2>不慌课 · 第6课</h2>
+      <p>看见别人被当众羞辱，我学「用一句公道话稳稳站在对的一边」？借北京地铁「我不嫌脏」真实新闻，附费曼提问与口诀。</p>
+      <span class="go">去上课</span>
+    </a>
+    <a class="card" href="yingyang-1/">
+      <span class="badge">🗣 浏览器语音</span>
+      <h2>吃动平衡 · 健康体重</h2>
+      <p>吃多少、动多少才不长胖？晓晓老师用大白话讲清「能量收支」，互动做题巩固。</p>
+      <span class="go">去上课</span>
+    </a>
+    <a class="card" href="yingyang-2/">
+      <span class="badge">🗣 浏览器语音</span>
+      <h2>多吃蔬果 · 奶类 · 全谷 · 大豆</h2>
+      <p>每天该吃多少蔬果和奶？全谷和大豆有啥好？一节课讲明白「天天蔬果杯」。</p>
+      <span class="go">去上课</span>
+    </a>
+    <a class="card" href="sichuan/">
+      <span class="badge">🗣 浏览器语音</span>
+      <h2>四川风土课堂</h2>
+      <p>四川的山、水、人和味道，晓晓老师带你逛一圈，边听边答小问题。</p>
+      <span class="go">去上课</span>
+    </a>
+  </div>
+
+  <footer>
+    本课堂托管在 <b>GitHub Pages</b>，链接永久有效，不会像聊天记录一样消失。<br>
+    想加新课？把新课的网页交给晓晓老师，她会一张张加进来。
+  </footer>
+</div>
+</body>
+</html>

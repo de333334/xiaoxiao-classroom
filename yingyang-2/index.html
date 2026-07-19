@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第3课 · 多吃蔬果、奶类、全谷、大豆 — 晓晓老师互动课</title>
+<style>
+  :root{
+    --reading-size: 14pt;            /* 宋体 小四号偏大，便于阅读；可用 A+/A- 调节 */
+    --ink:#1f2a37; --sub:#5b6776; --line:#e3e8ef;
+    --accent:#2e7d32; --accent2:#e07a5f; --warn:#c0392b; --ok:#2e7d5b;
+    --card:#ffffff; --bg:#f3f7f1; --soft:#eef5ec;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"SimSun","宋体",STSong,serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.9;
+    font-size:var(--reading-size);
+    padding-bottom:130px;            /* 给底部字幕条留位，绝不遮挡讲解 */
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:24px 20px 0;}
+  header.top{
+    background:linear-gradient(135deg,#2e7d32,#56a05b);
+    color:#fff;border-radius:14px;padding:22px 26px;margin-bottom:20px;
+    box-shadow:0 6px 18px rgba(46,125,50,.25);
+  }
+  header.top h1{margin:0 0 6px;font-size:1.5em;letter-spacing:1px;}
+  header.top .sub{opacity:.92;font-size:.95em;}
+  .badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:2px 12px;font-size:.8em;margin-right:8px;}
+  section{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.04);
+  }
+  h2{color:var(--accent);border-left:6px solid var(--accent);padding-left:12px;margin-top:4px;font-size:1.25em;}
+  h3{color:#1b5e20;margin-bottom:6px;font-size:1.05em;}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.95em;}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  th{background:var(--soft);color:var(--ink);}
+  tr:nth-child(even) td{background:#fafbfc;}
+  .recite{
+    background:#fff8e6;border:1px dashed #e0a106;border-radius:10px;
+    padding:12px 16px;margin:12px 0;font-size:1.02em;color:#7a5b00;
+  }
+  .recite b{color:#b8860b;}
+  .kou{font-family:"KaiTi","楷体",STKaiti,serif;font-size:1.08em;line-height:2;}
+  .tip{background:var(--soft);border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;}
+  .err{background:#fdecea;border:1px solid #f5c6c0;border-radius:10px;padding:12px 16px;margin:10px 0;}
+  .err h3{color:var(--warn);}
+  .err li{margin:6px 0;}
+  .steps{counter-reset:s;padding-left:0;list-style:none;}
+  .steps li{counter-increment:s;background:var(--soft);border-radius:10px;padding:10px 14px 10px 46px;position:relative;margin:8px 0;}
+  .steps li::before{content:counter(s);position:absolute;left:12px;top:10px;width:24px;height:24px;background:var(--accent);color:#fff;border-radius:50%;text-align:center;line-height:24px;font-weight:bold;}
+  .ask{background:#eaf4ea;border:1px solid #bfe0bf;border-radius:10px;padding:12px 16px;margin:10px 0;}
+  .ask .q{color:#1b5e20;font-weight:bold;}
+  .ask .a{color:var(--ok);}
+  .quiz{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0;background:#fff;}
+  .quiz .q{font-weight:bold;margin-bottom:8px;}
+  .quiz .opt{display:block;padding:6px 10px;border-radius:8px;margin:4px 0;background:#f7f9fa;cursor:pointer;}
+  .quiz .opt.correct{background:#e6f4ea;color:var(--ok);font-weight:bold;}
+  .quiz .opt.wrong{background:#fdecea;color:var(--warn);}
+  .quiz .reveal{display:none;margin-top:8px;padding:10px 12px;background:#fff8e6;border-radius:8px;color:#7a5b00;font-size:.95em;}
+  .quiz.open .reveal{display:block;}
+  .quiz .btn{margin-top:8px;font-family:inherit;font-size:.85em;border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 14px;cursor:pointer;}
+  .feyman label{display:block;padding:6px 10px;background:#f7f9fa;border-radius:8px;margin:6px 0;cursor:pointer;}
+  .feyman input{transform:scale(1.3);margin-right:10px;vertical-align:middle;}
+  .fig{text-align:center;margin:14px 0;}
+  .fig svg{max-width:100%;height:auto;}
+  .fig .cap{font-size:.85em;color:var(--sub);margin-top:6px;}
+  .next{background:#eaf4ea;border-radius:10px;padding:12px 16px;color:#1b5e20;}
+
+  /* ===== 语音播放器（可拖动悬浮面板）===== */
+  .player{
+    position:fixed;top:14px;right:18px;z-index:50;width:430px;max-width:calc(100vw - 24px);
+    background:rgba(20,60,30,.97);color:#fff;border-radius:14px;padding:10px 14px;
+    box-shadow:0 8px 24px rgba(0,0,0,.28);cursor:default;user-select:none;
+  }
+  .player.drag-on{cursor:move;}
+  .player .bar{display:flex;align-items:center;justify-content:space-between;cursor:move;
+    padding-bottom:6px;margin-bottom:6px;border-bottom:1px solid rgba(255,255,255,.18);}
+  .player .bar .ttl{font-size:.86em;font-weight:bold;opacity:.95;}
+  .player .bar .mini{cursor:pointer;background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:6px;font-size:.8em;padding:1px 8px;}
+  .player .row{display:flex;align-items:center;flex-wrap:wrap;gap:7px;}
+  .player button{
+    font-family:inherit;font-size:.9em;border:none;border-radius:9px;
+    padding:6px 12px;cursor:pointer;background:#fff;color:#1b5e20;font-weight:bold;
+  }
+  .player button.primary{background:var(--accent2);color:#fff;}
+  .player button:disabled{opacity:.45;cursor:default;}
+  .player select{font-family:inherit;font-size:.82em;border-radius:8px;border:none;padding:5px 7px;color:#1b5e20;}
+  .player .seek{flex:1;min-width:120px;accent-color:#e07a5f;}
+  .player .meta{font-size:.78em;opacity:.92;margin-top:6px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .fsbtn{background:rgba(255,255,255,.18)!important;color:#fff!important;font-weight:normal!important;padding:5px 9px!important;}
+  .pin{background:rgba(255,255,255,.18)!important;color:#fff!important;font-weight:normal!important;}
+
+  /* ===== 底部字幕条（半透明，不遮挡正文）===== */
+  #subtitle{
+    position:fixed;left:0;right:0;bottom:0;z-index:40;
+    background:rgba(15,40,20,.82);color:#fff;
+    font-family:"SimSun","宋体",serif;font-size:1.05em;line-height:1.6;
+    padding:14px 22px 16px;text-align:center;
+    backdrop-filter:blur(3px);border-top:3px solid var(--accent2);
+    min-height:54px;display:flex;align-items:center;justify-content:center;
+  }
+  #subtitle .idx{color:var(--accent2);font-weight:bold;margin-right:10px;}
+  @media print{ .player,#subtitle{display:none;} body{padding-bottom:0;} }
+  @media (max-width:560px){ .player{width:calc(100vw - 24px);right:12px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div><span class="badge">第 3 课</span><span class="badge">准则三</span><span class="badge">注册营养师考点</span></div>
+    <h1>多吃蔬果、奶类、全谷、大豆</h1>
+    <div class="sub">《中国居民膳食指南（2022）》· 先复习第1课「宝塔+准则一」、第2课「准则二」，再新学今日考点。约一节高中生物课的量。</div>
+  </header>
+
+  <!-- 一、温故知新 -->
+  <section>
+    <h2>一、温故知新（复习第1、2课）</h2>
+    <p>第1课「平衡膳食宝塔 2022」每日推荐量：油 25–30 g、盐 &lt;5 g；奶 300–500 g；动物性 120–200 g；蔬菜 300–500 g、水果 200–350 g；谷类 200–300 g（全谷物+杂豆 50–150 g）。</p>
+    <p>第2课「准则二 吃动平衡」：能量天平（吃＝动→稳）；中国 BMI 18.5 / 24 / 28 分界；腰围男≥90、女≥85 cm；运动处方每周5天·150分钟·每天6000步·抗阻2–3天；减重 0.5–1 kg/周。</p>
+    <div class="recite"><b>准则一口诀回顾：</b><span class="kou">谷薯打底蔬果辅，鱼禽蛋肉适量补；奶豆坚果上层住，油盐塔尖要守住；一天十二种打底，一周二十五样足。</span></div>
+  </section>
+
+  <!-- 二、导入 -->
+  <section>
+    <h2>二、新课导入：一个生活小悬念</h2>
+    <div class="ask">
+      <div class="q">晓晓老师提问：小明说"我每天一斤水果代替蔬菜，又方便又营养"，妈妈却说"蔬菜不能少"。谁对？为什么？</div>
+      <div class="a">答案：妈妈对。蔬菜和水果是两类不同的食物，营养特点不同，<b>不能互相代替</b>——这正是今日考点「准则三」的核心。</div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 460 220" width="460" role="img" aria-label="餐盘：半盘蔬菜+水果">
+        <circle cx="230" cy="110" r="92" fill="#eef5ec" stroke="#1b5e20" stroke-width="3"/>
+        <path d="M230 18 A92 92 0 0 1 322 110 L230 110 Z" fill="#7cb342"/>
+        <path d="M230 18 A92 92 0 0 0 138 110 L230 110 Z" fill="#aed581"/>
+        <path d="M138 110 A92 92 0 0 0 230 202 L230 110 Z" fill="#ffb74d"/>
+        <path d="M322 110 A92 92 0 0 1 230 202 L230 110 Z" fill="#fff3e0"/>
+        <text x="290" y="60" font-size="13" fill="#1b5e20" font-family="SimSun">深绿蔬菜</text>
+        <text x="120" y="60" font-size="13" fill="#1b5e20" font-family="SimSun">浅色蔬菜</text>
+        <text x="150" y="170" font-size="13" fill="#a35a00" font-family="SimSun">水果</text>
+        <text x="250" y="170" font-size="13" fill="#a35a00" font-family="SimSun">谷薯主食</text>
+        <text x="230" y="232" font-size="13" fill="#1b5e20" text-anchor="middle" font-family="SimSun">图1 · 餐盘法：蔬菜约占一餐 1/2，水果另算、不替蔬菜</text>
+      </svg>
+    </div>
+    <div class="tip">蔬果是"一家人"却不是"同一个人"：蔬菜低能量、营养密；水果甜、能量高——各吃各的，谁也替不了谁。</div>
+  </section>
+
+  <!-- 三、知识讲解 -->
+  <section>
+    <h2>三、今日考点知识讲解（深入浅出）</h2>
+
+    <h3>1. 准则三 核心推荐（官方 5 条，必背）</h3>
+    <table>
+      <tr><th>序号</th><th>核心推荐（2022版原文）</th></tr>
+      <tr><td>①</td><td>蔬菜水果、全谷物和奶制品是平衡膳食的重要组成部分。</td></tr>
+      <tr><td>②</td><td><b>餐餐有蔬菜</b>，每天新鲜蔬菜 <b>≥300 g</b>，<b>深色蔬菜应占 1/2</b>。</td></tr>
+      <tr><td>③</td><td><b>天天吃水果</b>，每天新鲜水果 <b>200–350 g</b>，<b>果汁不能代替鲜果</b>。</td></tr>
+      <tr><td>④</td><td>吃各种奶制品，摄入量<b>相当于每天 300 ml 以上液态奶</b>。</td></tr>
+      <tr><td>⑤</td><td><b>经常吃全谷物、大豆制品，适量吃坚果</b>。</td></tr>
+    </table>
+
+    <h3>2. 蔬果为什么"不能互换"？（高频考点）</h3>
+    <table>
+      <tr><th>对比项</th><th>蔬菜</th><th>水果</th></tr>
+      <tr><td>能量</td><td>普遍低（多数&lt;30 kcal/100g）</td><td>含糖较高，能量多高于多数蔬菜</td></tr>
+      <tr><td>维C、胡萝卜素、膳食纤维</td><td>丰富</td><td>有，但整体不如蔬菜全面</td></tr>
+      <tr><td>结论</td><td>不可被水果替代</td><td>不可替代蔬菜，更不能代主食</td></tr>
+    </table>
+
+    <h3>3. 深色蔬菜占 1/2（"占一半"不是"全深"）</h3>
+    <div class="fig">
+      <svg viewBox="0 0 460 200" width="460" role="img" aria-label="深色占1/2环形图">
+        <circle cx="150" cy="100" r="80" fill="#fff" stroke="#1b5e20" stroke-width="3"/>
+        <path d="M150 100 L150 20 A80 80 0 0 1 230 100 Z" fill="#2e7d32"/>
+        <path d="M150 100 L230 100 A80 80 0 0 1 150 180 Z" fill="#7cb342"/>
+        <path d="M150 100 L150 180 A80 80 0 0 1 70 100 Z" fill="#d7ccc8"/>
+        <path d="M150 100 L70 100 A80 80 0 0 1 150 20 Z" fill="#eceff1"/>
+        <text x="150" y="105" font-size="15" fill="#fff" text-anchor="middle" font-family="SimSun">深色 1/2</text>
+        <text x="320" y="58" font-size="13" fill="#1b5e20" font-family="SimSun">● 深色（深绿/红/橘红/紫红）</text>
+        <text x="320" y="86" font-size="13" fill="#5b6776" font-family="SimSun">● 浅色（白菜/黄瓜/冬瓜）</text>
+        <text x="320" y="114" font-size="13" fill="#1b5e20" font-family="SimSun">β-胡萝卜素→维A主要来源</text>
+        <text x="320" y="142" font-size="13" fill="#5b6776" font-family="SimSun">要求"应占1/2"，非全深</text>
+      </svg>
+      <div class="cap">图2 · 每天蔬菜至少一半是深色；深色蔬菜富含 β-胡萝卜素，是膳食维生素 A 的主要来源</div>
+    </div>
+
+    <h3>4. 奶类：相当量 ≥ 300 ml 液态奶</h3>
+    <div class="fig">
+      <svg viewBox="0 0 480 200" width="480" role="img" aria-label="奶类相当量换算">
+        <rect x="40" y="60" width="60" height="100" rx="8" fill="#fff" stroke="#1b5e20" stroke-width="2"/>
+        <text x="70" y="125" font-size="12" fill="#1b5e20" text-anchor="middle" font-family="SimSun">液态奶</text>
+        <text x="70" y="145" font-size="11" fill="#5b6776" text-anchor="middle" font-family="SimSun">≈300ml底线</text>
+        <rect x="130" y="60" width="60" height="100" rx="8" fill="#fff3e0" stroke="#e0a106" stroke-width="2"/>
+        <text x="160" y="125" font-size="12" fill="#a35a00" text-anchor="middle" font-family="SimSun">酸奶</text>
+        <rect x="220" y="60" width="60" height="100" rx="8" fill="#fbe9e7" stroke="#c0392b" stroke-width="2"/>
+        <text x="250" y="120" font-size="12" fill="#c0392b" text-anchor="middle" font-family="SimSun">奶酪</text>
+        <text x="250" y="138" font-size="10" fill="#c0392b" text-anchor="middle" font-family="SimSun">(浓缩)</text>
+        <rect x="310" y="60" width="60" height="100" rx="8" fill="#eceff1" stroke="#5b6776" stroke-width="2"/>
+        <text x="340" y="120" font-size="12" fill="#37474f" text-anchor="middle" font-family="SimSun">奶粉</text>
+        <text x="340" y="138" font-size="10" fill="#37474f" text-anchor="middle" font-family="SimSun">(冲调)</text>
+        <text x="410" y="115" font-size="13" fill="#1b5e20" text-anchor="middle" font-family="SimSun">都折算</text>
+        <text x="240" y="185" font-size="13" fill="#1b5e20" text-anchor="middle" font-family="SimSun">图3 · 奶及奶制品总量300–500g/天，液态奶相当量至少300ml</text>
+      </svg>
+      <div class="cap">图3 · 酸奶、奶酪、奶粉都按蛋白质折算计入"每天相当于 300 ml 以上液态奶"</div>
+    </div>
+
+    <h3>5. 全谷物、大豆制品、坚果</h3>
+    <div class="fig">
+      <svg viewBox="0 0 480 180" width="480" role="img" aria-label="全谷大豆坚果">
+        <circle cx="90" cy="80" r="50" fill="#c8e6c9" stroke="#1b5e20" stroke-width="2"/>
+        <text x="90" y="78" font-size="13" fill="#1b5e20" text-anchor="middle" font-family="SimSun">全谷物</text>
+        <text x="90" y="98" font-size="11" fill="#1b5e20" text-anchor="middle" font-family="SimSun">常吃</text>
+        <circle cx="240" cy="80" r="50" fill="#ffe0b2" stroke="#e0a106" stroke-width="2"/>
+        <text x="240" y="78" font-size="13" fill="#a35a00" text-anchor="middle" font-family="SimSun">大豆制品</text>
+        <text x="240" y="98" font-size="11" fill="#a35a00" text-anchor="middle" font-family="SimSun">轮换</text>
+        <circle cx="390" cy="80" r="50" fill="#f8bbd0" stroke="#c2185b" stroke-width="2"/>
+        <text x="390" y="78" font-size="13" fill="#c2185b" text-anchor="middle" font-family="SimSun">坚果</text>
+        <text x="390" y="98" font-size="11" fill="#c2185b" text-anchor="middle" font-family="SimSun">≈10g适量</text>
+        <text x="240" y="160" font-size="13" fill="#1b5e20" text-anchor="middle" font-family="SimSun">图4 · 全谷+大豆常吃，坚果高能量要"适量"（约10g/天）</text>
+      </svg>
+      <div class="cap">图4 · 坚果高能量，"适量"是关键；全谷物（燕麦/糙米/全麦）保留更多膳食纤维和 B 族</div>
+    </div>
+
+    <h3>6. 巧烹饪，保住蔬菜营养（4 步）</h3>
+    <div class="fig">
+      <svg viewBox="0 0 520 120" width="520" role="img" aria-label="巧烹饪四步">
+        <rect x="10" y="30" width="110" height="60" rx="10" fill="#e8f5e9" stroke="#1b5e20"/><text x="65" y="66" font-size="13" fill="#1b5e20" text-anchor="middle" font-family="SimSun">①先洗后切</text>
+        <rect x="140" y="30" width="110" height="60" rx="10" fill="#e8f5e9" stroke="#1b5e20"/><text x="195" y="66" font-size="13" fill="#1b5e20" text-anchor="middle" font-family="SimSun">②开汤下菜</text>
+        <rect x="270" y="30" width="110" height="60" rx="10" fill="#e8f5e9" stroke="#1b5e20"/><text x="325" y="66" font-size="13" fill="#1b5e20" text-anchor="middle" font-family="SimSun">③急火快炒</text>
+        <rect x="400" y="30" width="110" height="60" rx="10" fill="#e8f5e9" stroke="#1b5e20"/><text x="455" y="66" font-size="13" fill="#1b5e20" text-anchor="middle" font-family="SimSun">④炒好即食</text>
+        <text x="260" y="110" font-size="12" fill="#5b6776" text-anchor="middle" font-family="SimSun">图5 · 先洗后切防维C流失，急火快炒减氧化，即食防久置</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 四、口诀 -->
+  <section>
+    <h2>四、今日口诀（背下来就拿下选择题）</h2>
+    <div class="recite"><b>【综合口诀】多吃蔬果奶豆全谷</b>
+      <div class="kou">蔬果奶豆全谷好，餐餐蔬菜半碗俏；<br>
+      深色占半维A宝，水果天天三五两；<br>
+      奶超三百克不少，全谷大豆坚果巧；<br>
+      果汁不能代鲜果，蔬果两类别混淆。</div>
+    </div>
+    <div class="recite"><b>【蔬果口诀】</b><div class="kou">蔬菜每天三五百，深色一半不能少；水果天天二三五，果汁代果是大坑。</div></div>
+    <div class="recite"><b>【奶豆口诀】</b><div class="kou">奶类相当三百毫，酸奶奶酪奶粉调；全谷大豆常轮换，坚果十克要记牢。</div></div>
+    <div class="recite"><b>【烹饪口诀】</b><div class="kou">先洗后切莫颠倒，开汤下菜火要高；急火快炒保维C，炒好即食营养好。</div></div>
+  </section>
+
+  <!-- 五、易错点 -->
+  <section>
+    <h2>五、6 大易错点（考试最爱挖坑）</h2>
+    <div class="err">
+      <h3>⚠ 红色警戒区</h3>
+      <ol>
+        <li><b>果汁不能代替鲜果</b>：榨汁损失膳食纤维和饱腹感，糖分易超标、能量易过量。</li>
+        <li><b>蔬菜水果不能互换</b>：水果含糖高、能量高，不能当蔬菜吃，更不能代主食。</li>
+        <li><b>深色蔬菜记错范围</b>：深色＝深绿/红/橘红/紫红；浅色（白菜、黄瓜、冬瓜）不算。要求是"占 1/2"，不是"全深"也不是"无所谓"。</li>
+        <li><b>奶量记混</b>：准则三"相当于每天 300 ml 以上液态奶"（底线相当量）；宝塔"奶及奶制品 300–500 g"（总量）——两者不矛盾。</li>
+        <li><b>坚果"适量"被忽略</b>：坚果高能量，每天约 10 g 即可，多吃反而长胖。</li>
+        <li><b>维生素A来源混淆</b>：膳食维生素A主要来自<b>深色蔬菜的β-胡萝卜素</b>（植物性），动物性来源是肝、蛋黄、全脂奶（视黄醇）。</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 六、三步解题法 -->
+  <section>
+    <h2>六、三步解题法（准则三类题通用）</h2>
+    <ol class="steps">
+      <li><b>辨</b>：题干给的是蔬菜/水果/奶/全谷/大豆/坚果哪一类？有没有"果汁""互换""只喝汤"等陷阱词。</li>
+      <li><b>对</b>：对照标准数字——蔬菜≥300g(深色1/2)、水果200–350g、奶相当≥300ml液态奶、全谷大豆常吃坚果适量。</li>
+      <li><b>排</b>：排除"果汁代鲜果""蔬果互换""深色越多越好""坚果多多益善"等典型错误说法。</li>
+    </ol>
+  </section>
+
+  <!-- 七、课堂互动 -->
+  <section>
+    <h2>七、课堂互动 · 晓晓老师提问（费曼模拟）</h2>
+    <div class="ask">
+      <div class="q">提问1：小明"每天一斤水果代替蔬菜，又方便又营养"，对吗？为什么？</div>
+      <div class="a">引导：错。蔬果是两类食物、营养不同；水果含糖高、能量高，不能代替蔬菜。</div>
+    </div>
+    <div class="ask">
+      <div class="q">提问2：妈妈榨了杯鲜橙汁给小明"补维C"，晓晓老师却说不如直接吃橙子，为什么？</div>
+      <div class="a">引导：果汁损失膳食纤维和饱腹感，容易喝多、糖超标；"果汁不能代替鲜果"。</div>
+    </div>
+    <div class="ask">
+      <div class="q">提问3（费曼输出）：用大白话给奶奶解释——为什么深色蔬菜要占每天蔬菜的一半？</div>
+      <div class="a">提示：深色菜（菠菜、胡萝卜、番茄、紫甘蓝）里的胡萝卜素能在身体里变成维生素A，对眼睛和抵抗力好，所以每天蔬菜里至少一半得是深色的。</div>
+    </div>
+    <div class="ask">
+      <div class="q">提问4：奶奶说"喝牛奶上火，我喝奶茶代替"，错在哪？</div>
+      <div class="a">引导：奶茶含糖、不算奶制品相当量；奶应是"相当于每天 300 ml 以上液态奶"，酸奶、奶酪、奶粉才算。</div>
+    </div>
+  </section>
+
+  <!-- 八、改编题 -->
+  <section>
+    <h2>八、改编题（动手练，点「显示解析」）</h2>
+
+    <div class="quiz" data-correct="C">
+      <div class="q">题1（单选）：关于蔬菜，错误的是？</div>
+      <span class="opt" data-v="A">A. 每天摄入不少于 300 g</span>
+      <span class="opt" data-v="B">B. 深色蔬菜应占 1/2</span>
+      <span class="opt" data-v="C">C. 浅色蔬菜没营养可不吃</span>
+      <span class="opt" data-v="D">D. 每天应达到 3–5 种</span>
+      <button class="btn">显示解析</button>
+      <div class="reveal"><b>答案：C。</b> 浅色蔬菜也有营养（白菜含丰富维C和膳食纤维），只是深色营养密度更高，"可不吃"错误。</div>
+    </div>
+
+    <div class="quiz" data-correct="B">
+      <div class="q">题2（单选）：关于水果，正确的是？</div>
+      <span class="opt" data-v="A">A. 可用果汁代替</span>
+      <span class="opt" data-v="B">B. 保证每天 200–350 g</span>
+      <span class="opt" data-v="C">C. 蔬菜可完全替代水果</span>
+      <span class="opt" data-v="D">D. 深色水果才健康</span>
+      <button class="btn">显示解析</button>
+      <div class="reveal"><b>答案：B。</b> A 错（果汁不能代鲜果）；C 错（蔬果不能互换）；D 错（水果不分深浅都该吃，重点是量）。</div>
+    </div>
+
+    <div class="quiz" data-correct="A">
+      <div class="q">题3（单选）：据《中国居民膳食指南（2022）》，奶类摄入量相当于每天？</div>
+      <span class="opt" data-v="A">A. 300 ml 以上液态奶</span>
+      <span class="opt" data-v="B">B. 200 ml 液态奶</span>
+      <span class="opt" data-v="C">C. 500 ml 液态奶（上限）</span>
+      <span class="opt" data-v="D">D. 越多越好</span>
+      <button class="btn">显示解析</button>
+      <div class="reveal"><b>答案：A。</b> 准则三原文"相当于每天 300 ml 以上液态奶"；宝塔总量奶及奶制品 300–500 g。</div>
+    </div>
+
+    <div class="quiz" data-correct="B">
+      <div class="q">题4（单选）：为保留蔬菜中维生素C，合理的烹调顺序是？</div>
+      <span class="opt" data-v="A">A. 切好泡水久洗</span>
+      <span class="opt" data-v="B">B. 先洗后切、开汤下菜、急火快炒、炒好即食</span>
+      <span class="opt" data-v="C">C. 小火慢炖久煮</span>
+      <span class="opt" data-v="D">D. 炒好放凉再吃</span>
+      <button class="btn">显示解析</button>
+      <div class="reveal"><b>答案：B。</b> 先洗后切防流失、急火快炒减氧化、即食防久置损失。</div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">题5（易错辨析）：有人说"我把水果当饭吃，既能减肥又能美容"，从准则三角度分析错在哪？</div>
+      <button class="btn">显示解析</button>
+      <div class="reveal">水果含糖高、能量多高于蔬菜，当饭吃反而容易能量超标、长胖；且水果不能代替蔬菜和主食，营养不全。减肥应"餐餐有蔬菜 + 天天适量水果 + 全谷主食"，而非水果代餐。</div>
+    </div>
+
+    <div class="quiz">
+      <div class="q">题6（换算）：小李每天喝 1 盒 250 ml 牛奶 + 1 杯 100 ml 酸奶，折算液态奶够"300 ml 以上"吗？若想更稳妥达标还可怎么补？</div>
+      <button class="btn">显示解析</button>
+      <div class="reveal">250 ml 牛奶 ≈ 250 ml 液态奶；100 ml 酸奶（按蛋白质折算）≈ 100 ml 液态奶；合计 ≈ 350 ml ≥ 300 ml，已达标。想丰富来源可换部分奶酪/奶粉或加一杯奶，既达总量 300–500 g 又换口味。</div>
+    </div>
+  </section>
+
+  <!-- 九、费曼自检 -->
+  <section class="feyman">
+    <h2>九、费曼自检清单（学完打勾）</h2>
+    <label><input type="checkbox"> 我能背出准则三 5 条核心推荐</label>
+    <label><input type="checkbox"> 我能说出蔬菜推荐量（≥300 g）和深色蔬菜占比（1/2）</label>
+    <label><input type="checkbox"> 我能解释"为什么蔬菜水果不能互换"</label>
+    <label><input type="checkbox"> 我能说出奶类"相当于每天 300 ml 以上液态奶"及与宝塔 300–500 g 的关系</label>
+    <label><input type="checkbox"> 我能讲出巧烹饪 4 步（先洗后切、开汤下菜、急火快炒、炒好即食）</label>
+    <label><input type="checkbox"> 我能用三步解题法做对一道准则三选择题</label>
+  </section>
+
+  <section class="next">
+    <b>下节课预告 · 第4课 准则四：适量吃鱼、禽、蛋、瘦肉</b><br>
+    鱼禽蛋肉每天吃多少？蛋黄到底要不要扔？深加工肉制品为什么少吃？为什么"优先选择鱼"？下节课见！
+  </section>
+
+</div>
+
+<!-- 底部字幕条（半透明，不遮挡正文） -->
+<div id="subtitle"><span class="idx" id="subIdx">00</span><span id="subText">点击右上角「▶ 播放」开始晓晓老师的语音讲解…（播放器可拖动到顺手的位置）</span></div>
+
+<!-- 语音播放器（可拖动悬浮面板） -->
+<div class="player" id="player">
+  <div class="bar" id="playerBar">
+    <span class="ttl">🎧 晓晓老师语音讲解</span>
+    <button class="mini" id="pinBtn" title="固定在角落 / 解除固定">📌固定</button>
+  </div>
+  <div class="row">
+    <button class="primary" id="playBtn">▶ 播放</button>
+    <button id="prevBtn">⏮ 上一句</button>
+    <button id="nextBtn">下一句 ⏭</button>
+    <input class="seek" id="seek" type="range" min="0" max="1" value="0" step="1" aria-label="播放进度">
+    <select id="speedSel" title="语速">
+      <option value="0.8">语速 0.8×</option>
+      <option value="1" selected>语速 1.0×</option>
+      <option value="1.2">语速 1.2×</option>
+      <option value="1.4">语速 1.4×</option>
+    </select>
+    <select id="voiceSel" title="语音"><option value="">默认中文语音</option></select>
+    <button class="fsbtn" id="fsDown">A−</button>
+    <button class="fsbtn" id="fsUp">A＋</button>
+  </div>
+  <div class="meta">
+    <span id="status">晓晓老师（XiaoxiaoNeural）神经网络语音 · 共 <b id="totalN">0</b> 句</span>
+    <span id="voiceNote"></span>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  // ===== 语音讲解稿（晓晓老师逐句朗读）=====
+  var narration = [
+    "同学们好，我是晓晓老师。今天我们讲《中国居民膳食指南2022》的第三课，准则三：多吃蔬果、奶类、全谷、大豆。",
+    "先快速复习：第1课我们记住了平衡膳食宝塔，第2课讲了吃动平衡、健康体重，能量天平要持平。",
+    "今天开课前，老师先考你一个问题：小明说，我每天一斤水果代替蔬菜，又方便又营养。妈妈却说蔬菜不能少。谁对呢？",
+    "答案是妈妈对。蔬菜和水果是两类不同的食物，营养特点不一样，不能互相代替。这就是今天考点准则三的核心。",
+    "准则三有五条核心推荐，必须背下来。第一，蔬菜水果、全谷物和奶制品，是平衡膳食的重要组成部分。",
+    "第二，餐餐有蔬菜，每天新鲜蔬菜不少于三百克，而且深色蔬菜应该占一半。",
+    "第三，天天吃水果，每天新鲜水果二百到三百五十克，果汁不能代替鲜果。",
+    "第四，吃各种各样的奶制品，摄入量相当于每天三百毫升以上的液态奶。",
+    "第五，经常吃全谷物、大豆制品，适量吃坚果。",
+    "为什么蔬菜水果不能互换？因为蔬菜能量普遍低、维生素和膳食纤维丰富；水果含糖高、能量多高于多数蔬菜。各吃各的，谁也替不了谁。",
+    "再说深色蔬菜占一半。深色指的是深绿色、红色、橘红色、紫红色蔬菜，比如菠菜、胡萝卜、番茄、紫甘蓝。",
+    "它们富含贝塔胡萝卜素，是膳食里维生素A的主要来源。要求占一半，不是全深，也不是无所谓。",
+    "奶类这块，指南说相当于每天三百毫升以上液态奶。注意，这是底线相当量。",
+    "宝塔里奶及奶制品总量是三百到五百克。液态奶、酸奶、奶酪、奶粉，都按蛋白质折算计入，换着吃更香。",
+    "全谷物、大豆制品要常吃，比如燕麦、糙米、豆腐、豆腐干轮换着来。坚果虽然好，但高能量，每天大约十克就够，多吃反而长胖。",
+    "最后是巧烹饪，保住蔬菜营养：第一步，先洗后切，别让维生素从切口溜走；第二步，水开了再下菜；第三步，急火快炒；第四步，炒好就吃。",
+    "来，背一下今天的口诀：蔬果奶豆全谷好，餐餐蔬菜半碗俏；深色占半维A宝，水果天天三五两；奶超三百克不少，全谷大豆坚果巧；果汁不能代鲜果，蔬果两类别混淆。",
+    "考试最爱挖六个坑：果汁代鲜果、蔬果互换、深色范围记错、奶量记混、坚果不适量、维生素A来源搞混。",
+    "做题用三步法：第一步辨，看清是蔬菜水果奶还是全谷坚果，有没有果汁、互换这些陷阱词；第二步对，对照标准数字；第三步排，排除典型错误说法。",
+    "现在老师提问：小明每天一斤水果代替蔬菜，对吗？为什么？请大声说出你的判断。",
+    "再问一个：妈妈榨了杯鲜橙汁给小明补维C，老师却说不如直接吃橙子，为什么？",
+    "费曼任务来了：用大白话给奶奶解释，为什么深色蔬菜要占每天蔬菜的一半。",
+    "还有，奶奶说喝牛奶上火、喝奶茶代替，错在哪？奶茶含糖，不算奶制品相当量哦。",
+    "好，今天我们学了准则三：多吃蔬果、奶类、全谷、大豆。记住，餐餐有蔬菜、天天有水果、奶豆不断、坚果适量。",
+    "下节课我们讲准则四：适量吃鱼、禽、蛋、瘦肉。蛋黄要不要扔？为什么优先选鱼？下节课见，同学们加油！"
+  ];
+
+  var synth = window.speechSynthesis;
+  var current = 0, playing = false, rate = 1.0, chosenVoice = null, keepAlive = null;
+
+  var playBtn = document.getElementById('playBtn');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var seek = document.getElementById('seek');
+  var speedSel = document.getElementById('speedSel');
+  var voiceSel = document.getElementById('voiceSel');
+  var subText = document.getElementById('subText');
+  var subIdx = document.getElementById('subIdx');
+  var statusEl = document.getElementById('status');
+  var voiceNote = document.getElementById('voiceNote');
+  document.getElementById('totalN').textContent = narration.length;
+  seek.max = narration.length - 1;
+
+  function pad(n){ n = (n+1); return (n<10?'0':'') + n; }
+  function updateSub(){
+    subIdx.textContent = pad(current);
+    subText.textContent = narration[current];
+  }
+  function updatePlayBtn(){
+    playBtn.textContent = playing ? '⏸ 暂停' : '▶ 播放';
+  }
+
+  function loadVoices(){
+    var vs = synth.getVoices();
+    var zh = vs.filter(function(v){ return /zh|cmn|Chinese/i.test(v.lang) || /Xiaoxiao|晓晓|Chinese/i.test(v.name); });
+    voiceSel.innerHTML = '<option value="">默认中文语音</option>';
+    zh.forEach(function(v){
+      var o = document.createElement('option');
+      o.value = v.voiceURI; o.textContent = v.name + ' (' + v.lang + ')';
+      if(/Xiaoxiao|晓晓/i.test(v.name)){ o.selected = true; chosenVoice = v; o.textContent += ' ★'; }
+      voiceSel.appendChild(o);
+    });
+    if(zh.length){
+      var hasXiao = zh.some(function(v){ return /Xiaoxiao|晓晓/i.test(v.name); });
+      voiceNote.textContent = hasXiao ? '已优选晓晓神经网络语音 ✓' : '当前环境无晓晓语音，已用其他中文语音';
+    } else {
+      voiceNote.textContent = '未检测到中文语音，请换 Edge/Win 浏览器体验晓晓语音';
+    }
+  }
+  if(synth){
+    if(typeof synth.onvoiceschanged !== 'undefined'){ synth.onvoiceschanged = loadVoices; }
+    loadVoices();
+  } else {
+    voiceNote.textContent = '当前浏览器不支持语音合成';
+  }
+
+  function pickVoice(){
+    if(chosenVoice) return chosenVoice;
+    var vs = synth.getVoices();
+    var v = vs.filter(function(x){ return /Xiaoxiao|晓晓/i.test(x.name); })[0]
+          || vs.filter(function(x){ return /zh|cmn/i.test(x.lang); })[0];
+    return v || null;
+  }
+
+  function speak(i){
+    if(!synth) return;
+    if(i < 0 || i >= narration.length) return;
+    current = i; seek.value = i; updateSub();
+    synth.cancel();
+    var u = new SpeechSynthesisUtterance(narration[i]);
+    u.lang = 'zh-CN'; u.rate = rate;
+    var v = pickVoice(); if(v) u.voice = v;
+    u.onend = function(){
+      if(playing && current < narration.length - 1){
+        speak(current + 1);
+      } else if(current === narration.length - 1){
+        playing = false; updatePlayBtn();
+      }
+    };
+    synth.speak(u);
+    if(keepAlive) clearInterval(keepAlive);
+    keepAlive = setInterval(function(){
+      if(playing && synth.speaking && synth.paused) synth.resume();
+    }, 2500);
+  }
+
+  function stopKeep(){ if(keepAlive){ clearInterval(keepAlive); keepAlive = null; } }
+
+  playBtn.addEventListener('click', function(){
+    if(!synth){ voiceNote.textContent='浏览器不支持语音合成'; return; }
+    if(playing){
+      playing = false; synth.pause(); updatePlayBtn();
+    } else {
+      playing = true; updatePlayBtn();
+      if(synth.paused){ synth.resume(); }
+      else { speak(current); }
+    }
+  });
+  prevBtn.addEventListener('click', function(){ playing = true; updatePlayBtn(); speak(current - 1); });
+  nextBtn.addEventListener('click', function(){ playing = true; updatePlayBtn(); speak(current + 1); });
+  seek.addEventListener('input', function(){
+    playing = true; updatePlayBtn(); speak(parseInt(seek.value, 10));
+  });
+  speedSel.addEventListener('change', function(){
+    rate = parseFloat(speedSel.value);
+    if(playing){ speak(current); }
+  });
+  voiceSel.addEventListener('change', function(){
+    var uri = voiceSel.value;
+    if(!uri){ chosenVoice = null; return; }
+    chosenVoice = synth.getVoices().filter(function(v){ return v.voiceURI === uri; })[0] || null;
+    if(playing){ speak(current); }
+  });
+
+  // 字号调节（满足「字体可以大一些」；小四=12pt，默认14pt偏大更清晰）
+  var root = document.documentElement;
+  function getSize(){ return parseFloat(getComputedStyle(root).getPropertyValue('--reading-size')); }
+  document.getElementById('fsUp').addEventListener('click', function(){
+    var s = Math.min(22, getSize() + 1); root.style.setProperty('--reading-size', s + 'pt');
+  });
+  document.getElementById('fsDown').addEventListener('click', function(){
+    var s = Math.max(11, getSize() - 1); root.style.setProperty('--reading-size', s + 'pt');
+  });
+
+  // 播放器拖动（满足「能调播放的位置」）
+  (function(){
+    var player = document.getElementById('player');
+    var bar = document.getElementById('playerBar');
+    var pinBtn = document.getElementById('pinBtn');
+    var pinned = false, dragging = false, sx = 0, sy = 0, ox = 0, oy = 0;
+    pinBtn.addEventListener('click', function(){
+      pinned = !pinned;
+      if(pinned){
+        player.style.left = ''; player.style.top = ''; player.style.right = '18px';
+        player.style.bottom = 'auto'; player.classList.remove('drag-on');
+        pinBtn.textContent = '📌已固定';
+      } else {
+        pinBtn.textContent = '📌固定';
+      }
+    });
+    bar.addEventListener('mousedown', function(e){
+      if(pinned) return;
+      dragging = true; player.classList.add('drag-on');
+      var rect = player.getBoundingClientRect();
+      ox = rect.left; oy = rect.top;
+      sx = e.clientX; sy = e.clientY;
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', function(e){
+      if(!dragging) return;
+      var nx = ox + (e.clientX - sx);
+      var ny = oy + (e.clientY - sy);
+      nx = Math.max(4, Math.min(window.innerWidth - player.offsetWidth - 4, nx));
+      ny = Math.max(4, Math.min(window.innerHeight - player.offsetHeight - 4, ny));
+      player.style.left = nx + 'px';
+      player.style.top = ny + 'px';
+      player.style.right = 'auto';
+      player.style.bottom = 'auto';
+    });
+    document.addEventListener('mouseup', function(){
+      if(dragging){ dragging = false; player.classList.remove('drag-on'); }
+    });
+    // 触屏支持
+    bar.addEventListener('touchstart', function(e){
+      if(pinned) return;
+      var t = e.touches[0]; dragging = true;
+      var rect = player.getBoundingClientRect();
+      ox = rect.left; oy = rect.top; sx = t.clientX; sy = t.clientY;
+    }, {passive:true});
+    document.addEventListener('touchmove', function(e){
+      if(!dragging) return;
+      var t = e.touches[0];
+      var nx = ox + (t.clientX - sx);
+      var ny = oy + (t.clientY - sy);
+      nx = Math.max(4, Math.min(window.innerWidth - player.offsetWidth - 4, nx));
+      ny = Math.max(4, Math.min(window.innerHeight - player.offsetHeight - 4, ny));
+      player.style.left = nx + 'px'; player.style.top = ny + 'px';
+      player.style.right = 'auto'; player.style.bottom = 'auto';
+    }, {passive:true});
+    document.addEventListener('touchend', function(){ dragging = false; });
+  })();
+
+  // 选择题交互
+  Array.prototype.forEach.call(document.querySelectorAll('.quiz'), function(q){
+    var btn = q.querySelector('.btn');
+    var opts = q.querySelectorAll('.opt');
+    if(btn){
+      btn.addEventListener('click', function(){ q.classList.toggle('open'); btn.textContent = q.classList.contains('open') ? '隐藏解析' : '显示解析'; });
+    }
+    var correct = q.getAttribute('data-correct');
+    opts.forEach(function(op){
+      op.addEventListener('click', function(){
+        opts.forEach(function(o){ o.classList.remove('correct','wrong'); });
+        if(correct){
+          q.querySelector('.opt[data-v="'+correct+'"]').classList.add('correct');
+          if(op.getAttribute('data-v') !== correct) op.classList.add('wrong');
+        }
+      });
+    });
+  });
+
+  updateSub(); updatePlayBtn();
+})();
+</script>
+</body>
+</html>
