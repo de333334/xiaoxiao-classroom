@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>第十一课 · 黄金圈法则（晓晓老师·神经网络语音·可听可调可练）</title>
+<style>
+  :root{
+    --bg1:#eaf4ff; --bg2:#fef6ff; --card:#ffffff; --ink:#27324b;
+    --soft:#5b6b8c; --brand:#5b8def; --brand2:#9b6bff; --ok:#1faa6b;
+    --warn:#e8833a; --pink:#ff8fab; --sub-bg:rgba(20,28,48,.88);
+    --base:18px; /* 宋体 小四偏大，看得清 */
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"宋体","SimSun","Songti SC","STSong",serif; /* 宋体 */
+    font-size:var(--base); color:var(--ink);
+    background:linear-gradient(160deg,var(--bg1),var(--bg2));
+    min-height:100vh; padding-bottom:150px; /* 给底部字幕留位，字幕不挡讲解 */
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:14px 16px 10px}
+
+  /* 顶部固定控制条 */
+  header{
+    position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);
+    backdrop-filter:blur(8px);border-radius:0 0 18px 18px;
+    box-shadow:0 6px 20px rgba(91,141,239,.12);
+    padding:10px 14px;margin-bottom:14px;
+  }
+  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .logo{font-size:20px;font-weight:800;color:var(--brand);font-family:"宋体","SimSun",serif}
+  .logo small{font-weight:600;color:var(--soft);font-size:12px;margin-left:6px;font-family:"宋体","SimSun",serif}
+  .prog{flex:1;height:14px;background:#e6ecf7;border-radius:99px;overflow:hidden;min-width:140px;cursor:pointer;position:relative}
+  .prog>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .3s}
+  .ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  button.b{
+    border:0;cursor:pointer;border-radius:12px;padding:9px 13px;font-size:15px;
+    background:#eef3ff;color:var(--brand);font-weight:700;transition:.15s;
+    font-family:"宋体","SimSun",serif;
+  }
+  button.b:hover{background:#e0e9ff}
+  button.b.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
+  button.b.warn{background:#fff0e2;color:var(--warn)}
+  .speed{font-size:13px;color:var(--soft);display:flex;align-items:center;gap:6px;font-family:"宋体","SimSun",serif}
+  input[type=range]{accent-color:var(--brand)}
+
+  /* 开场遮罩 */
+  .gate{
+    position:fixed;inset:0;z-index:60;background:linear-gradient(160deg,#dbe9ff,#f3e6ff);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;
+  }
+  .gate h1{font-size:27px;margin:10px 0 6px;font-family:"宋体","SimSun",serif}
+  .gate p{color:var(--soft);max-width:540px;line-height:1.9;font-family:"宋体","SimSun",serif;font-size:17px}
+  .gate .big{
+    margin-top:18px;border:0;cursor:pointer;font-size:19px;font-weight:800;color:#fff;
+    padding:14px 36px;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand2));
+    box-shadow:0 10px 26px rgba(123,107,255,.35);font-family:"宋体","SimSun",serif;
+  }
+
+  /* 卡片 */
+  .card{
+    background:var(--card);border-radius:20px;padding:18px 18px 16px;margin:14px 0;
+    box-shadow:0 8px 22px rgba(60,90,160,.10);border:1px solid #eef2fb;
+  }
+  .card h2{margin:4px 0 10px;font-size:21px;display:flex;align-items:center;gap:10px;font-family:"宋体","SimSun",serif}
+  .card h2 .em{font-size:26px}
+  .card p{line-height:1.95;margin:9px 0;font-size:var(--base)}
+  .card ul,.card ol{line-height:2.0;font-size:17px;padding-left:24px}
+  .kou{background:#fff7e6;border-left:5px solid var(--warn);border-radius:12px;padding:11px 14px;margin:12px 0;font-weight:700;color:#8a5a12;font-size:17px;line-height:1.8}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:16px}
+  th,td{border:1px solid #e6ecf7;padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:#f3f7ff;color:var(--soft)}
+  .listen{
+    display:inline-flex;align-items:center;gap:8px;margin-top:8px;border:0;cursor:pointer;
+    background:linear-gradient(90deg,#eaf1ff,#f1e9ff);color:var(--brand);font-weight:800;
+    padding:11px 17px;border-radius:14px;font-size:16px;font-family:"宋体","SimSun",serif;
+  }
+  .listen:hover{filter:brightness(.98)}
+  .listen .dot{width:9px;height:9px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 0 rgba(91,141,239,.6);animation:pulse 1.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(91,141,239,.5)}70%{box-shadow:0 0 0 10px rgba(91,141,239,0)}100%{box-shadow:0 0 0 0 rgba(91,141,239,0)}}
+
+  /* 句子高亮（跟着朗读走） */
+  .s{display:inline;padding:1px 2px;border-radius:6px;transition:background .2s}
+  .s.on{background:#fff3bf;box-shadow:0 0 0 2px #ffd43b}
+  .s.done{color:#9aa6c2}
+
+  /* 老师头像 */
+  .teacher{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(135deg,#eef4ff,#f6eeff);border-radius:16px;padding:14px;margin:8px 0 4px}
+  .teacher svg{flex:0 0 76px}
+  .teacher .say{font-size:16.5px;line-height:1.9;color:var(--ink);font-family:"宋体","SimSun",serif}
+
+  /* 测验 */
+  .quiz{border:2px dashed #c9d6f5;background:#fbfdff;border-radius:14px;padding:14px;margin-top:14px}
+  .quiz .q{font-weight:800;font-size:17px;margin-bottom:10px}
+  .opt{display:block;width:100%;text-align:left;border:1.5px solid #e2e9f7;background:#fff;border-radius:12px;padding:11px 14px;margin:8px 0;cursor:pointer;font-size:16px;transition:.12s;font-family:"宋体","SimSun",serif}
+  .opt:hover{border-color:var(--brand)}
+  .opt.right{background:#e7f8ef;border-color:var(--ok);color:#127a4c;font-weight:700}
+  .opt.wrong{background:#fdecec;border-color:#e36;color:#b22}
+  .feedback{margin-top:10px;font-size:15.5px;line-height:1.8;display:none;border-radius:12px;padding:10px 12px}
+  .feedback.show{display:block}
+  .feedback.ok{background:#e7f8ef;color:#127a4c}
+  .feedback.no{background:#fdecec;color:#b22}
+
+  /* 课堂问答 */
+  .qa{background:#fff;border:1px solid #eceffb;border-radius:14px;margin:10px 0;overflow:hidden}
+  .qa .ask{display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;font-weight:700;font-family:"宋体","SimSun",serif;font-size:16px}
+  .qa .ask .tag{background:#ffe3ec;color:#d6336c;border-radius:8px;padding:2px 8px;font-size:12px}
+  .qa .ans{display:none;padding:0 14px 14px 14px;line-height:1.9;color:var(--ink);font-family:"宋体","SimSun",serif;font-size:16px}
+  .qa.open .ans{display:block}
+  .qa .ans .t{color:var(--brand);font-weight:700;margin-right:6px}
+
+  /* 费曼 */
+  textarea{width:100%;min-height:120px;border:1.5px solid #e2e9f7;border-radius:14px;padding:12px;font-size:16px;font-family:"宋体","SimSun",serif;resize:vertical;line-height:1.8}
+  .memo{margin-top:12px;background:linear-gradient(135deg,#fff7e6,#ffeef6);border-radius:16px;padding:14px;display:none}
+  .memo.show{display:block}
+  .memo h3{margin:0 0 6px;color:#b8690f;font-family:"宋体","SimSun",serif}
+  .memo .txt{white-space:pre-wrap;line-height:1.9;font-size:16px}
+
+  /* 底部字幕条（半透明，不挡主讲解） */
+  .sub{
+    position:fixed;left:0;right:0;bottom:0;z-index:40;
+    background:var(--sub-bg);color:#fff;padding:16px 20px;
+    font-size:21px;line-height:1.6;text-align:center;
+    box-shadow:0 -6px 20px rgba(0,0,0,.18);
+    display:none;min-height:62px;align-items:center;justify-content:center;
+    font-family:"宋体","SimSun",serif;
+  }
+  .sub.show{display:flex}
+  .sub .said{color:#9fb4e6}
+  .sub .unsaid{color:#fff}
+  .sub .hint{position:absolute;left:14px;bottom:6px;font-size:11px;color:#8fa3cf}
+
+  /* 老师点名 弹窗 */
+  .modal{
+    position:fixed;inset:0;z-index:70;background:rgba(30,40,70,.55);
+    display:none;align-items:center;justify-content:center;padding:22px;
+  }
+  .modal.show{display:flex}
+  .mbox{background:#fff;border-radius:22px;max-width:560px;width:100%;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+  .mbox h3{margin:0 0 6px;color:var(--brand);font-family:"宋体","SimSun",serif;font-size:20px}
+  .mbox .q{font-size:18px;line-height:2;font-weight:700;margin:10px 0;font-family:"宋体","SimSun",serif}
+  .mbox textarea{margin:6px 0 12px}
+  .mbox .row2{display:flex;gap:10px;flex-wrap:wrap}
+  .pill{display:inline-block;background:#eef3ff;color:var(--brand);border-radius:99px;padding:4px 11px;font-size:13px;margin:3px 5px 3px 0;font-family:"宋体","SimSun",serif}
+  .foot{text-align:center;color:var(--soft);font-size:13px;margin:22px 0 4px;font-family:"宋体","SimSun",serif}
+  .navrow{display:flex;justify-content:space-between;gap:10px;margin-top:6px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<!-- 开场遮罩：点击后允许语音播放（浏览器自动播放策略要求用户手势） -->
+<div class="gate" id="gate">
+  <svg width="120" height="120" viewBox="0 0 120 120">
+    <circle cx="60" cy="46" r="30" fill="#ffd9a0"/>
+    <path d="M30 44 q30 -34 60 0 q-6 -6 -30 -6 q-24 0 -30 6z" fill="#6b4a2b"/>
+    <circle cx="50" cy="44" r="4" fill="#3a2a1a"/><circle cx="70" cy="44" r="4" fill="#3a2a1a"/>
+    <path d="M50 56 q10 9 20 0" stroke="#3a2a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="44" cy="52" r="5" fill="#ff9bb0" opacity=".6"/><circle cx="76" cy="52" r="5" fill="#ff9bb0" opacity=".6"/>
+    <rect x="40" y="86" width="40" height="26" rx="6" fill="#5b8def"/>
+    <path d="M40 92 h40 M60 86 v26" stroke="#fff" stroke-width="2"/>
+  </svg>
+  <h1>第十一课 · 黄金圈法则</h1>
+  <p>你说自己"有话说不出、脑子里东西太少"。前面几课给脑子装了抽屉、模型、分类、网、钩子和弹药库。<br>今天，我教你最后一记"深挖铲"——黄金圈法则，让你从"是什么"挖到"为什么"，脑子从浅变深、从清单变博物馆。<br>点下面按钮，听我慢慢讲（微软晓晓神经网络语音）。</p>
+  <button class="big" id="startBtn">🎧 开始上课</button>
+  <p style="font-size:13px;margin-top:14px">提示：网页用浏览器自带语音朗读，最好用电脑版 Edge / Chrome，声音最像"晓晓老师"（可随时点"上一句/下一句"调位置，字幕不挡讲解）。本页为「每课一网页」第 11 课，永久保留不覆盖。</p>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="row">
+      <div class="logo">🧠 第十一课 · 黄金圈 <small>晓晓老师 · 神经网络语音</small></div>
+      <div class="prog" id="prog" title="点进度条可跳到任意一句"><i id="progBar"></i></div>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <div class="ctl">
+        <button class="b" id="prevBtn">⏮ 上一句</button>
+        <button class="b primary" id="playBtn">▶ 播放</button>
+        <button class="b" id="nextBtn">下一句 ⏭</button>
+        <button class="b" id="stopBtn">⏹ 停止</button>
+        <button class="b" id="restartBtn">🔁 从头</button>
+      </div>
+      <div class="speed">语速
+        <input type="range" id="rate" min="0.7" max="1.3" step="0.05" value="1">
+        <span id="rateVal">1.0×</span>
+      </div>
+      <div class="speed">字号
+        <button class="b" id="fontMinus" style="padding:6px 10px">A−</button>
+        <span id="fontVal">18</span>
+        <button class="b" id="fontPlus" style="padding:6px 10px">A＋</button>
+      </div>
+      <button class="b" id="askBtn" style="margin-left:auto">🙋 老师考考你</button>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <div class="speed" id="voiceInfo">语音：加载中…</div>
+      <div class="speed" id="posInfo" style="margin-left:auto">第 0 / 0 句</div>
+    </div>
+  </header>
+
+  <div id="lessonRoot"></div>
+
+  <div class="card">
+    <h2><span class="em">🙋</span>课堂互动：学生小问 × 晓晓老师</h2>
+    <p style="color:var(--soft);font-size:15px">点下面的问题，看老师怎么答（也可点"听"让晓晓老师读出来）。</p>
+    <div id="qaRoot"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="em">✍️</span>费曼记忆：用你自己的话讲一遍</h2>
+    <p>学完别走。请<strong>合上眼睛</strong>，用大白话给一个"小学生"讲清楚：<br>
+    <span class="pill">什么是黄金圈法则</span><span class="pill">苹果案例的 Why/How/What</span><span class="pill">黄金圈和 5W1H 啥关系</span><span class="pill">怎么用挖矿卡挖 Why</span><span class="pill">SCQA 故事框</span><span class="pill">MECE 分类框</span><span class="pill">思维地图（连线成网）</span></p>
+    <p style="color:var(--soft);font-size:15px">讲不出来=有漏洞，回去补。能讲出来，就写在这里（自动存成本机"记忆卡"，下次打开还在）：</p>
+    <textarea id="feynman" placeholder="比如：黄金圈就是三个同心圆——最外圈 What（是什么）、中圈 How（怎么做）、最内圈 Why（为什么/信念）。普通人由外而内讲 What→How→Why，罗列一堆谁都不感动；厉害的人由内而外讲 Why→How→What，先讲信念把人点燃。苹果就是反着讲：Why 挑战现状、How 精美好用、What 顺便造电脑，人买的不是电脑是信念。我看纪录片也多挖一层 Why，脑子从清单变博物馆。"></textarea>
+    <div class="navrow">
+      <button class="b" id="saveFeynman">💾 存成我的记忆卡</button>
+      <button class="b" id="listenFeynman">🔊 听我读一遍（晓晓老师）</button>
+    </div>
+    <div class="memo" id="memo">
+      <h3>📌 我的费曼记忆卡</h3>
+      <div class="txt" id="memoTxt"></div>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,#eef4ff,#f6eeff)">
+    <h2><span class="em">📜</span>总口诀（背熟这几句）</h2>
+    <p style="font-weight:800;font-size:18px;line-height:2.1">
+      观抽连用四步走，骨血肉里找道理。<br>
+      五 W 一 H 问到底，费曼教人记心里。<br>
+      一把锤子不够用，多把工具挂墙上。<br>
+      分两类不重叠，列清单不漏掉；MECE 一上手，脑子有条理。<br>
+      孤岛连成网，高速通四方；一图胜千言，脑子亮堂堂。<br>
+      拆乐高看到底，剥洋葱问到底，搭梯子搬已知。<br>
+      情景铺背景，冲突揪人心；问题勾住魂，答案亮晶晶。<br>
+      每天三颗弹，故事数据金句全；开口先翻库，料多不慌乱。<br>
+      先观点再理由举例子，重复观点开口有料。<br>
+      是什么，怎么做，为什么；从外到内是清单，由内而外才点燃。黄金三圈要记牢，Why 在最里最重要。<br>
+      天天练嘴不怕丑，框架满满有出息！
+    </p>
+    <p style="color:var(--soft);font-size:14px">21 天行动：每天 1 集纪录片用 5W1H 记 3 点；每周 1 本书做 3 张概念卡；每周讲 1 个概念给镜子听；每天说话强迫自己用 PREP 三明治；每天遇"看不懂/为啥"用三个思考框里的一个试一试；每周用 MECE 给杂乱信息分类查漏；每天把"今天新学的 1 个框"和"昨天学的 1 个框"连一张思维地图并写 1 张思维卡；每天往"话题弹药库"塞 3 颗（故事弹/数据弹/金句弹）；<strong>每天看 1 集纪录片/1 章书，用"黄金圈挖矿卡"填三圈，重点逼自己写出 Why（为什么）</strong>。</p>
+  </div>
+
+  <div class="foot">本课由 WorkBuddy 整理 · 配套答案已存入你的 ima 知识库「imao」</div>
+</div>
+
+<!-- 底部字幕条：半透明、固定底部，不遮挡上方讲解 -->
+<div class="sub" id="sub"><span class="said"></span><span class="unsaid"></span><span class="hint">字幕</span></div>
+
+<!-- 老师点名 弹窗 -->
+<div class="modal" id="askModal">
+  <div class="mbox">
+    <h3>🙋 晓晓老师点名啦！</h3>
+    <div class="q" id="askQ"></div>
+    <textarea id="askAns" placeholder="在心里或小声用你自己的话答一答；答完点下面听老师的标准答案对照～"></textarea>
+    <div class="row2">
+      <button class="b primary" id="askListen">🔊 听老师的标准答案</button>
+      <button class="b" id="askClose">✅ 我答完，继续上课</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ 语音引擎 ============ */
+let synth = window.speechSynthesis;
+let voice = null;
+let rate = 1;
+let speaking = false;
+let queue = [];
+let qIndex = 0;
+let onAllDone = null;
+
+function pickVoice(){
+  const vs = synth.getVoices();
+  if(!vs.length) return null;
+  let v = vs.find(x=>/xiaoxiao/i.test(x.name) && /zh/i.test(x.lang));
+  if(!v) v = vs.find(x=>/xiaoxiao/i.test(x.name));
+  if(!v) v = vs.find(x=>/zh[-_]?CN/i.test(x.lang));
+  if(!v) v = vs.find(x=>/^zh/i.test(x.lang));
+  return v || null;
+}
+function refreshVoice(){
+  voice = pickVoice();
+  const info = document.getElementById('voiceInfo');
+  if(voice){
+    info.textContent = '语音：' + (voice.name.includes('Xiaoxiao')?'晓晓老师（神经网络）':voice.name);
+  }else{
+    info.textContent = '语音：未找到中文语音（字幕仍可用）';
+  }
+}
+if('speechSynthesis' in window){
+  refreshVoice();
+  synth.onvoiceschanged = refreshVoice;
+}else{
+  document.getElementById('voiceInfo').textContent='本浏览器不支持语音';
+}
+
+function showSub(text, charIndex){
+  const sub = document.getElementById('sub');
+  sub.classList.add('show');
+  sub.querySelector('.said').textContent = text.slice(0, charIndex);
+  sub.querySelector('.unsaid').textContent = text.slice(charIndex);
+}
+function hideSub(){ document.getElementById('sub').classList.remove('show'); }
+
+function speakPart(text, done){
+  if(!voice){
+    showSub(text,0);
+    let i=0; const step=Math.max(1,Math.floor(text.length/30));
+    const t=setInterval(()=>{ i+=step; if(i>=text.length){clearInterval(t);hideSub();done&&done();}else showSub(text,i); },90);
+    return;
+  }
+  const u = new SpeechSynthesisUtterance(text);
+  u.voice = voice; u.lang = voice.lang; u.rate = rate; u.pitch = 1.05;
+  u.onboundary = e=> showSub(text, e.charIndex||0);
+  u.onend = ()=>{ hideSub(); done&&done(); };
+  u.onerror = ()=>{ hideSub(); done&&done(); };
+  showSub(text,0);
+  synth.speak(u);
+}
+function stopSpeak(){ try{synth.cancel();}catch(e){} hideSub(); speaking=false; }
+
+/* ============ 课程内容（本页 = 第十一课 独立页） ============ */
+const LESSONS = [
+  {
+    title:'先复习：第十课 · SCQA 故事框 + 话题弹药库', emoji:'🔁',
+    parts:[
+      '同学你好，我是晓晓老师。先复习一下昨天学的第十课——SCQA 故事框和话题弹药库。',
+      '第十课你学会了 SCQA 这个钩子：S 先说大家都懂的背景、C 再造个冲突让人一紧、Q 抛问题勾住魂、A 甩出你的答案；还学会了建"话题弹药库"，每天塞三颗（故事弹、数据弹、金句弹），开口前翻一翻当钩子。',
+      '第十课口诀你记得吗：情景铺背景，冲突揪人心；问题勾住魂，答案亮晶晶。每天三颗弹，故事数据金句全；开口先翻库，料多不慌乱。',
+      '不过你还是说"脑子里东西太少"。今天我告诉你一个真相：你不是记性差，是记的都太浅——只记了"是什么"，没记"为什么"。今天教你最后一记深挖铲：黄金圈法则。准备好了吗？'
+    ]
+  },
+  {
+    title:'第十一课：黄金圈法则——从"是什么"挖到"为什么"', emoji:'🥇',
+    parts:[
+      '你说自己脑子里东西太少。我告诉你一个真相：不是你记性不好，是你记的都太浅——看纪录片只记了"这动物叫啥、那朝代哪年"，读书只记了"主角干了啥"。这些都是最外圈，最表面的"是什么"。',
+      '今天教你"黄金圈"：一个三层同心圆。最外圈 What（是什么），中圈 How（怎么做），最内圈 Why（为什么）。记住：赚钱只是结果，不是 Why；Why 是你的信念、初心、目的。',
+      '大多数人说话、记东西，都从外往里：先讲 What（我卖电脑、我看了一部讲鲨鱼的片子），再讲 How（配置高、拍得漂亮），最后也没讲 Why。结果：罗列了一堆，谁都不感动。',
+      '真正厉害的人反过来，由内而外：先讲 Why（我为什么做、我相信什么），再 How（我怎么不一样），最后 What（顺便说下我是谁）。人一下就被点燃了。',
+      '最经典的例子：苹果。普通人卖电脑：What 我们造电脑、How 配置高又好用——讲不出 Why，没劲。乔布斯反过来：Why 我们相信要挑战现状、不同凡想；How 我们把这种信念做进精美好用的产品；What 顺便，我们造电脑。你买苹果，买的不是电脑，是"挑战现状"的信念。',
+      '再看纪录片。《徒手攀岩》讲 Alex 徒手爬酋长岩：普通人记 What（他爬了块大石头）、How（练了很久）；但挖 Why（他为什么冒死去爬？因为攀岩对他不是运动，是和恐惧相处、把不可能变可能的活法）——这一挖，整部片子就住进你脑子里了。',
+      '再看《地球脉动》讲珊瑚白化：What 珊瑚大片死掉、How 海水变暖；挖 Why（地球在发烧，人类得收手）——这 Why 就是整片的灵魂。马丁·路德·金说"我有一个梦想"不是"十二点计划书"，莱特兄弟靠"飞行改变世界"的信念赢过只为名利的兰利，都是同一个道理。',
+      '所以"黄金圈"就是你的深挖铲：看任何纪录片、读任何书，多问一个 Why，把最内圈也记下来。脑子就从"清单"变成"有血有肉的模型"。',
+      '口诀送你：是什么，怎么做，为什么；从外到内是清单，由内而外才点燃。黄金三圈要记牢，Why 在最里最重要。',
+      '把前面的框串起来看：5W1H 找 What 的料，黄金圈挖 Why 的深，MECE 分好类，三个思考框钻深，思维地图连网，弹药库存料，SCQA 钩住人，PREP 讲顺，黄金圈由内而外点燃人。你脑子从散装仓库，变成一座有信念的博物馆。'
+    ],
+    note:'<div class="kou">🔑 黄金圈口诀：是什么，怎么做，为什么；从外到内是清单，由内而外才点燃。黄金三圈要记牢，Why 在最里最重要。</div>'+
+      '<svg viewBox="0 0 720 260" width="100%" style="max-width:720px;display:block;margin:10px auto" font-family="宋体,SimSun,serif">'+
+      '<circle cx="200" cy="120" r="100" fill="#eaf1ff" stroke="#5b8def" stroke-width="2.5"/>'+
+      '<circle cx="200" cy="120" r="66" fill="#f3eaff" stroke="#9b6bff" stroke-width="2.5"/>'+
+      '<circle cx="200" cy="120" r="34" fill="#fff3e6" stroke="#e8833a" stroke-width="2.5"/>'+
+      '<text x="200" y="34" text-anchor="middle" font-size="15" font-weight="bold" fill="#5b8def" font-family="宋体,SimSun,serif">What 是什么</text>'+
+      '<text x="200" y="72" text-anchor="middle" font-size="15" font-weight="bold" fill="#9b6bff" font-family="宋体,SimSun,serif">How 怎么做</text>'+
+      '<text x="200" y="120" text-anchor="middle" font-size="15" font-weight="bold" fill="#e8833a" font-family="宋体,SimSun,serif">Why 为什么</text>'+
+      '<text x="200" y="139" text-anchor="middle" font-size="11" fill="#8a5a12" font-family="宋体,SimSun,serif">信念·初心</text>'+
+      '<rect x="400" y="28" width="300" height="40" rx="12" fill="#fff3e6" stroke="#e8833a" stroke-width="2"/>'+
+      '<text x="412" y="53" font-size="14" fill="#27324b" font-family="宋体,SimSun,serif"><tspan font-weight="bold" fill="#e8833a">Why</tspan>：挑战现状、不同凡想</text>'+
+      '<rect x="400" y="78" width="300" height="40" rx="12" fill="#f3eaff" stroke="#9b6bff" stroke-width="2"/>'+
+      '<text x="412" y="103" font-size="14" fill="#27324b" font-family="宋体,SimSun,serif"><tspan font-weight="bold" fill="#9b6bff">How</tspan>：设计精美好用</text>'+
+      '<rect x="400" y="128" width="300" height="40" rx="12" fill="#eaf1ff" stroke="#5b8def" stroke-width="2"/>'+
+      '<text x="412" y="153" font-size="14" fill="#27324b" font-family="宋体,SimSun,serif"><tspan font-weight="bold" fill="#5b8def">What</tspan>：顺便，造电脑</text>'+
+      '<text x="400" y="192" font-size="13" fill="#5b6b8c" font-family="宋体,SimSun,serif">苹果只是把顺序倒一下，人就心动了</text>'+
+      '<text x="400" y="212" font-size="13" fill="#5b6b8c" font-family="宋体,SimSun,serif">人买的不是产品，是你的信念</text>'+
+      '<text x="20" y="248" font-size="13" fill="#5b6b8c" font-family="宋体,SimSun,serif">普通：由外而内 What→How→Why（罗列，不感动） ｜ 厉害：由内而外 Why→How→What（点燃，被打动）</text>'+
+      '</svg>'+
+      '<p style="color:var(--soft);font-size:15px">怎么用：开口、写东西、看纪录片，先逼自己想一句 Why（我相信啥/它想让我信啥），再 How，最后 What。顺序一倒，人就心动。</p>',
+    quiz:{
+      q:'黄金圈法则最核心的提醒是？',
+      options:['从外到内讲 What→How→Why，把功能列全','由内而外讲 Why→How→What，先讲信念/初心才动人','只讲 What 不讲故事','把 Why 留到最后才讲'],
+      answer:1,
+      why:'黄金圈（西蒙·斯涅克）三同心圆：What（是什么）最外、How（怎么做）中、Why（为什么/信念）最里。普通人由外而内讲 What→How→Why，罗列一堆谁都不感动；厉害的人由内而外讲 Why→How→What，先讲信念把人点燃。人买的不是产品，是你的信念。'
+    }
+  },
+  {
+    title:'第十一课 · 加餐：黄金圈"挖矿卡"（每天挖一层 Why）', emoji:'⛏️',
+    parts:[
+      '光听没用，来练。今天给你一张"黄金圈挖矿卡"：看一集纪录片或一章书，逼自己填三圈——What（它讲了啥）、How（它怎么讲的、主角怎么做的）、Why（它到底想让我相信啥、主角为什么这么干）。',
+      '例：《地球脉动》珊瑚白化——What 珊瑚大片死掉、How 海水变暖失去共生藻、Why（地球在发烧，人类得收手）。这 Why 就是整片的灵魂，最值钱。',
+      '21 天行动更新：每天看一集纪录片或一章书，用挖矿卡填三圈，重点逼自己写出 Why。月底你脑子里不是一堆碎片，而是几十个"有信念的故事"。',
+      '口诀收尾：每天挖一圈，Why 最值钱；由内往外讲，谁听谁点燃。把网、钩子、弹药、Why 全合起来，你就是有料又有魂的演说家。'
+    ],
+    note:'<div class="kou">🔑 挖矿卡口诀：每天挖一圈，Why 最值钱；由内往外讲，谁听谁点燃。</div>'+
+      '<svg viewBox="0 0 700 180" width="100%" style="max-width:700px;display:block;margin:10px auto" font-family="宋体,SimSun,serif">'+
+      '<rect x="20" y="18" width="360" height="42" rx="12" fill="#eaf1ff" stroke="#5b8def" stroke-width="2"/>'+
+      '<text x="36" y="44" font-size="14" fill="#27324b" font-family="宋体,SimSun,serif"><tspan font-weight="bold" fill="#5b8def">What 是什么</tspan>：珊瑚大片死掉</text>'+
+      '<rect x="20" y="70" width="360" height="42" rx="12" fill="#f3eaff" stroke="#9b6bff" stroke-width="2"/>'+
+      '<text x="36" y="96" font-size="14" fill="#27324b" font-family="宋体,SimSun,serif"><tspan font-weight="bold" fill="#9b6bff">How 怎么做</tspan>：海水变暖失去共生藻</text>'+
+      '<rect x="20" y="122" width="360" height="42" rx="12" fill="#fff3e6" stroke="#e8833a" stroke-width="2.5"/>'+
+      '<text x="36" y="148" font-size="14" fill="#27324b" font-family="宋体,SimSun,serif"><tspan font-weight="bold" fill="#e8833a">Why 为什么 ★</tspan>：地球发烧，人类得收手</text>'+
+      '<text x="410" y="56" font-size="14" fill="#5b6b8c" font-family="宋体,SimSun,serif">每天挖一圈，</text>'+
+      '<text x="410" y="84" font-size="14" fill="#5b6b8c" font-family="宋体,SimSun,serif">Why 最值钱；</text>'+
+      '<text x="410" y="112" font-size="14" fill="#5b6b8c" font-family="宋体,SimSun,serif">由内往外讲，</text>'+
+      '<text x="410" y="140" font-size="14" fill="#5b6b8c" font-family="宋体,SimSun,serif">谁听谁点燃。</text>'+
+      '</svg>'+
+      '<p style="color:var(--soft);font-size:15px">怎么用：今晚就开一张"挖矿卡"备忘录，分三栏。看《地球脉动》记珊瑚白化的 Why，看《徒手攀岩》记 Alex 的 Why。重点永远是写不写得出 Why。</p>',
+    quiz:{
+      q:'"黄金圈挖矿卡"每天逼自己写下的，最重要的是哪一圈？',
+      options:['What（讲了啥）','How（怎么做的）','Why（它想让你相信啥 / 主角为什么这么干）','都不用写'],
+      answer:2,
+      why:'空脑子是"没存 Why"不是"不会说"。看纪录片/书只记 What 是清单、是表面；逼自己挖 Why（它想让我相信啥、主角为什么这么干），脑子就从清单变"有血有肉的模型"。Why 最内也最值钱，由内而外讲才点燃人。'
+    }
+  }
+];
+
+const QAS = [
+  {q:'老师，我记了 Why 还是讲不出，咋办？',
+   a:'因为 Why 不是"讲道理"，是"讲信念/初心"。用「黄金圈 + SCQA」组合：先用 Why（我相信啥）当钩子勾人，再用 SCQA 把故事讲圆，还讲不顺就用 PREP（观点→理由→例子→重申）把 Why 讲明白。顺序：Why 点火 → SCQA 讲故事 → PREP 讲清楚。'},
+  {q:'黄金圈和 5W1H 不是重复了吗？',
+   a:'不重复，是搭档！5W1H 是"找料清单"（What/When/Where…），偏事实收集；黄金圈是"挖深铲"（What→How→Why），偏信念/动因。先用 5W1H 找 What 的料，再用黄金圈挖 Why 的深。一对好基友。'},
+  {q:'我脑子空，连 What 都记不住。',
+   a:'那就先练 5W1H 和弹药库（第 7、10 课），把 What 的料存够。黄金圈是进阶，等料有了再挖 Why。顺序别乱：先有料，再挖深。'},
+  {q:'生活里怎么用黄金圈？',
+   a:'求职面试——别只报 What（我干过啥），先讲 Why（我为什么想做这行、我相信啥），面试官一下记住你。劝人也是：先 Why 再 What，比"你别熬夜"管用十倍。'},
+  {q:'为什么苹果的例子把 What 放最后？',
+   a:'因为反着讲才动人。从 Why 讲起，人先被你的信念打动，再听 How/What 才顺。从 What 讲起，人先算性价比，很难被打动。人都是"先被信念打动，再理性找理由"。'}
+];
+
+/* 老师"点名"提问：进入某课第一句时触发（针对本课内容） */
+const ASK = {
+  1:{q:'晓晓老师点你啦：用黄金圈给我讲一个你最近看的纪录片 / 书 / 短视频——先讲 Why（它想让你相信啥 / 主角为什么这么干），再 How，最后 What。试一个？',
+     a:'参考：我用《地球脉动》珊瑚白化——Why：地球在发烧、人类得收手；How：海水变暖让珊瑚失去共生藻变白；What：大片珊瑚死掉。或者讲"为啥要学思维框架"：Why 我想不再"有话说不出"、把脑子变成有信念的博物馆；How 用 5W1H 装料 + 黄金圈挖 Why + SCQA 钩人；What 我每天上一课练框架。'},
+  2:{q:'课后小测：今晚你打算用"黄金圈挖矿卡"挖哪部纪录片 / 哪本书？写出它的 What / How / Why 三圈。',
+     a:'参考：我挖《徒手攀岩》——What：Alex 徒手爬上酋长岩；How：他练了十年、把每条路线背下来；Why：攀岩对他不是运动，是和恐惧相处、把不可能变可能的活法。这个 Why 一挖，整部片就住进我脑子了。'}
+};
+
+/* ============ 渲染课程（每句话一个可高亮的 span） ============ */
+const SENTENCES = [];
+LESSONS.forEach((L,li)=> L.parts.forEach((p,pi)=> SENTENCES.push({lesson:li, partIdx:pi, text:p})));
+const lessonStart = {};
+(function(){ let gi=0; LESSONS.forEach((L,li)=>{ lessonStart[li]=gi; gi+=L.parts.length; }); })();
+
+const root = document.getElementById('lessonRoot');
+LESSONS.forEach((L,idx)=>{
+  const card = document.createElement('div');
+  card.className='card';
+  let html = `<h2><span class="em">${L.emoji}</span>${L.title}</h2>`;
+  L.parts.forEach(p=>{
+    const gi = lessonStart[idx] + L.parts.indexOf(p);
+    html += `<p><span class="s" id="s${gi}">${p}</span></p>`;
+  });
+  if(L.note) html += L.note;
+  html += `<button class="listen" data-idx="${idx}"><span class="dot"></span>🔊 听晓晓老师讲这一节</button>`;
+  if(L.quiz){
+    const qz=L.quiz;
+    html += `<div class="quiz" style="padding:2px">
+      <div class="q">📝 小测验：${qz.q}</div>`;
+    qz.options.forEach((o,oi)=>{
+      html += `<button class="opt" data-correct="${oi===qz.answer?1:0}" data-q="${idx}">${String.fromCharCode(65+oi)}. ${o}</button>`;
+    });
+    html += `<div class="feedback" id="fb-${idx}"></div></div>`;
+  }
+  card.innerHTML = html;
+  root.appendChild(card);
+});
+
+let totalParts = SENTENCES.length;
+let cur = 0;
+let playing = false;
+let autoAsk = false; // 仅"从头/连续播放"时自动点名
+
+function bumpProgress(){
+  const pct = Math.min(100, Math.round((cur)/totalParts*100));
+  document.getElementById('progBar').style.width = pct+'%';
+  document.getElementById('posInfo').textContent = '第 '+(cur+1)+' / '+totalParts+' 句';
+}
+function highlight(i){
+  document.querySelectorAll('.s.on').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.s.done').forEach(e=>e.classList.remove('done'));
+  for(let k=0;k<i;k++){ const el=document.getElementById('s'+k); if(el) el.classList.add('done'); }
+  const el=document.getElementById('s'+i);
+  if(el){ el.classList.add('on'); el.scrollIntoView({block:'center', behavior:'smooth'}); }
+}
+function setPlayBtn(){ document.getElementById('playBtn').textContent = playing?'⏸ 暂停':'▶ 播放'; }
+
+function afterSentence(){
+  if(!playing) return;
+  const li = SENTENCES[cur].lesson;
+  const isFirst = SENTENCES[cur].partIdx===0;
+  if(autoAsk && isFirst && li>=1 && ASK[li]){
+    playing=false; setPlayBtn();
+    openAsk(li);
+    return;
+  }
+  cur++;
+  if(cur>=totalParts){ playing=false; setPlayBtn(); bumpProgress(); return; }
+  bumpProgress(); highlight(cur);
+  speakPart(SENTENCES[cur].text, afterSentence);
+}
+
+function playRange(start, end, useAutoAsk){
+  stopSpeak();
+  playing=true; autoAsk = !!useAutoAsk; setPlayBtn();
+  cur=start;
+  if(cur>=totalParts){ playing=false; setPlayBtn(); return; }
+  if(autoAsk && SENTENCES[cur].partIdx===0 && SENTENCES[cur].lesson>=1 && ASK[SENTENCES[cur].lesson]){
+    playing=false; setPlayBtn(); openAsk(SENTENCES[cur].lesson); return;
+  }
+  bumpProgress(); highlight(cur);
+  speakPart(SENTENCES[cur].text, afterSentence);
+}
+
+function playAll(){ playRange(0, totalParts, true); }
+function playLesson(idx){
+  const start = lessonStart[idx];
+  const end = (idx+1<LESSONS.length)? lessonStart[idx+1] : totalParts;
+  playRange(start, end, false);
+}
+function gotoSentence(i){
+  stopSpeak(); playing=false; autoAsk=false; setPlayBtn();
+  cur=Math.max(0,Math.min(totalParts-1,i));
+  bumpProgress(); highlight(cur);
+  speakPart(SENTENCES[cur].text, null);
+}
+
+/* 按钮 */
+document.getElementById('playBtn').onclick = ()=>{
+  if(playing){
+    try{ if(synth && synth.speaking) synth.pause(); }catch(e){}
+    playing=false; setPlayBtn();
+  } else {
+    if(cur>=totalParts) cur=0;
+    playRange(cur, totalParts, true);
+  }
+};
+document.getElementById('prevBtn').onclick = ()=> gotoSentence(cur-1);
+document.getElementById('nextBtn').onclick = ()=> gotoSentence(cur+1);
+document.getElementById('stopBtn').onclick = ()=>{ stopSpeak(); playing=false; autoAsk=false; setPlayBtn(); };
+document.getElementById('restartBtn').onclick = ()=> playAll();
+document.getElementById('rate').oninput = e=>{ rate=parseFloat(e.target.value); document.getElementById('rateVal').textContent=rate.toFixed(1)+'×'; };
+let baseFont = 18;
+function setFont(px){ baseFont=Math.max(14,Math.min(30,px)); document.documentElement.style.setProperty('--base', baseFont+'px'); document.getElementById('fontVal').textContent=baseFont; }
+document.getElementById('fontPlus').onclick = ()=> setFont(baseFont+2);
+document.getElementById('fontMinus').onclick = ()=> setFont(baseFont-2);
+
+// 进度条点击跳转（能调播放位置）
+document.getElementById('prog').onclick = e=>{
+  const r=e.currentTarget.getBoundingClientRect();
+  const frac=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+  gotoSentence(Math.round(frac*(totalParts-1)));
+};
+
+/* 听某一节 */
+root.addEventListener('click', e=>{
+  const btn = e.target.closest('.listen');
+  if(btn){ playLesson(+btn.dataset.idx); return; }
+  const opt = e.target.closest('.opt');
+  if(opt){
+    if(opt.classList.contains('right')||opt.classList.contains('wrong')) return;
+    const correct = opt.dataset.correct==='1';
+    const idx = opt.dataset.q;
+    opt.parentElement.querySelectorAll('.opt').forEach(o=>{
+      if(o.dataset.correct==='1') o.classList.add('right');
+      else o.classList.add('wrong');
+    });
+    const fb = document.getElementById('fb-'+idx);
+    fb.className = 'feedback show '+(correct?'ok':'no');
+    fb.innerHTML = (correct?'✅ 答对啦！':'❌ 答错咯。') + ' ' + LESSONS[idx].quiz.why;
+    if(correct){ speakPart('答对啦，' + LESSONS[idx].quiz.why, null); }
+    else { speakPart('答错咯。' + LESSONS[idx].quiz.why, null); }
+    return;
+  }
+});
+
+/* 课堂问答 */
+const qaRoot = document.getElementById('qaRoot');
+QAS.forEach((item,i)=>{
+  const d=document.createElement('div'); d.className='qa';
+  d.innerHTML = `<div class="ask"><span class="tag">学生小问</span>${item.q} <span style="margin-left:auto;color:var(--brand)">▾</span></div>
+    <div class="ans"><span class="t">晓晓老师：</span>${item.a}<br><br><button class="listen" data-qa="${i}"><span class="dot"></span>🔊 听老师回答</button></div>`;
+  d.querySelector('.ask').onclick = ()=> d.classList.toggle('open');
+  qaRoot.appendChild(d);
+});
+qaRoot.addEventListener('click', e=>{
+  const b=e.target.closest('[data-qa]');
+  if(b){ stopSpeak(); speakPart('晓晓老师说。'+QAS[+b.dataset.qa].a, null); }
+});
+
+/* 老师点名弹窗 */
+const askModal=document.getElementById('askModal');
+let pendingAskLesson=null;
+function openAsk(li){
+  const a=ASK[li]; if(!a) return;
+  pendingAskLesson=li;
+  document.getElementById('askQ').textContent=a.q;
+  document.getElementById('askAns').value='';
+  askModal.classList.add('show');
+  stopSpeak();
+  speakPart('同学，' + a.q, null);
+}
+document.getElementById('askListen').onclick=()=>{
+  const a=ASK[pendingAskLesson]; if(a) speakPart('老师给你一个参考：' + a.a, null);
+};
+document.getElementById('askClose').onclick=()=>{
+  askModal.classList.remove('show');
+  if(pendingAskLesson!=null){
+    const start=lessonStart[pendingAskLesson];
+    playRange(start, totalParts, false);
+    pendingAskLesson=null;
+  }
+};
+document.getElementById('askBtn').onclick=()=>{
+  const keys=Object.keys(ASK).map(Number);
+  const li=keys[Math.floor(Math.random()*keys.length)];
+  openAsk(li);
+};
+
+/* 费曼记忆卡 */
+const KEY='feynman_memo_l11';
+function loadMemo(){
+  const t=localStorage.getItem(KEY);
+  if(t){ document.getElementById('memo').classList.add('show'); document.getElementById('memoTxt').textContent=t; }
+}
+loadMemo();
+document.getElementById('saveFeynman').onclick=()=>{
+  const v=document.getElementById('feynman').value.trim();
+  if(!v){ alert('先写点你的理解再存哦～'); return; }
+  localStorage.setItem(KEY,v);
+  document.getElementById('memoTxt').textContent=v;
+  document.getElementById('memo').classList.add('show');
+  speakPart('存好啦，这就是你的费曼记忆卡。以后多讲几遍，框架就越来越牢。', null);
+};
+document.getElementById('listenFeynman').onclick=()=>{
+  const v=document.getElementById('feynman').value.trim();
+  if(!v){ alert('先写点你的理解，再让我读哦～'); return; }
+  stopSpeak(); speakPart('你写的：'+v, null);
+};
+
+/* 开场 */
+document.getElementById('startBtn').onclick=()=>{
+  document.getElementById('gate').style.display='none';
+  if(!voice) refreshVoice();
+  try{ synth.cancel(); }catch(e){}
+  cur=0; playAll();
+};
+
+bumpProgress();
+</script>
+</body>
+</html>
