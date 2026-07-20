@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师的「不慌课」第7课 · 看见别人被冤枉，我学「用证据说话，找对的人帮忙，不硬扛也不硬吵」</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --board:#2f5d50; --board2:#3a6f60; --chalk:#f7f3e8;
+    --ink:#2b2b2b; --pink:#ef8fa0; --blue:#6ea8d8; --yellow:#f3c969;
+    --card:#ffffff; --soft:#fff8ec; --fs:20px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:"宋体","SimSun",serif;
+    background:var(--bg); color:var(--ink); line-height:1.85;
+    font-size:var(--fs);
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:14px 16px 150px;}
+  header{display:flex; align-items:center; gap:12px; padding:10px 4px 14px;}
+  header .ttl{font-size:1.15em; font-weight:800;}
+  header .ttl small{display:block; font-weight:500; font-size:0.7em; color:#777;}
+
+  .avatar{width:56px; height:56px; border-radius:50%; flex:0 0 auto;
+    background:radial-gradient(circle at 50% 35%, #ffe2c2, #ffc89b);
+    border:3px solid #fff; box-shadow:0 4px 10px rgba(0,0,0,.12); position:relative;}
+  .avatar svg{width:100%;height:100%;}
+  .speaking{animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 4px 10px rgba(0,0,0,.12);}50%{box-shadow:0 0 0 8px rgba(239,143,160,.25);}}
+
+  .board{background:linear-gradient(160deg,var(--board),var(--board2)); color:var(--chalk);
+    border-radius:18px; padding:22px 22px 26px; min-height:200px; position:relative;
+    box-shadow:0 10px 24px rgba(0,0,0,.18), inset 0 0 0 4px rgba(255,255,255,.06);}
+  .board h2{margin:.1em 0 .5em; font-size:1.2em; color:#ffe7a8;}
+  .board p{margin:.5em 0; font-size:1.05em;}
+  .board .tag{display:inline-block; background:rgba(255,255,255,.14);
+    padding:2px 10px; border-radius:999px; font-size:0.72em; margin-bottom:8px;}
+  .board .rhyme{font-family:"KaiTi","STKaiti",serif; font-size:1.08em; line-height:2;
+    background:rgba(0,0,0,.18); border-left:4px solid var(--yellow); padding:10px 14px; border-radius:8px; margin-top:10px;}
+
+  .caseimg{width:100%; max-width:380px; height:auto; display:block; margin:12px auto;
+    background:#fff; border:2px solid #efe8da; border-radius:14px; padding:8px;}
+
+  .peer{display:flex; gap:12px; align-items:flex-start; background:var(--soft);
+    border:2px dashed #e6c98a; border-radius:16px; padding:14px 16px; margin-top:14px;}
+  .peer .who{font-weight:800; color:#c97b2c; white-space:nowrap; font-size:1em;}
+  .peer .q{font-size:1.05em;}
+
+  .dots{display:flex; flex-wrap:wrap; gap:6px; margin:16px 0 4px;}
+  .dot{width:13px; height:13px; border-radius:50%; background:#d8d2c4; cursor:pointer; transition:.15s;}
+  .dot:hover{transform:scale(1.2);}
+  .dot.done{background:#6ea8d8;}
+  .dot.cur{background:var(--pink); transform:scale(1.35);}
+
+  .seekwrap{display:flex; align-items:center; gap:10px; margin:12px 0 4px;
+    background:var(--card); border:2px solid #efe8da; border-radius:12px; padding:8px 12px;}
+  .seekwrap input[type=range]{flex:1; accent-color:var(--pink); height:6px; cursor:pointer;}
+  .seekwrap .mini{font-size:0.72em; color:#888; white-space:nowrap;}
+
+  .bar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:14px;}
+  button.ctrl{background:var(--card); border:2px solid #e3ddd0; border-radius:12px;
+    padding:9px 16px; font-size:0.9em; font-weight:700; cursor:pointer; color:var(--ink);
+    font-family:inherit; transition:.15s;}
+  button.ctrl:hover{border-color:var(--pink);}
+  button.primary{background:var(--pink); color:#fff; border-color:var(--pink);}
+  button.primary:hover{filter:brightness(1.05);}
+  button.ctrl:disabled{opacity:.4; cursor:not-allowed; border-color:#e3ddd0;}
+  select.ctrl{border:2px solid #e3ddd0; border-radius:12px; padding:8px 10px; font-size:0.85em;
+    background:#fff; font-family:inherit;}
+  .mini{font-size:0.78em; color:#888;}
+  .sent{font-size:0.78em; color:#9a9486; margin-left:auto;}
+
+  .ask{background:var(--card); border-radius:16px; padding:18px; margin-top:14px;
+    box-shadow:0 6px 16px rgba(0,0,0,.08); border:2px solid #efe8da;}
+  .ask .label{font-weight:800; color:#3a6f60; margin-bottom:8px; font-size:1em;}
+  .ask .opts{display:flex; flex-direction:column; gap:8px; margin:10px 0;}
+  .ask .opt{border:2px solid #e3ddd0; border-radius:12px; padding:10px 14px; cursor:pointer; font-size:1em;}
+  .ask .opt:hover{border-color:var(--blue);}
+  .ask .opt.pick{border-color:var(--pink); background:#fff3f5;}
+  .ask .opt.right{border-color:#4caf72; background:#eefaf1;}
+  .ask .opt.wrong{border-color:#e57373; background:#fdeeee;}
+  textarea{width:100%; min-height:90px; border:2px solid #e3ddd0; border-radius:12px;
+    padding:10px 12px; font-size:1em; font-family:inherit; resize:vertical; line-height:1.7;}
+  .fb{margin-top:12px; padding:12px 14px; border-radius:12px; font-size:1em; display:none;}
+  .fb.ok{background:#eefaf1; border:1px solid #bfe6c9; display:block;}
+  .fb.no{background:#fff6ec; border:1px solid #f0d3a6; display:block;}
+
+  .subbar{position:fixed; left:0; right:0; bottom:0; background:rgba(20,20,20,.92);
+    color:#fff; padding:12px 16px; font-size:calc(var(--fs) * 0.95); text-align:center; min-height:54px;
+    display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); z-index:50;}
+  .subbar .now{color:#ffe7a8; font-weight:700; margin-right:6px; white-space:nowrap;}
+  .hint{font-size:0.74em; color:#9a9486; margin-top:10px;}
+  .badge{display:inline-block; background:var(--yellow); color:#5a4410; font-weight:800;
+    border-radius:8px; padding:1px 8px; font-size:0.85em; margin-right:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="avatar" id="teaAvatar">
+      <svg viewBox="0 0 100 100"><circle cx="50" cy="40" r="26" fill="#ffd9b8"/><circle cx="41" cy="38" r="3.4" fill="#3b2b22"/><circle cx="59" cy="38" r="3.4" fill="#3b2b22"/><path d="M40 50 q10 9 20 0" stroke="#b5614a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M30 30 q20 -18 40 0" stroke="#7a4a2b" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M22 78 q28 -26 56 0 l0 14 -56 0 z" fill="#ef8fa0"/></svg>
+    </div>
+    <div class="ttl">晓晓老师的「不慌课」· 第7课
+      <small>看见别人被冤枉，我学「用证据说话，找对的人帮忙，不硬扛也不硬吵」· 费曼互动课堂</small>
+    </div>
+  </header>
+
+  <div class="dots" id="dots"></div>
+
+  <div class="board" id="board">
+    <div class="tag" id="segTag">准备上课</div>
+    <h2 id="segTitle">点下面的「开始上课」，晓晓老师用晓晓神经网络语音给你讲～</h2>
+    <div id="segBody"><p>建议在 <b>Edge 浏览器</b> 中打开，能用到「晓晓（XiaoxiaoNeural）」真人神经网络语音。手机也可用，但声音会因设备不同而变化。</p><p>这一课借 <b>2026 年 2 月陕西咸阳礼泉县</b> 一个真实新闻：两名初中女生在零食店买完东西付了款，却被店员以「监控提示疑似偷拿」为由叫回、扣留 20 多分钟；后来警方核实她们根本没偷，是场误会，店方登门道歉。咱们换个角度学——<b>亲眼看见别人被冤枉、被当成小偷，怎么用证据说话、找对的人帮忙，不硬扛也不硬吵</b>。</p></div>
+  </div>
+
+  <div class="seekwrap">
+    <span class="mini">播放位置</span>
+    <input type="range" id="seek" min="0" max="0" value="0" step="1">
+    <span class="mini" id="seekInfo">0/0</span>
+  </div>
+
+  <div class="bar">
+    <button class="ctrl primary" id="btnStart">▶ 开始上课</button>
+    <button class="ctrl" id="btnPrev" style="display:none">⤺ 上一句</button>
+    <button class="ctrl" id="btnNext" style="display:none">下一句 ⤼</button>
+    <button class="ctrl" id="btnReplay" style="display:none">🔁 再听一遍</button>
+    <span class="mini">语速</span>
+    <select class="ctrl" id="rate"><option value="0.8">慢</option><option value="1" selected>正常</option><option value="1.2">快</option></select>
+    <span class="mini">声音</span>
+    <select class="ctrl" id="voiceSel"></select>
+    <span class="mini">字号</span>
+    <select class="ctrl" id="fontSel"><option value="16">小四</option><option value="20" selected>大</option><option value="26">特大</option></select>
+    <span class="sent" id="sentInfo">第 0 / 0 句</span>
+  </div>
+
+  <div id="askArea"></div>
+
+  <div class="hint">💡 字幕在最底部，不挡黑板讲解。听的时候可以用 <b>「上一句 / 下一句」按钮</b>、<b>拖动「播放位置」滑块</b>、或<b>点进度圆点</b>随意调播放位置——哪里没听清就回去重听。课堂中间晓晓老师会<b>不定时提问你</b>，用你自己的话回答，这就是费曼记忆法。</div>
+</div>
+
+<div class="subbar" id="subbar"><span class="now">字幕：</span><span id="subText">（点击开始上课后显示）</span></div>
+
+<script>
+/* ============ 课程内容（费曼式，初中生也能懂；真实事例：2026年2月 陕西咸阳礼泉县 零食店 两初中女生被冤枉偷东西） ============ */
+const SEG = [
+  /* —— 复习区：把前6课翻出来 —— */
+  { type:'talk', tag:'复习小课堂', title:'先复习前6课（上课前先翻笔记）',
+    lines:[
+      '上课前，咱们先把前6课学的招数翻出来复习一下。',
+      '第1课：别人慌的时候你在旁边看，叫旁观者清，偷师学冷静，口诀是一停二看三想四做。',
+      '第2课：慌到说不出话，喊个帮手也不孬，找老师、找大人。',
+      '第3课：万一出丑的人就是你自己，用自嘲加转身做正事，还能替别人关上一扇门。',
+      '第4课：提前彩排，给慌张写个剧本，出事之前先练好。',
+      '第5课：亲眼看见别人被欺负，先稳住、大声制止、喊帮手，稳稳出手。',
+      '第6课：亲眼看见别人被当众羞辱，用一句公道话，稳稳站在对的一边。',
+      '今天，咱们加第7课：看见别人被冤枉、被当成小偷，我怎么学「用证据说话，找对的人帮忙，不硬扛也不硬吵」。'
+    ],
+    html:`<p>上课前，咱们先把前6课学的招数翻出来复习一下。</p>
+      <svg class="caseimg" viewBox="0 0 360 224" role="img" aria-label="复习第1到6课，第7课新加">
+        <circle cx="46" cy="112" r="38" fill="#f3c969"/>
+        <text x="46" y="121" font-size="26" text-anchor="middle" fill="#5a4410">复习</text>
+        <rect x="104" y="10" width="248" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="26" font-size="13" fill="#5a5448">第1课 · 旁观者清 ＋ 一停二看三想四做</text>
+        <rect x="104" y="36" width="248" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="52" font-size="13" fill="#5a5448">第2课 · 喊帮手也是冷静</text>
+        <rect x="104" y="62" width="248" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="78" font-size="13" fill="#5a5448">第3课 · 自嘲 ＋ 转身做正事 ＋ 关门</text>
+        <rect x="104" y="88" width="248" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="104" font-size="13" fill="#5a5448">第4课 · 提前彩排 ＋ 写剧本</text>
+        <rect x="104" y="114" width="248" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="130" font-size="13" fill="#5a5448">第5课 · 看见别人被欺负，稳稳出手</text>
+        <rect x="104" y="140" width="248" height="22" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="156" font-size="13" fill="#5a5448">第6课 · 一句公道话，站对的一边</text>
+        <rect x="104" y="166" width="248" height="22" rx="8" fill="#ffe7a8" stroke="#e6c98a"/>
+        <text x="116" y="182" font-size="13" fill="#5a4410">第7课（新）· 用证据说话，找对的人</text>
+      </svg>
+      <p>前6课你学会了：看别人慌（第1课）、喊帮手（第2课）、自己出丑怎么圆（第3课）、提前彩排（第4课）、看见别人被欺负怎么稳稳出手（第5课）、看见别人被羞辱怎么用一句公道话站对的一边（第6课）。今天加第7课——<b>亲眼看见别人被冤枉、被当成小偷，怎么用证据说话、找对的人帮忙，不硬扛也不硬吵</b>。</p>`
+  },
+  { type:'ask', mode:'open',
+    q:'费曼复习：用你自己的话，说说第6课那首顺口溜的最后一句话是什么？（随便说，接不上是正常的，说出来就算赢）',
+    hint:'六课连成串，见义又敢为又稳。',
+    fbOk:'说出来了就好！费曼学习法最管用的一招就是「讲出来」。记不住也没事，今天上完课，几首口诀你会背得更熟。'
+  },
+
+  /* —— 第7课 新内容 —— */
+  { type:'talk', tag:'新角度', title:'第7课：看见别人被冤枉，我怎么管',
+    lines:[
+      '前6课，你学会了看别人慌、喊帮手、自己出丑怎么圆、提前彩排，还有看见别人被欺负怎么稳稳出手、看见别人被羞辱怎么用一句公道话站对的一边。',
+      '今天咱们练一种新本事：当个会看的旁观者。别人被冤枉、被刁难的时候，你别光看热闹，要在心里偷偷彩排——要是我，我会怎么办？',
+      '这种事不稀奇：被老师冤枉、被同学说偷东西、被店员拦下说没付钱。没经验的人一慌，要么哭、要么认、要么跟人吵成一团。',
+      '今天这一课，就讲这个——看见别人被冤枉，怎么用证据说话、找对的人帮忙，不硬扛也不硬吵。'
+    ],
+    html:`<p>前6课，你学会了看别人慌、喊帮手、自己出丑怎么圆、提前彩排，还有看见别人被欺负怎么稳稳出手、看见别人被羞辱怎么用一句公道话站对的一边。</p><p>今天咱们练一种新本事：<b>当个会看的旁观者</b>。别人被冤枉、被刁难的时候，你别光看热闹，要在心里偷偷彩排——<b>要是我，我会怎么办？</b></p><p>这种事不稀奇：被老师冤枉、被同学说偷东西、被店员拦下说没付钱。没经验的人一慌，要么哭、要么认、要么跟人吵成一团。</p><p>今天这一课，就讲这个——<b>看见别人被冤枉，怎么用证据说话、找对的人帮忙，不硬扛也不硬吵</b>。</p>`
+  },
+  { type:'talk', tag:'真实事例', title:'真实新闻：咸阳零食店，两个初中女生被冤枉偷东西',
+    lines:[
+      '2026年2月，陕西咸阳礼泉县一家零食店。两名初中女生买完东西、付了款，开开心心往外走。',
+      '结果店员追出来，说总部监控提示她们疑似偷拿了店里的商品，硬是把两个女孩叫回店里，扣了20多分钟不让走。',
+      '两个女孩吓坏了，一个劲儿说自己没拿。后来一核实、警方一查，根本没这回事——她们确实付了钱，这就是一场误会。',
+      '最后零食店负责人和总部的人上门，向孩子和家长道了歉，这家店还被要求关门整改。好在两个女孩现在状态都挺好。'
+    ],
+    html:`<p>2026 年 2 月，陕西咸阳礼泉县一家零食店。两名初中女生买完东西、付了款，开开心心往外走。</p><p>结果店员追出来，说<b>总部监控提示她们疑似偷拿了店里的商品</b>，硬是把两个女孩叫回店里，<b>扣了 20 多分钟不让走</b>。</p>
+      <svg class="caseimg" viewBox="0 0 360 175" role="img" aria-label="零食店里店员拦下两个初中女生说偷东西">
+        <text x="64" y="96" font-size="42" text-anchor="middle">🧒</text>
+        <text x="64" y="142" font-size="13" text-anchor="middle" fill="#5a5448">初中女生A</text>
+        <text x="128" y="96" font-size="42" text-anchor="middle">🧒</text>
+        <text x="128" y="142" font-size="13" text-anchor="middle" fill="#5a5448">初中女生B</text>
+        <text x="232" y="96" font-size="46" text-anchor="middle">🛒</text>
+        <text x="232" y="142" font-size="13" text-anchor="middle" fill="#8a7560">店员拦下</text>
+        <text x="312" y="96" font-size="40" text-anchor="middle">❓</text>
+        <text x="312" y="142" font-size="13" text-anchor="middle" fill="#2e7d4f">误会一场</text>
+      </svg>
+      <p>两个女孩吓坏了，一个劲儿说自己没拿。后来一核实、警方一查，<b>根本没这回事</b>——她们确实付了钱，这就是一场误会。</p><p>最后零食店负责人和总部的人上门，<b>向孩子和家长道了歉</b>，这家店还被要求关门整改。好在两个女孩现在状态都挺好。</p>`
+  },
+  { type:'talk', tag:'对比一下', title:'同样被冤枉，三种「慌」法',
+    lines:[
+      '你可能会想，这俩女孩真可怜。可你再想想：同样被人冤枉成小偷，很多人会怎么慌？',
+      '第一种，当场跟对方大吵大闹，越吵越乱，反而自己更被动。',
+      '第二种，吓得哭，甚至为了快点脱身，硬认了「是我拿的」——这最危险，等于冤枉了自己。',
+      '第三种，不敢说话，闷头忍着，不告诉家长、不报警，自己憋出病来。',
+      '那聪明做法是啥？先稳住自己，要证据，找对的人。这俩女孩后来能证明清白，靠的就是事实和家长、警方的帮忙。'
+    ],
+    html:`<p>你可能会想，这俩女孩真可怜。可你再想想：同样被人冤枉成小偷，很多人会怎么慌？</p>
+      <svg class="caseimg" viewBox="0 0 360 150" role="img" aria-label="三种慌乱应对对比一种稳的">
+        <text x="58" y="64" font-size="40" text-anchor="middle">💢</text>
+        <text x="58" y="108" font-size="13" text-anchor="middle" fill="#5a5448">当场大吵</text>
+        <text x="150" y="64" font-size="40" text-anchor="middle">😭</text>
+        <text x="150" y="108" font-size="13" text-anchor="middle" fill="#5a5448">吓得硬认</text>
+        <text x="242" y="64" font-size="40" text-anchor="middle">🤐</text>
+        <text x="242" y="108" font-size="13" text-anchor="middle" fill="#5a5448">闷头忍着</text>
+        <text x="318" y="64" font-size="38" text-anchor="middle">✅</text>
+        <text x="318" y="108" font-size="13" text-anchor="middle" fill="#2e7d4f">稳＋证据＋帮手</text>
+      </svg>
+      <p>第一种，<b>当场跟对方大吵大闹</b>，越吵越乱，反而自己更被动。第二种，<b>吓得哭，甚至为了快点脱身硬认了「是我拿的」</b>——这最危险，等于冤枉了自己。第三种，<b>不敢说话，闷头忍着</b>，不告诉家长、不报警，自己憋出病来。</p><p>那聪明做法是啥？<b>先稳住自己，要证据，找对的人</b>。这俩女孩后来能证明清白，靠的就是事实和家长、警方的帮忙。</p>`
+  },
+  { type:'ask', mode:'choice',
+    q:'要是你（或你看见的同学）被店员拦下说偷了东西，你付款的小票还在，第一步该干嘛？',
+    options:['A. 当场跟店员大吵大闹','B. 先稳住，调监控、拿出付款小票，再找家长或报警','C. 吓得认了「是我拿的」，好快点脱身','D. 闷头忍着，不告诉任何人'],
+    answer:1,
+    fbOk:'对！选 B。先稳住，用监控和小票让事实说话，再找家长或报警。A 越吵越乱，C 冤枉自己最危险，D 闷头忍解决不了问题。',
+    fbNo:'再想想～大吵（A）、硬认（C）、闷头忍（D）都不算帮上忙。关键是 B：用证据说话，再找对的人。'
+  },
+  { type:'talk', tag:'提炼', title:'今天的三招：用证据说话，找对的人帮忙',
+    lines:[
+      '招1，把「他说的」和「事实」分开。别人说你偷了，不等于你真的偷了；先稳住，要查清楚，别先把自己吓垮。',
+      '招2，用「证据」代替争吵。不硬吵，调监控、看小票、查付款记录，让事实替你说话——这比吵架更硬气。',
+      '招3，找对的人来帮忙。像前几课喊帮手一样，但这里喊的是能查清真相的人：家长、老师、警察。'
+    ],
+    html:`<p><span class="badge">招1</span><b>把「他说的」和「事实」分开</b>：别人说你偷了，不等于你真的偷了；先稳住，要查清楚，别先把自己吓垮。</p><p><span class="badge">招2</span><b>用「证据」代替争吵</b>：不硬吵，调监控、看小票、查付款记录，让事实替你说话——这比吵架更硬气。</p><p><span class="badge">招3</span><b>找对的人来帮忙</b>：像前几课喊帮手一样，但这里喊的是能查清真相的人：家长、老师、警察。</p>
+      <svg class="caseimg" viewBox="0 0 360 130" role="img" aria-label="分开他说的/事实-拿证据-找对的人">
+        <text x="60" y="78" font-size="44" text-anchor="middle">🔍</text>
+        <text x="60" y="116" font-size="13" text-anchor="middle" fill="#5a5448">他说的≠事实</text>
+        <text x="180" y="78" font-size="44" text-anchor="middle">🧾</text>
+        <text x="180" y="116" font-size="13" text-anchor="middle" fill="#5a5448">拿证据说话</text>
+        <text x="300" y="78" font-size="44" text-anchor="middle">🤝</text>
+        <text x="300" y="116" font-size="13" text-anchor="middle" fill="#5a5448">找对的人</text>
+      </svg>`
+  },
+  { type:'peer',
+    who:'同学小问号', q:'老师，我要是被冤枉了，怕得不敢说话怎么办？',
+    lines:[
+      '怕得不敢说话，一点都不丢人，那是正常的反应。',
+      '你只要做三件不危险的事：第一，先稳住，别急着认；第二，要证据，比如小票、监控、扫码付款记录；第三，马上告诉家长、老师，或者打110找警察。',
+      '哪怕你只是小声说一句「我要看监控，我要给我妈打电话」，那也是在保护自己。',
+      '找对的人帮忙，不丢人；自己扛着、硬认了，才最吃亏。'
+    ],
+    html:`<p>怕得不敢说话，<b>一点都不丢人</b>，那是正常的反应。</p><p>你只要做三件不危险的事：<b>第一，先稳住，别急着认</b>；<b>第二，要证据</b>，比如小票、监控、扫码付款记录；<b>第三，马上告诉家长、老师，或者打 110 找警察</b>。</p><p>哪怕你只是小声说一句<b>「我要看监控，我要给我妈打电话」</b>，那也是在保护自己。</p><p>找对的人帮忙，不丢人；自己扛着、硬认了，才最吃亏。</p>`
+  },
+  { type:'talk', tag:'口诀', title:'来，背新口诀（接前6课一起念）',
+    lines:[
+      '把今天的招数，也压成顺口溜，接在前几句后面一起念。',
+      '别人被冤枉，我先稳住神；',
+      '不吵不扛不硬认，拿证据来说话；',
+      '找对的人来帮忙，清白迟早亮堂堂；',
+      '七课连成串，见义又敢为又稳。'
+    ],
+    rhyme:[
+      '别人被冤枉，我先稳住神；',
+      '不吵不扛不硬认，拿证据来说话；',
+      '找对的人来帮忙，清白迟早亮堂堂；',
+      '七课连成串，见义又敢为又稳。'
+    ],
+    html:`<p>把今天的招数，也压成顺口溜，接在前几句后面一起念——</p><div class="rhyme">别人被冤枉，我先稳住神；<br>不吵不扛不硬认，拿证据来说话；<br>找对的人来帮忙，清白迟早亮堂堂；<br>七课连成串，见义又敢为又稳。</div>`
+  },
+  { type:'ask', mode:'open',
+    q:'费曼时间到！用自己的话，把「用证据说话」讲给想象中的同学听——你会怎么解释？最好举一个你生活里能用的例子。',
+    hint:'比如：别人说你偷了东西，别急着吵也别急着认，调监控、看小票、查付款记录，让事实替你说话。',
+    fbOk:'能讲出来就赢了！费曼法就是说：你讲得清，才是真懂。哪怕只说出「别认、拿证据」，这就对了。'
+  },
+  { type:'ask', mode:'choice',
+    q:'模拟演练：在零食店，店员拦下你说你没付钱，可你明明扫过码、小票也在，周围还有别的客人看着，你第一步该干嘛？',
+    options:['A. 跟店员大吵，引更多人围观','B. 稳住，拿出小票和付款记录，请店员调监控，并打电话给家长或报警','C. 怕丢人，默默掏钱再付一次','D. 哭着跑出店，什么都不说'],
+    answer:1,
+    fbOk:'对！选 B。不慌、不硬吵、不硬认，用证据（小票/付款记录/监控）说话，再找家长或报警。A 越吵越乱，C 冤枉自己破财，D 解决不了。',
+    fbNo:'想想「用证据说话、找对的人」。A 越吵越乱，C 硬认破财，D 跑掉问题还在。最好选 B。'
+  },
+  { type:'talk', tag:'下课', title:'今天的小结',
+    lines:[
+      '今天借咸阳零食店那个真实新闻，学了一招：别人被冤枉时，用证据说话、找对的人帮忙，不硬扛也不硬吵。',
+      '别人被冤枉，你不慌、不认、不硬吵，先把「他说的」和「事实」分开，再拿证据说话、喊对帮手，就是最好的应对。',
+      '前6课加今天这课，你已经攒了七招：旁观、喊帮手、自圆场、提前彩排、稳稳出手、用一句公道话站对的一边、用证据说话找对的人。',
+      '下课！下次在新闻里、生活里看见别人被冤枉、被当成小偷，记得偷偷在心里彩排一遍：要是我，我会怎么稳住、拿证据、找对的人。'
+    ],
+    html:`<p>今天借咸阳零食店那个真实新闻，学了一招：<b>别人被冤枉时，用证据说话、找对的人帮忙，不硬扛也不硬吵</b>。</p><p>别人被冤枉，你<b>不慌、不认、不硬吵</b>，先把「他说的」和「事实」分开，再拿证据说话、喊对帮手，就是最好的应对。</p><p>前6课加今天这课，你已经攒了七招：<b>旁观、喊帮手、自圆场、提前彩排、稳稳出手、用一句公道话站对的一边、用证据说话找对的人</b>。</p><p>下课！下次在新闻里、生活里看见别人被冤枉、被当成小偷，记得偷偷在心里彩排一遍：<b>要是我，我会怎么稳住、拿证据、找对的人。</b></p>`
+  }
+];
+
+/* ============ 全局播放位置映射（用于「播放位置」滑块） ============ */
+function getLines(s){ return (s.type==='ask') ? [s.q] : (s.lines||[]); }
+const GLOBAL = [];
+SEG.forEach((s,si)=>{ const n=getLines(s).length; for(let l=0;l<n;l++) GLOBAL.push({seg:si,line:l}); });
+SEG.forEach(s=>{ if(s.type==='ask' && !s.lines) s.lines=[s.q]; });
+
+/* ============ 语音 ============ */
+let voices=[], curVoice=null, speakingGen=0;
+const synth = window.speechSynthesis;
+function loadVoices(){
+  voices = synth ? synth.getVoices() : [];
+  const sel = document.getElementById('voiceSel'); sel.innerHTML='';
+  const zh = voices.filter(v=>/^zh/i.test(v.lang));
+  zh.forEach((v,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=v.name; sel.appendChild(o); });
+  let idx = zh.findIndex(v=>/xiaoxiao|晓晓|neural/i.test(v.name));
+  if(idx<0) idx = zh.findIndex(v=>/female|女|huihui|yaoyao|xiaoyi/i.test(v.name));
+  if(idx>=0){ sel.value=idx; curVoice=zh[idx]; }
+}
+if(synth){
+  loadVoices();
+  synth.onvoiceschanged = loadVoices;
+}
+document.getElementById('voiceSel').addEventListener('change',e=>{
+  const zh=voices.filter(v=>/^zh/i.test(v.lang)); curVoice=zh[e.target.value];
+});
+
+function updateSub(t){ document.getElementById('subText').textContent = t||''; }
+function globalIndexOf(seg,line){ for(let i=0;i<GLOBAL.length;i++){ if(GLOBAL[i].seg===seg && GLOBAL[i].line===line) return i; } return -1; }
+function updateSent(seg, line){
+  const n=getLines(SEG[seg]).length;
+  document.getElementById('sentInfo').textContent = `第 ${line+1} / ${n} 句`;
+  const gi=globalIndexOf(seg,line);
+  if(gi>=0){ seek.value=gi; seekInfo.textContent=`${gi+1}/${GLOBAL.length}`; }
+}
+
+/* 朗读某一句；cont=true 时自动连播下一句 */
+function speakLine(segIdx, lineIdx, cont, onDone){
+  const s=SEG[segIdx]; const lines=getLines(s);
+  if(lineIdx<0 || lineIdx>=lines.length){ onDone&&onDone(); return; }
+  const myGen=++speakingGen;
+  synth.cancel();
+  const u=new SpeechSynthesisUtterance(lines[lineIdx]);
+  u.lang='zh-CN'; u.rate=parseFloat(document.getElementById('rate').value); u.pitch=1.0;
+  if(curVoice) u.voice=curVoice;
+  const av=document.getElementById('teaAvatar'); av.classList.add('speaking');
+  u.onend=()=>{
+    if(myGen!==speakingGen) return;            // 已被上一句/下一句打断
+    av.classList.remove('speaking');
+    if(cont && lineIdx+1<lines.length){ speakLine(segIdx, lineIdx+1, true, onDone); }
+    else { onDone&&onDone(); }
+  };
+  u.onerror=()=>{ if(myGen!==speakingGen) return; av.classList.remove('speaking'); onDone&&onDone(); };
+  curLine=lineIdx; updateSub(lines[lineIdx]); updateSent(segIdx, lineIdx);
+  synth.speak(u);
+}
+
+/* ============ 渲染 ============ */
+const board=document.getElementById('board');
+const segTag=document.getElementById('segTag');
+const segTitle=document.getElementById('segTitle');
+const segBody=document.getElementById('segBody');
+const dots=document.getElementById('dots');
+const askArea=document.getElementById('askArea');
+const btnStart=document.getElementById('btnStart');
+const btnPrev=document.getElementById('btnPrev');
+const btnNext=document.getElementById('btnNext');
+const btnReplay=document.getElementById('btnReplay');
+const seek=document.getElementById('seek');
+const seekInfo=document.getElementById('seekInfo');
+
+let curSeg=0, curLine=0, askAnswered=false, finished=false;
+
+function buildDots(){
+  dots.innerHTML='';
+  SEG.forEach((s,i)=>{ const d=document.createElement('div'); d.className='dot'; d.dataset.i=i;
+    d.addEventListener('click',()=>{ if(synth) synth.cancel(); renderSeg(i); }); dots.appendChild(d); });
+}
+function refreshDots(){
+  [...dots.children].forEach((d,i)=>{ d.className='dot'+(i<curSeg?' done':'')+(i===curSeg?' cur':''); });
+}
+function showSegControls(i){
+  btnReplay.style.display='inline-block';
+  btnNext.style.display='inline-block';
+  if(i+1>=SEG.length){ btnNext.textContent='✓ 完成'; } else { btnNext.textContent='下一句 ⤼'; }
+}
+
+function renderSeg(i, opt){
+  opt=opt||{};
+  curSeg=i; refreshDots(); askArea.innerHTML=''; askAnswered=false; finished=false;
+  btnNext.style.display='none'; btnReplay.style.display='none'; btnPrev.style.display='inline-block';
+  const s=SEG[i];
+  if(s.type==='ask'){ renderAsk(s); return; }
+  segTag.textContent = s.tag||'课堂';
+  segTitle.textContent = s.title||'';
+  let body = s.html||'';
+  if(s.type==='peer'){ body += `<div class="peer"><div class="who">${s.who}：</div><div class="q">「${s.q}」</div></div>`; }
+  segBody.innerHTML = body;
+  const lines=getLines(s);
+  let start = (opt.from==='last') ? Math.max(0,lines.length-1) : (opt.from||0);
+  let cont = (opt.cont!==false);
+  if(lines.length){ speakLine(i, start, cont, ()=>showSegControls(i)); }
+}
+
+function renderAsk(s){
+  segTag.textContent='晓晓老师提问';
+  segTitle.textContent='✋ 停一下，该你出场了';
+  segBody.innerHTML = `<p>${s.q}</p>`;
+  const box=document.createElement('div'); box.className='ask';
+  let inner = `<div class="label">📝 你的回答（费曼记忆：讲出来才算懂）</div>`;
+  if(s.mode==='choice'){
+    inner += `<div class="opts">`+s.options.map((o,oi)=>`<div class="opt" data-i="${oi}">${o}</div>`).join('')+`</div>`;
+  }else{
+    inner += `<textarea id="ans" placeholder="${s.hint||'在这里写你的想法…'}"></textarea>`;
+  }
+  const fb=document.createElement('div'); fb.className='fb'; fb.id='fb';
+  const go=document.createElement('button'); go.className='ctrl primary'; go.textContent='提交回答'; go.style.marginTop='10px';
+  box.innerHTML=inner; box.appendChild(go); box.appendChild(fb); askArea.appendChild(box);
+
+  if(s.mode==='choice'){
+    box.querySelectorAll('.opt').forEach(opt=>{ opt.addEventListener('click',()=>{
+      box.querySelectorAll('.opt').forEach(o=>o.classList.remove('pick')); opt.classList.add('pick'); }); });
+    go.addEventListener('click',()=>{
+      const picked=box.querySelector('.opt.pick'); if(!picked){ alert('先选一个答案哦～'); return; }
+      const pi=+picked.dataset.i;
+      box.querySelectorAll('.opt').forEach(o=>o.classList.remove('pick','right','wrong'));
+      if(pi===s.answer){ picked.classList.add('right'); showFb('ok',s.fbOk); }
+      else{ picked.classList.add('wrong'); box.querySelectorAll('.opt')[s.answer].classList.add('right'); showFb('no',s.fbNo); }
+      go.style.display='none'; askAnswered=true; showSegControls(curSeg);
+      speakLine(curSeg,0,false,null);
+    });
+  }else{
+    go.addEventListener('click',()=>{
+      const t=document.getElementById('ans').value.trim(); if(!t){ alert('先写几句吧，哪怕一句话也行～'); return; }
+      showFb('ok', s.fbOk); go.style.display='none'; askAnswered=true; showSegControls(curSeg);
+      speakLine(curSeg,0,false,null);
+    });
+  }
+  function showFb(cls,txt){ fb.className='fb '+cls; fb.textContent=txt; }
+  const gi=globalIndexOf(curSeg,0); if(gi>=0){ seek.value=gi; seekInfo.textContent=`${gi+1}/${GLOBAL.length}`; }
+  speakLine(curSeg,0,false,null);   // 老师先读题
+}
+
+/* ============ 上一句 / 下一句（逐句调位置） ============ */
+function prevSentence(){
+  const s=SEG[curSeg];
+  if(s.type==='ask'){ if(curSeg>0) renderSeg(curSeg-1); return; }
+  speakingGen++; if(synth) synth.cancel();
+  const lines=getLines(s);
+  if(curLine>0){ speakLine(curSeg, curLine-1, false, null); }
+  else if(curSeg>0){ renderSeg(curSeg-1, {from:'last', cont:false}); }
+}
+function nextSentence(){
+  const s=SEG[curSeg];
+  if(s.type==='ask'){
+    if(askAnswered){ if(curSeg+1<SEG.length) renderSeg(curSeg+1); else finish(); }
+    else { alert('先回答晓晓老师的问题，再往后走哦～'); }
+    return;
+  }
+  speakingGen++; if(synth) synth.cancel();
+  const lines=getLines(s);
+  if(curLine < lines.length-1){ speakLine(curSeg, curLine+1, false, null); }
+  else { if(curSeg+1<SEG.length) renderSeg(curSeg+1); else finish(); }
+}
+
+function finish(){
+  finished=true; speakingGen++; if(synth) synth.cancel();
+  segTag.textContent='下课'; segTitle.textContent='🎉 这节课上完啦！';
+  segBody.innerHTML=`<p>你跟着晓晓老师，从咸阳零食店那个真实新闻里，学会了<b>看见别人被冤枉，怎么稳住、用证据说话、找对的人帮忙</b>。</p><p>加上前6课，你已经攒了七招：旁观、喊帮手、自圆场、提前彩排、稳稳出手、用一句公道话站对的一边、用证据说话找对的人。记住那首顺口溜，下次看见不公，先稳住自己。</p>`;
+  document.getElementById('subText').textContent='下课！有问题随时来找晓晓老师。';
+  btnNext.style.display='none'; btnReplay.style.display='none'; btnPrev.style.display='none'; btnStart.style.display='none';
+  if(GLOBAL.length) seek.value=GLOBAL.length-1;
+  refreshDots();
+}
+
+/* ============ 控制绑定 ============ */
+btnStart.addEventListener('click',()=>{ btnStart.style.display='none'; buildDots(); renderSeg(0); });
+btnPrev.addEventListener('click', prevSentence);
+btnNext.addEventListener('click', nextSentence);
+btnReplay.addEventListener('click',()=>{
+  const s=SEG[curSeg];
+  if(s.type==='ask'){ speakLine(curSeg,0,false,null); }
+  else { speakLine(curSeg, 0, true, ()=>showSegControls(curSeg)); }
+});
+seek.addEventListener('input', ()=>{
+  const g=+seek.value; const m=GLOBAL[g]; if(!m) return;
+  speakingGen++; if(synth) synth.cancel();
+  renderSeg(m.seg, {from:m.line, cont:false});
+});
+document.getElementById('fontSel').addEventListener('change',e=>{
+  document.documentElement.style.setProperty('--fs', e.target.value+'px');
+});
+/* 初始字号 */
+document.documentElement.style.setProperty('--fs', document.getElementById('fontSel').value+'px');
+</script>
+</body>
+</html>
