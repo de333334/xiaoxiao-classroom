@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>第十三课 · STAR 法则（晓晓老师·神经网络语音·可听可调可练）</title>
+<style>
+  :root{
+    --bg1:#eaf4ff; --bg2:#fef6ff; --card:#ffffff; --ink:#27324b;
+    --soft:#5b6b8c; --brand:#5b8def; --brand2:#9b6bff; --ok:#1faa6b;
+    --warn:#e8833a; --pink:#ff8fab; --sub-bg:rgba(20,28,48,.88);
+    --base:18px; /* 宋体 小四偏大，看得清 */
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"宋体","SimSun","Songti SC","STSong",serif; /* 宋体 */
+    font-size:var(--base); color:var(--ink);
+    background:linear-gradient(160deg,var(--bg1),var(--bg2));
+    min-height:100vh; padding-bottom:150px; /* 给底部字幕留位，字幕不挡讲解 */
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:14px 16px 10px}
+
+  /* 顶部固定控制条 */
+  header{
+    position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);
+    backdrop-filter:blur(8px);border-radius:0 0 18px 18px;
+    box-shadow:0 6px 20px rgba(91,141,239,.12);
+    padding:10px 14px;margin-bottom:14px;
+  }
+  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .logo{font-size:20px;font-weight:800;color:var(--brand);font-family:"宋体","SimSun",serif}
+  .logo small{font-weight:600;color:var(--soft);font-size:12px;margin-left:6px;font-family:"宋体","SimSun",serif}
+  .prog{flex:1;height:14px;background:#e6ecf7;border-radius:99px;overflow:hidden;min-width:140px;cursor:pointer;position:relative}
+  .prog>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .3s}
+  .ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  button.b{
+    border:0;cursor:pointer;border-radius:12px;padding:9px 13px;font-size:15px;
+    background:#eef3ff;color:var(--brand);font-weight:700;transition:.15s;
+    font-family:"宋体","SimSun",serif;
+  }
+  button.b:hover{background:#e0e9ff}
+  button.b.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
+  button.b.warn{background:#fff0e2;color:var(--warn)}
+  .speed{font-size:13px;color:var(--soft);display:flex;align-items:center;gap:6px;font-family:"宋体","SimSun",serif}
+  input[type=range]{accent-color:var(--brand)}
+
+  /* 开场遮罩 */
+  .gate{
+    position:fixed;inset:0;z-index:60;background:linear-gradient(160deg,#dbe9ff,#f3e6ff);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;
+  }
+  .gate h1{font-size:27px;margin:10px 0 6px;font-family:"宋体","SimSun",serif}
+  .gate p{color:var(--soft);max-width:540px;line-height:1.9;font-family:"宋体","SimSun",serif;font-size:17px}
+  .gate .big{
+    margin-top:18px;border:0;cursor:pointer;font-size:19px;font-weight:800;color:#fff;
+    padding:14px 36px;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand2));
+    box-shadow:0 10px 26px rgba(123,107,255,.35);font-family:"宋体","SimSun",serif;
+  }
+
+  /* 卡片 */
+  .card{
+    background:var(--card);border-radius:20px;padding:18px 18px 16px;margin:14px 0;
+    box-shadow:0 8px 22px rgba(60,90,160,.10);border:1px solid #eef2fb;
+  }
+  .card h2{margin:4px 0 10px;font-size:21px;display:flex;align-items:center;gap:10px;font-family:"宋体","SimSun",serif}
+  .card h2 .em{font-size:26px}
+  .card p{line-height:1.95;margin:9px 0;font-size:var(--base)}
+  .card ul,.card ol{line-height:2.0;font-size:17px;padding-left:24px}
+  .kou{background:#fff7e6;border-left:5px solid var(--warn);border-radius:12px;padding:11px 14px;margin:12px 0;font-weight:700;color:#8a5a12;font-size:17px;line-height:1.8}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:16px}
+  th,td{border:1px solid #e6ecf7;padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:#f3f7ff;color:var(--soft)}
+  .listen{
+    display:inline-flex;align-items:center;gap:8px;margin-top:8px;border:0;cursor:pointer;
+    background:linear-gradient(90deg,#eaf1ff,#f1e9ff);color:var(--brand);font-weight:800;
+    padding:11px 17px;border-radius:14px;font-size:16px;font-family:"宋体","SimSun",serif;
+  }
+  .listen:hover{filter:brightness(.98)}
+  .listen .dot{width:9px;height:9px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 0 rgba(91,141,239,.6);animation:pulse 1.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(91,141,239,.5)}70%{box-shadow:0 0 0 10px rgba(91,141,239,0)}100%{box-shadow:0 0 0 0 rgba(91,141,239,0)}}
+
+  /* 句子高亮（跟着朗读走） */
+  .s{display:inline;padding:1px 2px;border-radius:6px;transition:background .2s}
+  .s.on{background:#fff3bf;box-shadow:0 0 0 2px #ffd43b}
+  .s.done{color:#9aa6c2}
+
+  /* 老师头像 */
+  .teacher{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(135deg,#eef4ff,#f6eeff);border-radius:16px;padding:14px;margin:8px 0 4px}
+  .teacher svg{flex:0 0 76px}
+  .teacher .say{font-size:16.5px;line-height:1.9;color:var(--ink);font-family:"宋体","SimSun",serif}
+
+  /* 测验 */
+  .quiz{border:2px dashed #c9d6f5;background:#fbfdff;border-radius:14px;padding:14px;margin-top:14px}
+  .quiz .q{font-weight:800;font-size:17px;margin-bottom:10px}
+  .opt{display:block;width:100%;text-align:left;border:1.5px solid #e2e9f7;background:#fff;border-radius:12px;padding:11px 14px;margin:8px 0;cursor:pointer;font-size:16px;transition:.12s;font-family:"宋体","SimSun",serif}
+  .opt:hover{border-color:var(--brand)}
+  .opt.right{background:#e7f8ef;border-color:var(--ok);color:#127a4c;font-weight:700}
+  .opt.wrong{background:#fdecec;border-color:#e36;color:#b22}
+  .feedback{margin-top:10px;font-size:15.5px;line-height:1.8;display:none;border-radius:12px;padding:10px 12px}
+  .feedback.show{display:block}
+  .feedback.ok{background:#e7f8ef;color:#127a4c}
+  .feedback.no{background:#fdecec;color:#b22}
+
+  /* 课堂问答 */
+  .qa{background:#fff;border:1px solid #eceffb;border-radius:14px;margin:10px 0;overflow:hidden}
+  .qa .ask{display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;font-weight:700;font-family:"宋体","SimSun",serif;font-size:16px}
+  .qa .ask .tag{background:#ffe3ec;color:#d6336c;border-radius:8px;padding:2px 8px;font-size:12px}
+  .qa .ans{display:none;padding:0 14px 14px 14px;line-height:1.9;color:var(--ink);font-family:"宋体","SimSun",serif;font-size:16px}
+  .qa.open .ans{display:block}
+  .qa .ans .t{color:var(--brand);font-weight:700;margin-right:6px}
+
+  /* 费曼 */
+  textarea{width:100%;min-height:120px;border:1.5px solid #e2e9f7;border-radius:14px;padding:12px;font-size:16px;font-family:"宋体","SimSun",serif;resize:vertical;line-height:1.8}
+  .memo{margin-top:12px;background:linear-gradient(135deg,#fff7e6,#ffeef6);border-radius:16px;padding:14px;display:none}
+  .memo.show{display:block}
+  .memo h3{margin:0 0 6px;color:#b8690f;font-family:"宋体","SimSun",serif}
+  .memo .txt{white-space:pre-wrap;line-height:1.9;font-size:16px}
+
+  /* 底部字幕条（半透明，不挡主讲解） */
+  .sub{
+    position:fixed;left:0;right:0;bottom:0;z-index:40;
+    background:var(--sub-bg);color:#fff;padding:16px 20px;
+    font-size:21px;line-height:1.6;text-align:center;
+    box-shadow:0 -6px 20px rgba(0,0,0,.18);
+    display:none;min-height:62px;align-items:center;justify-content:center;
+    font-family:"宋体","SimSun",serif;
+  }
+  .sub.show{display:flex}
+  .sub .said{color:#9fb4e6}
+  .sub .unsaid{color:#fff}
+  .sub .hint{position:absolute;left:14px;bottom:6px;font-size:11px;color:#8fa3cf}
+
+  /* 老师点名 弹窗 */
+  .modal{
+    position:fixed;inset:0;z-index:70;background:rgba(30,40,70,.55);
+    display:none;align-items:center;justify-content:center;padding:22px;
+  }
+  .modal.show{display:flex}
+  .mbox{background:#fff;border-radius:22px;max-width:560px;width:100%;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+  .mbox h3{margin:0 0 6px;color:var(--brand);font-family:"宋体","SimSun",serif;font-size:20px}
+  .mbox .q{font-size:18px;line-height:2;font-weight:700;margin:10px 0;font-family:"宋体","SimSun",serif}
+  .mbox textarea{margin:6px 0 12px}
+  .mbox .row2{display:flex;gap:10px;flex-wrap:wrap}
+  .pill{display:inline-block;background:#eef3ff;color:var(--brand);border-radius:99px;padding:4px 11px;font-size:13px;margin:3px 5px 3px 0;font-family:"宋体","SimSun",serif}
+  .foot{text-align:center;color:var(--soft);font-size:13px;margin:22px 0 4px;font-family:"宋体","SimSun",serif}
+  .navrow{display:flex;justify-content:space-between;gap:10px;margin-top:6px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<!-- 开场遮罩：点击后允许语音播放（浏览器自动播放策略要求用户手势） -->
+<div class="gate" id="gate">
+  <svg width="120" height="120" viewBox="0 0 120 120">
+    <circle cx="60" cy="46" r="30" fill="#ffd9a0"/>
+    <path d="M30 44 q30 -34 60 0 q-6 -6 -30 -6 q-24 0 -30 6z" fill="#6b4a2b"/>
+    <circle cx="50" cy="44" r="4" fill="#3a2a1a"/><circle cx="70" cy="44" r="4" fill="#3a2a1a"/>
+    <path d="M50 56 q10 9 20 0" stroke="#3a2a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="44" cy="52" r="5" fill="#ff9bb0" opacity=".6"/><circle cx="76" cy="52" r="5" fill="#ff9bb0" opacity=".6"/>
+    <rect x="40" y="86" width="40" height="26" rx="6" fill="#5b8def"/>
+    <path d="M40 92 h40 M60 86 v26" stroke="#fff" stroke-width="2"/>
+  </svg>
+  <h1>第十三课 · STAR 法则</h1>
+  <p>你说自己"有话说不出、脑子里东西太少、没有框架"。前面给脑子装了抽屉、模型、分类、网、钩子、弹药库，还教了黄金圈挖 Why、六顶帽多角度。<br>今天，我给你一件讲案例的神器——STAR 法则（情境/任务/行动/结果），让你讲任何故事都有骨架、有重点，再也不"嗯……就讲了……那个……"。<br>点下面按钮，听我慢慢讲（微软晓晓神经网络语音）。</p>
+  <button class="big" id="startBtn">🎧 开始上课</button>
+  <p style="font-size:13px;margin-top:14px">提示：网页用浏览器自带语音朗读，最好用电脑版 Edge / Chrome，声音最像"晓晓老师"（可随时点"上一句/下一句"调位置，字幕不挡讲解）。本页为「每课一网页」第 13 课，永久保留不覆盖。</p>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="row">
+      <div class="logo">🧠 第十三课 · STAR <small>晓晓老师 · 神经网络语音</small></div>
+      <div class="prog" id="prog" title="点进度条可跳到任意一句"><i id="progBar"></i></div>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <div class="ctl">
+        <button class="b" id="prevBtn">⏮ 上一句</button>
+        <button class="b primary" id="playBtn">▶ 播放</button>
+        <button class="b" id="nextBtn">下一句 ⏭</button>
+        <button class="b" id="stopBtn">⏹ 停止</button>
+        <button class="b" id="restartBtn">🔁 从头</button>
+      </div>
+      <div class="speed">语速
+        <input type="range" id="rate" min="0.7" max="1.3" step="0.05" value="1">
+        <span id="rateVal">1.0×</span>
+      </div>
+      <div class="speed">字号
+        <button class="b" id="fontMinus" style="padding:6px 10px">A−</button>
+        <span id="fontVal">18</span>
+        <button class="b" id="fontPlus" style="padding:6px 10px">A＋</button>
+      </div>
+      <button class="b" id="askBtn" style="margin-left:auto">🙋 老师考考你</button>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <div class="speed" id="voiceInfo">语音：加载中…</div>
+      <div class="speed" id="posInfo" style="margin-left:auto">第 0 / 0 句</div>
+    </div>
+  </header>
+
+  <div id="lessonRoot"></div>
+
+  <div class="card">
+    <h2><span class="em">🙋</span>课堂互动：学生小问 × 晓晓老师</h2>
+    <p style="color:var(--soft);font-size:15px">点下面的问题，看老师怎么答（也可点"听"让晓晓老师读出来）。</p>
+    <div id="qaRoot"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="em">✍️</span>费曼记忆：用你自己的话讲一遍</h2>
+    <p>学完别走。请<strong>合上眼睛</strong>，用大白话给一个"小学生"讲清楚：<br>
+    <span class="pill">什么是 STAR 法则</span><span class="pill">四字母各管啥</span><span class="pill">STAR 和 SCQA 啥关系</span><span class="pill">A 行动为啥最重要</span><span class="pill">SCQA 故事框</span><span class="pill">六顶思考帽</span><span class="pill">MECE 分类框</span><span class="pill">思维地图（连线成网）</span><span class="pill">黄金圈挖 Why</span></p>
+    <p style="color:var(--soft);font-size:15px">讲不出来=有漏洞，回去补。能讲出来，就写在这里（自动存成本机"记忆卡"，下次打开还在）：</p>
+    <textarea id="feynman" placeholder="比如：STAR 法则是给故事装骨架——S 情境（在哪/谁/背景）、T 任务（他要干啥）、A 行动（他具体做了啥，最重要）、R 结果（最后咋样）。它和 SCQA 是搭档：SCQA 钩人开头，STAR 把案例讲饱满。讲 A 要细，多说具体动作，别只说“他很努力”。"></textarea>
+    <div class="navrow">
+      <button class="b" id="saveFeynman">💾 存成我的记忆卡</button>
+      <button class="b" id="listenFeynman">🔊 听我读一遍（晓晓老师）</button>
+    </div>
+    <div class="memo" id="memo">
+      <h3>📌 我的费曼记忆卡</h3>
+      <div class="txt" id="memoTxt"></div>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,#eef4ff,#f6eeff)">
+    <h2><span class="em">📜</span>总口诀（背熟这几句）</h2>
+    <p style="font-weight:800;font-size:18px;line-height:2.1">
+      观抽连用四步走，骨血肉里找道理。<br>
+      五 W 一 H 问到底，费曼教人记心里。<br>
+      一把锤子不够用，多把工具挂墙上。<br>
+      分两类不重叠，列清单不漏掉；MECE 一上手，脑子有条理。<br>
+      孤岛连成网，高速通四方；一图胜千言，脑子亮堂堂。<br>
+      拆乐高看到底，剥洋葱问到底，搭梯子搬已知。<br>
+      情景铺背景，冲突揪人心；问题勾住魂，答案亮晶晶。<br>
+      每天三颗弹，故事数据金句全；开口先翻库，料多不慌乱。<br>
+      先观点再理由举例子，重复观点开口有料。<br>
+      是什么，怎么做，为什么；从外到内是清单，由内而外才点燃。黄金三圈要记牢，Why 在最里最重要。<br>
+      白帽摆事实，红帽说感受；黑帽找风险，黄帽看好处；绿帽出点子，蓝帽管全局。六帽轮流戴，脑子六面鼓。<br>
+      情境任务一两句，行动结果说仔细；STAR 一上手，故事有骨又有戏。<br>
+      天天练嘴不怕丑，框架满满有出息！
+    </p>
+    <p style="color:var(--soft);font-size:14px">21 天行动：每天 1 集纪录片用 5W1H 记 3 点；每周 1 本书做 3 张概念卡；每周讲 1 个概念给镜子听；每天说话强迫自己用 PREP 三明治；每天遇"看不懂/为啥"用三个思考框里的一个试一试；每周用 MECE 给杂乱信息分类查漏；每天把"今天新学的 1 个框"和"昨天学的 1 个框"连一张思维地图并写 1 张思维卡；每天往"话题弹药库"塞 3 颗（故事弹/数据弹/金句弹）；每天看 1 集纪录片/1 章书，用"黄金圈挖矿卡"填三圈逼自己写 Why；每天挑一个小话题用"六帽练习卡"走一遍白红黄黑绿蓝；<strong>每天挑一个纪录片/书里的故事，用"STAR 练习卡"走一遍（S/T/A/R 各写一句），救一次"讲不出案例"的空白脑袋</strong>。</p>
+  </div>
+
+  <div class="foot">本课由 WorkBuddy 整理 · 配套答案已存入你的 ima 知识库「imao」</div>
+</div>
+
+<!-- 底部字幕条：半透明、固定底部，不遮挡上方讲解 -->
+<div class="sub" id="sub"><span class="said"></span><span class="unsaid"></span><span class="hint">字幕</span></div>
+
+<!-- 老师点名 弹窗 -->
+<div class="modal" id="askModal">
+  <div class="mbox">
+    <h3>🙋 晓晓老师点名啦！</h3>
+    <div class="q" id="askQ"></div>
+    <textarea id="askAns" placeholder="在心里或小声用你自己的话答一答；答完点下面听老师的标准答案对照～"></textarea>
+    <div class="row2">
+      <button class="b primary" id="askListen">🔊 听老师的标准答案</button>
+      <button class="b" id="askClose">✅ 我答完，继续上课</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ 语音引擎 ============ */
+let synth = window.speechSynthesis;
+let voice = null;
+let rate = 1;
+let speaking = false;
+let queue = [];
+let qIndex = 0;
+let onAllDone = null;
+
+function pickVoice(){
+  const vs = synth.getVoices();
+  if(!vs.length) return null;
+  let v = vs.find(x=>/xiaoxiao/i.test(x.name) && /zh/i.test(x.lang));
+  if(!v) v = vs.find(x=>/xiaoxiao/i.test(x.name));
+  if(!v) v = vs.find(x=>/zh[-_]?CN/i.test(x.lang));
+  if(!v) v = vs.find(x=>/^zh/i.test(x.lang));
+  return v || null;
+}
+function refreshVoice(){
+  voice = pickVoice();
+  const info = document.getElementById('voiceInfo');
+  if(voice){
+    info.textContent = '语音：' + (voice.name.includes('Xiaoxiao')?'晓晓老师（神经网络）':voice.name);
+  }else{
+    info.textContent = '语音：未找到中文语音（字幕仍可用）';
+  }
+}
+if('speechSynthesis' in window){
+  refreshVoice();
+  synth.onvoiceschanged = refreshVoice;
+}else{
+  document.getElementById('voiceInfo').textContent='本浏览器不支持语音';
+}
+
+function showSub(text, charIndex){
+  const sub = document.getElementById('sub');
+  sub.classList.add('show');
+  sub.querySelector('.said').textContent = text.slice(0, charIndex);
+  sub.querySelector('.unsaid').textContent = text.slice(charIndex);
+}
+function hideSub(){ document.getElementById('sub').classList.remove('show'); }
+
+function speakPart(text, done){
+  if(!voice){
+    showSub(text,0);
+    let i=0; const step=Math.max(1,Math.floor(text.length/30));
+    const t=setInterval(()=>{ i+=step; if(i>=text.length){clearInterval(t);hideSub();done&&done();}else showSub(text,i); },90);
+    return;
+  }
+  const u = new SpeechSynthesisUtterance(text);
+  u.voice = voice; u.lang = voice.lang; u.rate = rate; u.pitch = 1.05;
+  u.onboundary = e=> showSub(text, e.charIndex||0);
+  u.onend = ()=>{ hideSub(); done&&done(); };
+  u.onerror = ()=>{ hideSub(); done&&done(); };
+  showSub(text,0);
+  synth.speak(u);
+}
+function stopSpeak(){ try{synth.cancel();}catch(e){} hideSub(); speaking=false; }
+
+/* ============ 课程内容（本页 = 第十三课 独立页） ============ */
+const LESSONS = [
+  {
+    title:'先复习：第十二课 · 六顶思考帽（Six Thinking Hats）', emoji:'🔁',
+    parts:[
+      '同学你好，我是晓晓老师。先复习一下昨天学的第十二课——六顶思考帽。',
+      '第十二课你学会了"六顶帽"：白帽摆事实、红帽说感受、黑帽找风险、黄帽看好处、绿帽出点子、蓝帽管全局。一次只戴一顶，叫"平行思考"，蓝帽开头、蓝帽收尾。',
+      '第十二课口诀你还记得吗：白帽摆事实，红帽说感受；黑帽找风险，黄帽看好处；绿帽出点子，蓝帽管全局。六帽轮流戴，脑子六面鼓。',
+      '可是你说"有话说不出"：真要你讲一部纪录片里的故事，是不是还"嗯……就讲了……那个……"讲不明白？今天我给你一件讲案例的神器——STAR 法则，让你讲任何故事都有骨架、有重点。准备好了吗？'
+    ]
+  },
+  {
+    title:'第十三课：STAR 法则——给案例装一副骨架（案例解剖框）', emoji:'⭐',
+    parts:[
+      '你说脑子里东西太少、有话说不出。前几课你已经有了抽屉、模型、分类、网、钩子、多角度。可是真要你"讲一个纪录片里的故事"，是不是还是"嗯……就讲了……那个……"说不明白？今天教你一招 STAR 法则，专门给你讲案例的骨架。',
+      'STAR 是四个字母：S 情境(Situation)——故事发生在哪、啥时候、谁、背景是啥；T 任务(Task)——主角当时要完成啥、面临啥挑战；A 行动(Action)——他具体做了啥，这是最重要的一块，要说最细；R 结果(Result)——最后咋样了，最好带个数字或者一句亮眼的结局。',
+      '这招不是我编的，是咨询公司和面试官最爱用的"行为面试"框架（麦肯锡那类公司、Coursera、Sorce 求职网站都教）。他们发现：两个背景差不多的人，会"结构化讲故事"的那个，更让人记住、更让人信。本质上，STAR 就是"叙事能力的脚手架"。',
+      '你把它拿来干啥？拿来"解剖"纪录片和书里的案例。比如看一部讲"沙漠植树人"的纪录片，用 STAR 一拆：S 情境——他在西北荒漠，风沙快把村子埋了；T 任务——他要在退休前种活一片林挡沙；A 行动——每天扛水、种梭梭、用稻草方格压沙；R 结果——十年种活了几千亩，村子保住了。你看，一个故事瞬间有了骨架，你讲给别人听，也有条理有重点。',
+      'STAR 和前面学的 SCQA 是搭档，不打架：SCQA（情景→冲突→问题→答案）管"怎么勾住人、把道理讲透"；STAR 管"把里面的案例讲饱满"。用法：先 SCQA 抛钩子，再用 STAR 把那故事讲足。一套组合拳，既有吸引力又有料。',
+      '用的时候记住一个坑：A（行动）才是重头戏，要说最细最具体；S 和 T 别啰嗦，两句带过。很多人一开口背景讲三分钟，真正"他干了啥"没时间讲——这叫"头重脚轻"。记住口诀：情境任务一两句，行动结果说仔细。',
+      '还有个坑：讲 A 的时候多说"他做了啥"（具体动作），别只说"他很努力"。别讲"他特别努力种树"，要讲"他每天凌晨四点扛两桶水走三里地，一棵棵浇"——画面感一下就出来了，别人爱听。',
+      '把整条流水线加上 STAR 看：5W1H 找料、MECE 分类、三思考框深挖、思维地图连网、弹药库存料、SCQA 钩人、STAR 讲案例、PREP 讲顺、黄金圈挖 Why、六顶帽多角度——你脑子从"散装仓库"，变成"有料、有魂、有全景、还会讲故事的博物馆"。',
+      '口诀送你：情境任务一两句，行动结果说仔细；STAR 一上手，故事有骨又有戏。'
+    ],
+    note:'<div class="kou">🔑 STAR 口诀：情境任务一两句，行动结果说仔细；STAR 一上手，故事有骨又有戏。</div>'+
+      '<svg viewBox="0 0 720 210" width="100%" style="max-width:720px;display:block;margin:10px auto" font-family="宋体,SimSun,serif">'+
+      '<text x="360" y="20" text-anchor="middle" font-size="14" fill="#5b6b8c">STAR 四块：S 情境 · T 任务 · A 行动(最重要) · R 结果</text>'+
+      '<rect x="14" y="40" width="150" height="120" rx="14" fill="#eaf1ff" stroke="#5b8def" stroke-width="2"/>'+
+      '<text x="89" y="78" text-anchor="middle" font-size="20" font-weight="bold" fill="#5b8def">S 情境</text>'+
+      '<text x="89" y="104" text-anchor="middle" font-size="12.5" fill="#3a4a73">在哪/啥时/谁</text>'+
+      '<text x="89" y="124" text-anchor="middle" font-size="12.5" fill="#3a4a73">背景一两句</text>'+
+      '<text x="174" y="105" text-anchor="middle" font-size="18" fill="#adb5bd">→</text>'+
+      '<rect x="184" y="40" width="150" height="120" rx="14" fill="#f3eaff" stroke="#9b6bff" stroke-width="2"/>'+
+      '<text x="259" y="78" text-anchor="middle" font-size="20" font-weight="bold" fill="#9b6bff">T 任务</text>'+
+      '<text x="259" y="104" text-anchor="middle" font-size="12.5" fill="#3a4a73">要完成啥</text>'+
+      '<text x="259" y="124" text-anchor="middle" font-size="12.5" fill="#3a4a73">面临啥挑战</text>'+
+      '<text x="344" y="105" text-anchor="middle" font-size="18" fill="#adb5bd">→</text>'+
+      '<rect x="354" y="30" width="180" height="140" rx="14" fill="#e7f8ef" stroke="#1faa6b" stroke-width="3"/>'+
+      '<text x="444" y="70" text-anchor="middle" font-size="20" font-weight="bold" fill="#127a4c">A 行动</text>'+
+      '<text x="444" y="96" text-anchor="middle" font-size="12.5" fill="#3a4a73">他具体做了啥</text>'+
+      '<text x="444" y="118" text-anchor="middle" font-size="12.5" fill="#3a4a73">说最细最具体</text>'+
+      '<text x="444" y="146" text-anchor="middle" font-size="12" font-weight="bold" fill="#1faa6b">★ 最重要 · 重头戏</text>'+
+      '<text x="544" y="105" text-anchor="middle" font-size="18" fill="#adb5bd">→</text>'+
+      '<rect x="554" y="40" width="152" height="120" rx="14" fill="#fff0f6" stroke="#ff8fab" stroke-width="2"/>'+
+      '<text x="630" y="78" text-anchor="middle" font-size="20" font-weight="bold" fill="#d6336c">R 结果</text>'+
+      '<text x="630" y="104" text-anchor="middle" font-size="12.5" fill="#3a4a73">最后咋样</text>'+
+      '<text x="630" y="124" text-anchor="middle" font-size="12.5" fill="#3a4a73">最好带数字</text>'+
+      '</svg>'+
+      '<svg viewBox="0 0 720 175" width="100%" style="max-width:720px;display:block;margin:10px auto" font-family="宋体,SimSun,serif">'+
+      '<text x="360" y="16" text-anchor="middle" font-size="13.5" fill="#5b6b8c">STAR 走一遍（例：纪录片里的"沙漠植树人"）</text>'+
+      '<rect x="10" y="26" width="158" height="120" rx="14" fill="#eaf1ff" stroke="#5b8def" stroke-width="2"/>'+
+      '<text x="89" y="50" text-anchor="middle" font-size="15" font-weight="bold" fill="#5b8def">S 情境</text>'+
+      '<text x="89" y="78" text-anchor="middle" font-size="11.5" fill="#3a4a73">西北荒漠</text>'+
+      '<text x="89" y="98" text-anchor="middle" font-size="11.5" fill="#3a4a73">风沙快把村子</text>'+
+      '<text x="89" y="116" text-anchor="middle" font-size="11.5" fill="#3a4a73">埋了</text>'+
+      '<text x="178" y="90" text-anchor="middle" font-size="16" fill="#adb5bd">→</text>'+
+      '<rect x="188" y="26" width="158" height="120" rx="14" fill="#f3eaff" stroke="#9b6bff" stroke-width="2"/>'+
+      '<text x="267" y="50" text-anchor="middle" font-size="15" font-weight="bold" fill="#9b6bff">T 任务</text>'+
+      '<text x="267" y="78" text-anchor="middle" font-size="11.5" fill="#3a4a73">退休前种活</text>'+
+      '<text x="267" y="98" text-anchor="middle" font-size="11.5" fill="#3a4a73">一片林挡沙</text>'+
+      '<text x="356" y="90" text-anchor="middle" font-size="16" fill="#adb5bd">→</text>'+
+      '<rect x="366" y="22" width="162" height="128" rx="14" fill="#e7f8ef" stroke="#1faa6b" stroke-width="3"/>'+
+      '<text x="447" y="48" text-anchor="middle" font-size="15" font-weight="bold" fill="#127a4c">A 行动</text>'+
+      '<text x="447" y="74" text-anchor="middle" font-size="11.5" fill="#3a4a73">每天扛水</text>'+
+      '<text x="447" y="94" text-anchor="middle" font-size="11.5" fill="#3a4a73">种梭梭</text>'+
+      '<text x="447" y="114" text-anchor="middle" font-size="11.5" fill="#3a4a73">稻草方格压沙</text>'+
+      '<text x="538" y="90" text-anchor="middle" font-size="16" fill="#adb5bd">→</text>'+
+      '<rect x="548" y="26" width="162" height="120" rx="14" fill="#fff0f6" stroke="#ff8fab" stroke-width="2"/>'+
+      '<text x="629" y="50" text-anchor="middle" font-size="15" font-weight="bold" fill="#d6336c">R 结果</text>'+
+      '<text x="629" y="78" text-anchor="middle" font-size="11.5" fill="#3a4a73">十年种活</text>'+
+      '<text x="629" y="98" text-anchor="middle" font-size="11.5" fill="#3a4a73">几千亩</text>'+
+      '<text x="629" y="118" text-anchor="middle" font-size="11.5" fill="#3a4a73">村子保住了</text>'+
+      '</svg>'+
+      '<p style="color:var(--soft);font-size:15px">怎么用：看一部纪录片或读一段书，挑一个故事，按 S（在哪/谁/背景）→ T（他要干啥）→ A（他具体做了啥，说最细）→ R（最后咋样，最好带数字）走一遍。A 是重头戏，别让背景抢了它的时间。</p>',
+    quiz:{
+      q:'STAR 法则里，哪一块最该说细、说具体？',
+      options:['A 行动（他具体做了啥）','S 情境（背景天气）','T 任务（他要干啥，说最久）','R 结果（随便一句带过）'],
+      answer:0,
+      why:'STAR 四块：S 情境（背景一两句）、T 任务（要完成啥）、A 行动（他具体做了啥，最重、说最细）、R 结果（最好带数字）。A 是重头戏——听众想听的是"他怎么做到的"，所以行动要最具体，多用"他做了……"的句式，别只说"他很努力"。'
+    }
+  },
+  {
+    title:'第十三课 · 加餐：STAR 练习卡（每天救一次"讲不出案例"）', emoji:'🗒️',
+    parts:[
+      '光听没用，来练。今天给你一张"STAR 练习卡"：每天挑一个纪录片或书里的故事（比如"那部讲守林员的纪录片""书里主角的逆袭"），逼自己用 STAR 走一遍，S/T/A/R 各写一句。',
+      '例："纪录片《地球脉动》里逆袭的雪豹"——S 情境：高海拔雪线，猎物越来越少；T 任务：它要养活两只幼崽过冬；A 行动：它把猎食范围扩大到夜行、跟着岩羊群迁徙；R 结果：幼崽成活，种群慢慢回稳。你看，一个动物故事也能讲出骨架。',
+      '21 天行动更新：每天挑一个纪录片/书里的故事，用 STAR 练习卡走一遍；遇到"要讲个故事却讲不明白"时，就默念 STAR 四字母，骨架会替你开口。',
+      '口诀收尾：每天拆一个案例，STAR 四块排；故事讲得溜，脑子不空白。把 STAR、SCQA、六帽、网、钩子、弹药全合起来，你就是有料、有魂、有全景、会讲故事的演说家。'
+    ],
+    note:'<div class="kou">🔑 STAR 练习卡口诀：每天拆一个案例，STAR 四块排；故事讲得溜，脑子不空白。</div>'+
+      '<svg viewBox="0 0 700 200" width="100%" style="max-width:700px;display:block;margin:10px auto" font-family="宋体,SimSun,serif">'+
+      '<rect x="20" y="12" width="660" height="30" rx="10" fill="#eaf1ff"/><circle cx="42" cy="27" r="9" fill="#5b8def"/><text x="62" y="32" font-size="14" font-weight="bold" fill="#5b8def">S 情境：</text><text x="190" y="32" font-size="13.5" fill="#27324b">故事在哪/啥时/谁/背景（一两句）</text>'+
+      '<rect x="20" y="46" width="660" height="30" rx="10" fill="#f3eaff"/><circle cx="42" cy="61" r="9" fill="#9b6bff"/><text x="62" y="66" font-size="14" font-weight="bold" fill="#9b6bff">T 任务：</text><text x="190" y="66" font-size="13.5" fill="#27324b">主角要完成啥、面临啥挑战</text>'+
+      '<rect x="20" y="80" width="660" height="30" rx="10" fill="#e7f8ef"/><circle cx="42" cy="95" r="9" fill="#1faa6b"/><text x="62" y="100" font-size="14" font-weight="bold" fill="#127a4c">A 行动：</text><text x="190" y="100" font-size="13.5" fill="#27324b">他具体做了啥（说最细，★最重要）</text>'+
+      '<rect x="20" y="114" width="660" height="30" rx="10" fill="#fff0f6"/><circle cx="42" cy="129" r="9" fill="#ff8fab"/><text x="62" y="134" font-size="14" font-weight="bold" fill="#d6336c">R 结果：</text><text x="190" y="134" font-size="13.5" fill="#27324b">最后咋样（最好带个数字/亮眼结局）</text>'+
+      '<text x="350" y="190" text-anchor="middle" font-size="12.5" fill="#5b6b8c">怎么用：每晚拿一个纪录片/书里的故事，用 STAR 走一遍，每格写一句；卡壳就按 S→T→A→R 顺序念，骨架会替你开口。</text>'+
+      '</svg>'+
+      '<p style="color:var(--soft);font-size:15px">怎么用：今晚就开一张"STAR 练习卡"，拿一个纪录片/书里的故事走一遍，每格写一句。要讲案例却讲不明白时，就按 S→T→A→R 默念，骨架会替你开口。</p>',
+    quiz:{
+      q:'"STAR 练习卡"最核心的动作是？',
+      options:['每天挑一个故事，用 S/T/A/R 各写一句走一遍，尤其救"讲不出案例"','只写背景和结果','想到啥写啥不用分四块','只说"他很努力"'],
+      answer:0,
+      why:'讲不出案例，是"没骨架"不是"没故事"。拿一个纪录片/书里的故事走 STAR（S 情境/T 任务/A 行动/R 结果），每格写一句，瞬间立起骨架。卡壳就按 S→T→A→R 顺序念，骨架会替你开口。STAR 负责"讲饱满"，配 SCQA（钩人）和六帽（想全）最稳。'
+    }
+  }
+];
+
+const QAS = [
+  {q:'老师，STAR 和我之前学的 SCQA 有啥不一样？',
+   a:'不重复，是组合拳！SCQA 是"情景→冲突→问题→答案"，管"开头怎么钩人、道理怎么讲透"；STAR 是"情境→任务→行动→结果"，管"把一个案例讲饱满"。先用 SCQA 抛钩子勾住人，再用 STAR 把故事讲足。一个管开头，一个管正文。'},
+  {q:'老师，用 STAR 最容易犯的错是啥？',
+   a:'头重脚轻——背景(S)讲三分钟，真正"他干了啥"(A)反而没时间讲。记住口诀"情境任务一两句，行动结果说仔细"。S/T 是铺垫，A 才是重头戏，要说最具体。'},
+  {q:'老师，生活里怎么用 STAR？',
+   a:'太好用。讲一部纪录片、讲书里主角的逆袭、甚至讲自己一段经历，都套 S/T/A/R 四块。比如朋友问"那部纪录片讲啥"，你别"就……讲了……"，直接 S 在哪、T 他要干啥、A 他咋干的、R 最后咋样——立刻有骨架、有重点。'},
+  {q:'老师，A（行动）为啥最重要？',
+   a:'A 是"他到底做了啥"，最见能力、最有画面感。只说"他很努力"太空洞，要说具体动作（"凌晨四点扛水走三里地"）。听众要听的是"怎么做到的"，不是形容词。所以 A 说最细，还多用"他做了……"的句式。'},
+  {q:'老师，STAR 和前面的弹药库、六顶帽怎么配合？',
+   a:'绝配。STAR 走完，把 R（结果）、A（动作）、S（背景）顺手塞进话题弹药库的"故事弹"；六顶帽负责"多角度想全"（白事实/黄好处…），STAR 负责"把其中一个案例讲饱满"，SCQA 负责"钩人开头"——六帽想全、STAR 讲足、SCQA 钩人，一套组合拳。'}
+];
+
+/* 老师"点名"提问：进入某课第一句时触发（针对本课内容） */
+const ASK = {
+  1:{q:'晓晓老师点你啦：用 STAR 法则给你最近看的一部纪录片或书里的一个故事走一遍——S（情境）/ T（任务）/ A（行动）/ R（结果）各说一句。试一个？',
+     a:'参考：我走"纪录片里的沙漠植树人"——S 情境：他在西北荒漠，风沙快把村子埋了；T 任务：他要在退休前种活一片林挡沙；A 行动：每天扛水、种梭梭、用稻草方格压沙；R 结果：十年种活几千亩，村子保住了。STAR 一走，一个乱糟糟的故事立刻有了骨架。'},
+  2:{q:'课后小测：今晚你打算用"STAR 练习卡"走哪个故事？写出它的 S / T / A / R 四句（每句一句）。',
+     a:'参考：我走"《地球脉动》里逆袭的雪豹"——S：高海拔雪线，猎物越来越少；T：要养活两只幼崽过冬；A：把猎食扩大到夜行、跟着岩羊群迁徙；R：幼崽成活，种群慢慢回稳。一句一格，故事立刻立得起来。'}
+};
+
+/* ============ 渲染课程（每句话一个可高亮的 span） ============ */
+const SENTENCES = [];
+LESSONS.forEach((L,li)=> L.parts.forEach((p,pi)=> SENTENCES.push({lesson:li, partIdx:pi, text:p})));
+const lessonStart = {};
+(function(){ let gi=0; LESSONS.forEach((L,li)=>{ lessonStart[li]=gi; gi+=L.parts.length; }); })();
+
+const root = document.getElementById('lessonRoot');
+LESSONS.forEach((L,idx)=>{
+  const card = document.createElement('div');
+  card.className='card';
+  let html = `<h2><span class="em">${L.emoji}</span>${L.title}</h2>`;
+  L.parts.forEach(p=>{
+    const gi = lessonStart[idx] + L.parts.indexOf(p);
+    html += `<p><span class="s" id="s${gi}">${p}</span></p>`;
+  });
+  if(L.note) html += L.note;
+  html += `<button class="listen" data-idx="${idx}"><span class="dot"></span>🔊 听晓晓老师讲这一节</button>`;
+  if(L.quiz){
+    const qz=L.quiz;
+    html += `<div class="quiz" style="padding:2px">
+      <div class="q">📝 小测验：${qz.q}</div>`;
+    qz.options.forEach((o,oi)=>{
+      html += `<button class="opt" data-correct="${oi===qz.answer?1:0}" data-q="${idx}">${String.fromCharCode(65+oi)}. ${o}</button>`;
+    });
+    html += `<div class="feedback" id="fb-${idx}"></div></div>`;
+  }
+  card.innerHTML = html;
+  root.appendChild(card);
+});
+
+let totalParts = SENTENCES.length;
+let cur = 0;
+let playing = false;
+let autoAsk = false; // 仅"从头/连续播放"时自动点名
+
+function bumpProgress(){
+  const pct = Math.min(100, Math.round((cur)/totalParts*100));
+  document.getElementById('progBar').style.width = pct+'%';
+  document.getElementById('posInfo').textContent = '第 '+(cur+1)+' / '+totalParts+' 句';
+}
+function highlight(i){
+  document.querySelectorAll('.s.on').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.s.done').forEach(e=>e.classList.remove('done'));
+  for(let k=0;k<i;k++){ const el=document.getElementById('s'+k); if(el) el.classList.add('done'); }
+  const el=document.getElementById('s'+i);
+  if(el){ el.classList.add('on'); el.scrollIntoView({block:'center', behavior:'smooth'}); }
+}
+function setPlayBtn(){ document.getElementById('playBtn').textContent = playing?'⏸ 暂停':'▶ 播放'; }
+
+function afterSentence(){
+  if(!playing) return;
+  const li = SENTENCES[cur].lesson;
+  const isFirst = SENTENCES[cur].partIdx===0;
+  if(autoAsk && isFirst && li>=1 && ASK[li]){
+    playing=false; setPlayBtn();
+    openAsk(li);
+    return;
+  }
+  cur++;
+  if(cur>=totalParts){ playing=false; setPlayBtn(); bumpProgress(); return; }
+  bumpProgress(); highlight(cur);
+  speakPart(SENTENCES[cur].text, afterSentence);
+}
+
+function playRange(start, end, useAutoAsk){
+  stopSpeak();
+  playing=true; autoAsk = !!useAutoAsk; setPlayBtn();
+  cur=start;
+  if(cur>=totalParts){ playing=false; setPlayBtn(); return; }
+  if(autoAsk && SENTENCES[cur].partIdx===0 && SENTENCES[cur].lesson>=1 && ASK[SENTENCES[cur].lesson]){
+    playing=false; setPlayBtn(); openAsk(SENTENCES[cur].lesson); return;
+  }
+  bumpProgress(); highlight(cur);
+  speakPart(SENTENCES[cur].text, afterSentence);
+}
+
+function playAll(){ playRange(0, totalParts, true); }
+function playLesson(idx){
+  const start = lessonStart[idx];
+  const end = (idx+1<LESSONS.length)? lessonStart[idx+1] : totalParts;
+  playRange(start, end, false);
+}
+function gotoSentence(i){
+  stopSpeak(); playing=false; autoAsk=false; setPlayBtn();
+  cur=Math.max(0,Math.min(totalParts-1,i));
+  bumpProgress(); highlight(cur);
+  speakPart(SENTENCES[cur].text, null);
+}
+
+/* 按钮 */
+document.getElementById('playBtn').onclick = ()=>{
+  if(playing){
+    try{ if(synth && synth.speaking) synth.pause(); }catch(e){}
+    playing=false; setPlayBtn();
+  } else {
+    if(cur>=totalParts) cur=0;
+    playRange(cur, totalParts, true);
+  }
+};
+document.getElementById('prevBtn').onclick = ()=> gotoSentence(cur-1);
+document.getElementById('nextBtn').onclick = ()=> gotoSentence(cur+1);
+document.getElementById('stopBtn').onclick = ()=>{ stopSpeak(); playing=false; autoAsk=false; setPlayBtn(); };
+document.getElementById('restartBtn').onclick = ()=> playAll();
+document.getElementById('rate').oninput = e=>{ rate=parseFloat(e.target.value); document.getElementById('rateVal').textContent=rate.toFixed(1)+'×'; };
+let baseFont = 18;
+function setFont(px){ baseFont=Math.max(14,Math.min(30,px)); document.documentElement.style.setProperty('--base', baseFont+'px'); document.getElementById('fontVal').textContent=baseFont; }
+document.getElementById('fontPlus').onclick = ()=> setFont(baseFont+2);
+document.getElementById('fontMinus').onclick = ()=> setFont(baseFont-2);
+
+// 进度条点击跳转（能调播放位置）
+document.getElementById('prog').onclick = e=>{
+  const r=e.currentTarget.getBoundingClientRect();
+  const frac=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+  gotoSentence(Math.round(frac*(totalParts-1)));
+};
+
+/* 听某一节 */
+root.addEventListener('click', e=>{
+  const btn = e.target.closest('.listen');
+  if(btn){ playLesson(+btn.dataset.idx); return; }
+  const opt = e.target.closest('.opt');
+  if(opt){
+    if(opt.classList.contains('right')||opt.classList.contains('wrong')) return;
+    const correct = opt.dataset.correct==='1';
+    const idx = opt.dataset.q;
+    opt.parentElement.querySelectorAll('.opt').forEach(o=>{
+      if(o.dataset.correct==='1') o.classList.add('right');
+      else o.classList.add('wrong');
+    });
+    const fb = document.getElementById('fb-'+idx);
+    fb.className = 'feedback show '+(correct?'ok':'no');
+    fb.innerHTML = (correct?'✅ 答对啦！':'❌ 答错咯。') + ' ' + LESSONS[idx].quiz.why;
+    if(correct){ speakPart('答对啦，' + LESSONS[idx].quiz.why, null); }
+    else { speakPart('答错咯。' + LESSONS[idx].quiz.why, null); }
+    return;
+  }
+});
+
+/* 课堂问答 */
+const qaRoot = document.getElementById('qaRoot');
+QAS.forEach((item,i)=>{
+  const d=document.createElement('div'); d.className='qa';
+  d.innerHTML = `<div class="ask"><span class="tag">学生小问</span>${item.q} <span style="margin-left:auto;color:var(--brand)">▾</span></div>
+    <div class="ans"><span class="t">晓晓老师：</span>${item.a}<br><br><button class="listen" data-qa="${i}"><span class="dot"></span>🔊 听老师回答</button></div>`;
+  d.querySelector('.ask').onclick = ()=> d.classList.toggle('open');
+  qaRoot.appendChild(d);
+});
+qaRoot.addEventListener('click', e=>{
+  const b=e.target.closest('[data-qa]');
+  if(b){ stopSpeak(); speakPart('晓晓老师说。'+QAS[+b.dataset.qa].a, null); }
+});
+
+/* 老师点名弹窗 */
+const askModal=document.getElementById('askModal');
+let pendingAskLesson=null;
+function openAsk(li){
+  const a=ASK[li]; if(!a) return;
+  pendingAskLesson=li;
+  document.getElementById('askQ').textContent=a.q;
+  document.getElementById('askAns').value='';
+  askModal.classList.add('show');
+  stopSpeak();
+  speakPart('同学，' + a.q, null);
+}
+document.getElementById('askListen').onclick=()=>{
+  const a=ASK[pendingAskLesson]; if(a) speakPart('老师给你一个参考：' + a.a, null);
+};
+document.getElementById('askClose').onclick=()=>{
+  askModal.classList.remove('show');
+  if(pendingAskLesson!=null){
+    const start=lessonStart[pendingAskLesson];
+    playRange(start, totalParts, false);
+    pendingAskLesson=null;
+  }
+};
+document.getElementById('askBtn').onclick=()=>{
+  const keys=Object.keys(ASK).map(Number);
+  const li=keys[Math.floor(Math.random()*keys.length)];
+  openAsk(li);
+};
+
+/* 费曼记忆卡 */
+const KEY='feynman_memo_l13';
+function loadMemo(){
+  const t=localStorage.getItem(KEY);
+  if(t){ document.getElementById('memo').classList.add('show'); document.getElementById('memoTxt').textContent=t; }
+}
+loadMemo();
+document.getElementById('saveFeynman').onclick=()=>{
+  const v=document.getElementById('feynman').value.trim();
+  if(!v){ alert('先写点你的理解再存哦～'); return; }
+  localStorage.setItem(KEY,v);
+  document.getElementById('memoTxt').textContent=v;
+  document.getElementById('memo').classList.add('show');
+  speakPart('存好啦，这就是你的费曼记忆卡。以后多讲几遍，框架就越来越牢。', null);
+};
+document.getElementById('listenFeynman').onclick=()=>{
+  const v=document.getElementById('feynman').value.trim();
+  if(!v){ alert('先写点你的理解，再让我读哦～'); return; }
+  stopSpeak(); speakPart('你写的：'+v, null);
+};
+
+/* 开场 */
+document.getElementById('startBtn').onclick=()=>{
+  document.getElementById('gate').style.display='none';
+  if(!voice) refreshVoice();
+  try{ synth.cancel(); }catch(e){}
+  cur=0; playAll();
+};
+
+bumpProgress();
+</script>
+</body>
+</html>
