@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师的「不慌课」第9课 · 看见别人被骗被坑钱，我学「认出骗局、当场叫停、帮着止损、找对的人（96110/110）」</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --board:#2f5d50; --board2:#3a6f60; --chalk:#f7f3e8;
+    --ink:#2b2b2b; --pink:#ef8fa0; --blue:#6ea8d8; --yellow:#f3c969;
+    --card:#ffffff; --soft:#fff8ec; --fs:20px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:"宋体","SimSun",serif;
+    background:var(--bg); color:var(--ink); line-height:1.85;
+    font-size:var(--fs);
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:14px 16px 150px;}
+  header{display:flex; align-items:center; gap:12px; padding:10px 4px 14px;}
+  header .ttl{font-size:1.15em; font-weight:800;}
+  header .ttl small{display:block; font-weight:500; font-size:0.7em; color:#777;}
+
+  .avatar{width:56px; height:56px; border-radius:50%; flex:0 0 auto;
+    background:radial-gradient(circle at 50% 35%, #ffe2c2, #ffc89b);
+    border:3px solid #fff; box-shadow:0 4px 10px rgba(0,0,0,.12); position:relative;}
+  .avatar svg{width:100%;height:100%;}
+  .speaking{animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 4px 10px rgba(0,0,0,.12);}50%{box-shadow:0 0 0 8px rgba(239,143,160,.25);}}
+
+  .board{background:linear-gradient(160deg,var(--board),var(--board2)); color:var(--chalk);
+    border-radius:18px; padding:22px 22px 26px; min-height:200px; position:relative;
+    box-shadow:0 10px 24px rgba(0,0,0,.18), inset 0 0 0 4px rgba(255,255,255,.06);}
+  .board h2{margin:.1em 0 .5em; font-size:1.2em; color:#ffe7a8;}
+  .board p{margin:.5em 0; font-size:1.05em;}
+  .board .tag{display:inline-block; background:rgba(255,255,255,.14);
+    padding:2px 10px; border-radius:999px; font-size:0.72em; margin-bottom:8px;}
+  .board .rhyme{font-family:"KaiTi","STKaiti",serif; font-size:1.08em; line-height:2;
+    background:rgba(0,0,0,.18); border-left:4px solid var(--yellow); padding:10px 14px; border-radius:8px; margin-top:10px;}
+
+  .caseimg{width:100%; max-width:380px; height:auto; display:block; margin:12px auto;
+    background:#fff; border:2px solid #efe8da; border-radius:14px; padding:8px;}
+
+  .peer{display:flex; gap:12px; align-items:flex-start; background:var(--soft);
+    border:2px dashed #e6c98a; border-radius:16px; padding:14px 16px; margin-top:14px;}
+  .peer .who{font-weight:800; color:#c97b2c; white-space:nowrap; font-size:1em;}
+  .peer .q{font-size:1.05em;}
+
+  .dots{display:flex; flex-wrap:wrap; gap:6px; margin:16px 0 4px;}
+  .dot{width:13px; height:13px; border-radius:50%; background:#d8d2c4; cursor:pointer; transition:.15s;}
+  .dot:hover{transform:scale(1.2);}
+  .dot.done{background:#6ea8d8;}
+  .dot.cur{background:var(--pink); transform:scale(1.35);}
+
+  .seekwrap{display:flex; align-items:center; gap:10px; margin:12px 0 4px;
+    background:var(--card); border:2px solid #efe8da; border-radius:12px; padding:8px 12px;}
+  .seekwrap input[type=range]{flex:1; accent-color:var(--pink); height:6px; cursor:pointer;}
+  .seekwrap .mini{font-size:0.72em; color:#888; white-space:nowrap;}
+
+  .bar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:14px;}
+  button.ctrl{background:var(--card); border:2px solid #e3ddd0; border-radius:12px;
+    padding:9px 16px; font-size:0.9em; font-weight:700; cursor:pointer; color:var(--ink);
+    font-family:inherit; transition:.15s;}
+  button.ctrl:hover{border-color:var(--pink);}
+  button.primary{background:var(--pink); color:#fff; border-color:var(--pink);}
+  button.primary:hover{filter:brightness(1.05);}
+  button.ctrl:disabled{opacity:.4; cursor:not-allowed; border-color:#e3ddd0;}
+  select.ctrl{border:2px solid #e3ddd0; border-radius:12px; padding:8px 10px; font-size:0.85em;
+    background:#fff; font-family:inherit;}
+  .mini{font-size:0.78em; color:#888;}
+  .sent{font-size:0.78em; color:#9a9486; margin-left:auto;}
+
+  .ask{background:var(--card); border-radius:16px; padding:18px; margin-top:14px;
+    box-shadow:0 6px 16px rgba(0,0,0,.08); border:2px solid #efe8da;}
+  .ask .label{font-weight:800; color:#3a6f60; margin-bottom:8px; font-size:1em;}
+  .ask .opts{display:flex; flex-direction:column; gap:8px; margin:10px 0;}
+  .ask .opt{border:2px solid #e3ddd0; border-radius:12px; padding:10px 14px; cursor:pointer; font-size:1em;}
+  .ask .opt:hover{border-color:var(--blue);}
+  .ask .opt.pick{border-color:var(--pink); background:#fff3f5;}
+  .ask .opt.right{border-color:#4caf72; background:#eefaf1;}
+  .ask .opt.wrong{border-color:#e57373; background:#fdeeee;}
+  textarea{width:100%; min-height:90px; border:2px solid #e3ddd0; border-radius:12px;
+    padding:10px 12px; font-size:1em; font-family:inherit; resize:vertical; line-height:1.7;}
+  .fb{margin-top:12px; padding:12px 14px; border-radius:12px; font-size:1em; display:none;}
+  .fb.ok{background:#eefaf1; border:1px solid #bfe6c9; display:block;}
+  .fb.no{background:#fff6ec; border:1px solid #f0d3a6; display:block;}
+
+  .subbar{position:fixed; left:0; right:0; bottom:0; background:rgba(20,20,20,.92);
+    color:#fff; padding:12px 16px; font-size:calc(var(--fs) * 0.95); text-align:center; min-height:54px;
+    display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); z-index:50;}
+  .subbar .now{color:#ffe7a8; font-weight:700; margin-right:6px; white-space:nowrap;}
+  .hint{font-size:0.74em; color:#9a9486; margin-top:10px;}
+  .badge{display:inline-block; background:var(--yellow); color:#5a4410; font-weight:800;
+    border-radius:8px; padding:1px 8px; font-size:0.85em; margin-right:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="avatar" id="teaAvatar">
+      <svg viewBox="0 0 100 100"><circle cx="50" cy="40" r="26" fill="#ffd9b8"/><circle cx="41" cy="38" r="3.4" fill="#3b2b22"/><circle cx="59" cy="38" r="3.4" fill="#3b2b22"/><path d="M40 50 q10 9 20 0" stroke="#b5614a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M30 30 q20 -18 40 0" stroke="#7a4a2b" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M22 78 q28 -26 56 0 l0 14 -56 0 z" fill="#ef8fa0"/></svg>
+    </div>
+    <div class="ttl">晓晓老师的「不慌课」· 第9课
+      <small>看见别人被骗被坑钱，我学「认出骗局、当场叫停、帮着止损、找对的人（96110/110）」· 费曼互动课堂</small>
+    </div>
+  </header>
+
+  <div class="dots" id="dots"></div>
+
+  <div class="board" id="board">
+    <div class="tag" id="segTag">准备上课</div>
+    <h2 id="segTitle">点下面的「开始上课」，晓晓老师用晓晓神经网络语音给你讲～</h2>
+    <div id="segBody"><p>建议在 <b>Edge 浏览器</b> 中打开，能用到「晓晓（XiaoxiaoNeural）」真人神经网络语音。手机也可用，但声音会因设备不同而变化。</p><p>这一课借 <b>2026 年 5 月武汉「冰晴」案</b>（中国经济网报道）：一个中学生在游戏里看到「有酬代练、领皮肤」广告，被一步步骗成「冒充公检法」——假客服说她「未成年操作失误赔了 6 万」，假「杨警官」吓她「不配合爸妈要坐牢」，逼她用爸爸手机发红包 1.2 万元。咱们换个角度学——<b>亲眼看见同学、新手、甚至家里长辈正被骗、正要转账，怎么稳住、当场叫停、帮着止损、找对的人（96110/110）。</b></p></div>
+  </div>
+
+  <div class="seekwrap">
+    <span class="mini">播放位置</span>
+    <input type="range" id="seek" min="0" max="0" value="0" step="1">
+    <span class="mini" id="seekInfo">0/0</span>
+  </div>
+
+  <div class="bar">
+    <button class="ctrl primary" id="btnStart">▶ 开始上课</button>
+    <button class="ctrl" id="btnPrev" style="display:none">⤺ 上一句</button>
+    <button class="ctrl" id="btnNext" style="display:none">下一句 ⤼</button>
+    <button class="ctrl" id="btnReplay" style="display:none">🔁 再听一遍</button>
+    <span class="mini">语速</span>
+    <select class="ctrl" id="rate"><option value="0.8">慢</option><option value="1" selected>正常</option><option value="1.2">快</option></select>
+    <span class="mini">声音</span>
+    <select class="ctrl" id="voiceSel"></select>
+    <span class="mini">字号</span>
+    <select class="ctrl" id="fontSel"><option value="16">小四</option><option value="20" selected>大</option><option value="26">特大</option></select>
+    <span class="sent" id="sentInfo">第 0 / 0 句</span>
+  </div>
+
+  <div id="askArea"></div>
+
+  <div class="hint">💡 字幕在最底部，不挡黑板讲解。听的时候可以用 <b>「上一句 / 下一句按钮」</b>、<b>拖动「播放位置」滑块</b>、或<b>点进度圆点</b>随意调播放位置——哪里没听清就回去重听。课堂中间晓晓老师会<b>不定时提问你</b>，用你自己的话回答，这就是费曼记忆法。</div>
+</div>
+
+<div class="subbar" id="subbar"><span class="now">字幕：</span><span id="subText">（点击开始上课后显示）</span></div>
+
+<script>
+/* ============ 课程内容（费曼式，初中生也能懂；真实事例：2026年5月 武汉「冰晴」冒充公检法诈骗中小学生案 + 2025年10月 小强「免费皮肤」被骗隐瞒案） ============ */
+const SEG = [
+  /* —— 复习区：把前8课翻出来 —— */
+  { type:'talk', tag:'复习小课堂', title:'先复习前8课（上课前先翻笔记）',
+    lines:[
+      '上课前，咱们先把前8课学的招数翻出来复习一下。',
+      '第1课：别人慌的时候你在旁边看，叫旁观者清，偷师学冷静，口诀是一停二看三想四做。',
+      '第2课：慌到说不出话，喊个帮手也不孬，找老师、找大人。',
+      '第3课：万一出丑的人就是你自己，用自嘲加转身做正事，还能替别人关上一扇门。',
+      '第4课：提前彩排，给慌张写个剧本，出事之前先练好。',
+      '第5课：亲眼看见别人被欺负（动手那种），先稳住、大声制止、喊帮手，稳稳出手。',
+      '第6课：亲眼看见别人被羞辱（用话伤人），用一句公道话，稳稳站对的一边。',
+      '第7课：亲眼看见别人被冤枉、被当成小偷，用证据说话、找对的人，不硬扛也不硬吵。',
+      '第8课：亲眼看见别人被欺负又坑（职场里被言语打压、不给排班），留证据、找对的人、不硬刚也不认栽。',
+      '今天，咱们加第9课：看见别人被骗、被坑钱（尤其是同学、新手、长辈），我学「认出骗局、当场叫停、帮着止损、找对的人（96110/110）」。'
+    ],
+    html:`<p>上课前，咱们先把前8课学的招数翻出来复习一下。</p>
+      <svg class="caseimg" viewBox="0 0 360 240" role="img" aria-label="复习第1到8课，第9课新加">
+        <circle cx="46" cy="118" r="38" fill="#f3c969"/>
+        <text x="46" y="127" font-size="26" text-anchor="middle" fill="#5a4410">复习</text>
+        <rect x="104" y="8" width="248" height="21" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="23" font-size="12.5" fill="#5a5448">第1课 · 旁观者清 ＋ 一停二看三想四做</text>
+        <rect x="104" y="33" width="248" height="21" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="48" font-size="12.5" fill="#5a5448">第2课 · 喊帮手也是冷静</text>
+        <rect x="104" y="58" width="248" height="21" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="73" font-size="12.5" fill="#5a5448">第3课 · 自嘲 ＋ 转身做正事 ＋ 关门</text>
+        <rect x="104" y="83" width="248" height="21" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="98" font-size="12.5" fill="#5a5448">第4课 · 提前彩排 ＋ 写剧本</text>
+        <rect x="104" y="108" width="248" height="21" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="123" font-size="12.5" fill="#5a5448">第5课 · 看见别人被欺负，稳稳出手</text>
+        <rect x="104" y="133" width="248" height="21" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="148" font-size="12.5" fill="#5a5448">第6课 · 一句公道话，站对的一边</text>
+        <rect x="104" y="158" width="248" height="21" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="173" font-size="12.5" fill="#5a5448">第7课 · 用证据说话，找对的人</text>
+        <rect x="104" y="183" width="248" height="21" rx="8" fill="#fff" stroke="#e6c98a"/>
+        <text x="116" y="198" font-size="12.5" fill="#5a5448">第8课 · 留证据 ＋ 找对人 ＋ 不硬刚不认栽</text>
+        <rect x="104" y="208" width="248" height="22" rx="8" fill="#ffe7a8" stroke="#e6c98a"/>
+        <text x="116" y="224" font-size="12.5" fill="#5a4410">第9课（新）· 认出骗局 ＋ 当场叫停 ＋ 找对的人</text>
+      </svg>
+      <p>前8课你学会了：看别人慌（第1课）、喊帮手（第2课）、自己出丑怎么圆（第3课）、提前彩排（第4课）、看见别人被欺负怎么稳稳出手（第5课）、被羞辱怎么用一句公道话站对的一边（第6课）、被冤枉怎么用证据说话找对的人（第7课）、被欺负又坑怎么留证据找对的人不硬刚不认栽（第8课）。今天加第9课——<b>亲眼看见同学、新手、甚至长辈正被骗、正要转账，怎么稳住、认出骗局、当场叫停、找对的人（96110/110）。</b></p>`
+  },
+  { type:'ask', mode:'open',
+    q:'费曼复习：用你自己的话，说说第8课那首顺口溜的最后一句话是什么？（随便说，接不上是正常的，说出来就算赢）',
+    hint:'八课连成串，见义又敢为又稳。',
+    fbOk:'说出来了就好！费曼学习法最管用的一招就是「讲出来」。记不住也没事，今天上完课，几首口诀你会背得更熟。'
+  },
+
+  /* —— 第9课 新内容 —— */
+  { type:'talk', tag:'新角度', title:'第9课：看见别人被骗被坑钱，我怎么管',
+    lines:[
+      '前8课，你学会了看别人慌、喊帮手、自己出丑怎么圆、提前彩排，还有看见别人被欺负怎么稳稳出手、被羞辱怎么用一句公道话站对的一边、被冤枉怎么用证据说话找对的人、被欺负又坑怎么留证据找对的人不硬刚不认栽。',
+      '今天咱们练一种新本事：看见别人被骗、被坑钱——尤其是同学、同龄新手，甚至家里的长辈，正掉进骗子挖的坑里。',
+      '这种事现在特别多：有人说「免费送你游戏皮肤」，有人冒充警察说你「犯法了」，有人让你开屏幕共享、把验证码告诉TA。没经验的人一慌，要么吓哭跟着转钱，要么怕家长骂干脆瞒着不说。',
+      '今天这一课，就讲这个——看见别人（或将来的你）正被骗、正要转账，怎么稳住、帮着叫停、留证据、找对的人（96110反诈专线、110、银行、平台）。'
+    ],
+    html:`<p>前8课，你学会了看别人慌、喊帮手、自己出丑怎么圆、提前彩排，还有看见别人被欺负怎么稳稳出手、被羞辱怎么用一句公道话站对的一边、被冤枉怎么用证据说话找对的人、被欺负又坑怎么留证据找对的人不硬刚不认栽。</p><p>今天咱们练一种新本事：<b>看见别人被骗、被坑钱</b>——尤其是同学、同龄新手，甚至家里的长辈，正掉进骗子挖的坑里。</p><p>这种事现在特别多：有人说「<b>免费送你游戏皮肤</b>」，有人<b>冒充警察说你「犯法了」</b>，有人让你<b>开屏幕共享、把验证码告诉TA</b>。没经验的人一慌，要么吓哭跟着转钱，要么怕家长骂干脆瞒着不说。</p><p>今天这一课，就讲这个——<b>看见别人（或将来的你）正被骗、正要转账，怎么稳住、帮着叫停、留证据、找对的人（96110 反诈专线、110、银行、平台）。</b></p>`
+  },
+  { type:'talk', tag:'真实事例', title:'真实新闻：武汉「冰晴」被「冒充公检法」骗走1.2万',
+    lines:[
+      '2026年5月，中国经济网报道了一个真实案子。武汉一个中学生叫冰晴，在游戏公屏看到「有酬代练、领游戏皮肤」的广告，就加了对方好友。',
+      '对方把她引到别的平台，发来一张假的「闲鱼已付款」截图，说可以扫码领报酬。冰晴一扫码，跳出一个假客服，劈头盖脸批评她：「系统检测到你是未成年人，操作失误导致平台损失6万元！」',
+      '假客服说已经报警，冰晴的父母要「被抓起来坐牢」。接着一个假冒的「杨警官」用语音吓她，逼她用爸爸的手机，在群里发红包来「验证清白、解冻账户」。',
+      '冰晴紧张得不行，照着做了，用爸爸手机发出红包1.2万元，钱全流向了境外。幸好她妈妈发现了异常转账，立刻报警。后来武汉警方顺着这个案子，查出了全国几百起专挑中小学生下手的诈骗。'
+    ],
+    html:`<p>2026 年 5 月，中国经济网报道了一个真实案子。武汉一个中学生叫 <b>冰晴</b>，在游戏公屏看到「<b>有酬代练、领游戏皮肤</b>」的广告，就加了对方好友。</p><p>对方把她引到别的平台，发来一张假的「闲鱼已付款」截图，说可以扫码领报酬。冰晴一扫码，跳出一个<b>假客服</b>，劈头盖脸批评她：「系统检测到你是未成年人，<b>操作失误导致平台损失 6 万元！</b>」</p>
+      <svg class="caseimg" viewBox="0 0 360 175" role="img" aria-label="游戏代练广告→假客服说赔6万→假杨警官恐吓→用爸手机发红包1.2万→母亲报警">
+        <text x="44" y="92" font-size="40" text-anchor="middle">🎮</text>
+        <text x="44" y="138" font-size="12.5" text-anchor="middle" fill="#5a5448">代练领皮肤</text>
+        <text x="124" y="92" font-size="38" text-anchor="middle">💬</text>
+        <text x="124" y="138" font-size="12.5" text-anchor="middle" fill="#8a7560">假客服说赔6万</text>
+        <text x="204" y="92" font-size="40" text-anchor="middle">👮</text>
+        <text x="204" y="138" font-size="12.5" text-anchor="middle" fill="#8a7560">假杨警官恐吓</text>
+        <text x="284" y="92" font-size="40" text-anchor="middle">📱</text>
+        <text x="284" y="138" font-size="12.5" text-anchor="middle" fill="#5a5448">爸手机发红包1.2万</text>
+        <text x="338" y="92" font-size="36" text-anchor="middle">🚨</text>
+        <text x="338" y="138" font-size="12.5" text-anchor="middle" fill="#2e7d4f">母亲报警</text>
+      </svg>
+      <p>假客服说已经报警，冰晴的父母要「<b>被抓起来坐牢</b>」。接着一个假冒的「<b>杨警官</b>」用语音吓她，逼她用爸爸的手机，在群里发红包来「验证清白、解冻账户」。</p><p>冰晴紧张得不行，照着做了，用爸爸手机发出红包 <b>1.2 万元</b>，钱全流向了境外。幸好她妈妈发现了异常转账，<b>立刻报警</b>。后来武汉警方顺着这个案子，查出了全国几百起专挑中小学生下手的诈骗。</p>`
+  },
+  { type:'talk', tag:'对比一下', title:'同样掉进骗局，三种「慌」法',
+    lines:[
+      '你可能会想，冰晴这孩子真惨。可你再想想：同样发现自己或同学正掉进骗局，很多人会怎么慌？',
+      '第一种，吓哭了跟着转——骗子一吓「你犯法了、家长要坐牢」，就乖乖把家长手机拿来转账，越转越多。',
+      '第二种，怕挨骂干脆瞒着——像另一个12岁男孩小强，被「免费皮肤」骗走6000元，因为害怕被责骂，瞒了3天才告诉家长，险些错过抓骗子的时机。',
+      '第三种，自己硬上跟骗子对线——在群里跟骗子吵架、想「反骗回来」，反而暴露自己、耽误止损。',
+      '聪明做法是什么？先稳住，认出这是骗局，当场帮他叫停，再帮着止损、找对的人。小强要是早点说，钱也许能更早追回来；冰晴妈妈及时发现报警，才把损失刹住。'
+    ],
+    html:`<p>你可能会想，冰晴这孩子真惨。可你再想想：同样发现自己或同学正掉进骗局，很多人会怎么慌？</p>
+      <svg class="caseimg" viewBox="0 0 360 150" role="img" aria-label="三种慌乱应对对比一种稳的">
+        <text x="50" y="64" font-size="40" text-anchor="middle">😭</text>
+        <text x="50" y="108" font-size="12.5" text-anchor="middle" fill="#5a5448">吓哭跟着转</text>
+        <text x="138" y="64" font-size="40" text-anchor="middle">🤫</text>
+        <text x="138" y="108" font-size="12.5" text-anchor="middle" fill="#5a5448">瞒着不说</text>
+        <text x="226" y="64" font-size="40" text-anchor="middle">💢</text>
+        <text x="226" y="108" font-size="12.5" text-anchor="middle" fill="#5a5448">硬刚对线</text>
+        <text x="318" y="64" font-size="38" text-anchor="middle">✅</text>
+        <text x="318" y="108" font-size="12.5" text-anchor="middle" fill="#2e7d4f">稳＋认出＋叫停＋找对人</text>
+      </svg>
+      <p>第一种，<b>吓哭了跟着转</b>——骗子一吓「你犯法了、家长要坐牢」，就乖乖把家长手机拿来转账，越转越多。第二种，<b>怕挨骂干脆瞒着</b>——像另一个 12 岁男孩小强，被「免费皮肤」骗走 6000 元，因为害怕被责骂，<b>瞒了 3 天才告诉家长</b>，险些错过抓骗子的时机。第三种，<b>自己硬上跟骗子对线</b>——在群里跟骗子吵架、想「反骗回来」，反而暴露自己、耽误止损。</p><p>聪明做法是什么？<b>先稳住，认出这是骗局，当场帮他叫停，再帮着止损、找对的人</b>。小强要是早点说，钱也许能更早追回来；冰晴妈妈及时发现报警，才把损失刹住。</p>`
+  },
+  { type:'ask', mode:'choice',
+    q:'模拟演练：你看见同学正要按骗子的话，用家长手机发红包「证明清白」，你这个没经验的人第一步干嘛？',
+    options:['A. 也跟着慌，帮同学一起找家长手机来转账','B. 先稳住，夺过手机锁屏、挂断，告诉同学「这是骗局，别转」，马上打96110或告诉家长老师','C. 怕惹事，装没看见走开','D. 自己在群里跟骗子对骂，想反骗回来'],
+    answer:1,
+    fbOk:'对！选 B。先稳住，当场帮他叫停（锁屏、挂断、关掉屏幕共享），告诉他是骗局，再打 96110 反诈专线或告诉家长老师。A 越帮越乱，C 放任损失，D 耽误止损还可能暴露自己。',
+    fbNo:'再想想～跟着转（A）、装没看见（C）、跟骗子对骂（D）都不算帮上忙。关键是 B：认出骗局、当场叫停、找对的人。'
+  },
+  { type:'talk', tag:'提炼', title:'今天的三招：认出骗局、当场叫停、帮着止损找对的人',
+    lines:[
+      '招1，认出骗局的样子：凡是「免费送皮肤/装备」「冒充警察说你犯法」「要验证码、密码、屏幕共享」「让你别告诉家长」——这些都是红灯，十有八九是骗局。',
+      '招2，当场帮他叫停：不替他慌、拉住他，把手机拿过来锁屏、挂断电话、关掉屏幕共享，清楚告诉他「这是骗局，别转」。这比事后留证据更管用，因为钱一旦转走就难追了。',
+      '招3，帮着止损、留证据、找对的人：马上打96110（反诈专线）或110，保存好聊天记录和转账凭证，告诉家长或老师，必要时帮着挂失银行卡。找对的人，正是这一课和前几课一脉相承的「喊帮手」。'
+    ],
+    html:`<p><span class="badge">招1</span><b>认出骗局的样子</b>：凡是「免费送皮肤/装备」「冒充警察说你犯法」「要验证码、密码、屏幕共享」「让你别告诉家长」——这些都是红灯，十有八九是骗局。</p><p><span class="badge">招2</span><b>当场帮他叫停</b>：不替他慌、拉住他，把手机拿过来锁屏、挂断电话、关掉屏幕共享，清楚告诉他「这是骗局，别转」。这比事后留证据更管用，因为<b>钱一旦转走就难追了</b>。</p><p><span class="badge">招3</span><b>帮着止损、留证据、找对的人</b>：马上打 96110（反诈专线）或 110，保存好聊天记录和转账凭证，告诉家长或老师，必要时帮着挂失银行卡。找对的人，正是这一课和前几课一脉相承的「喊帮手」。</p>
+      <svg class="caseimg" viewBox="0 0 360 130" role="img" aria-label="认出骗局-当场叫停-止损找对人96110">
+        <text x="60" y="78" font-size="44" text-anchor="middle">🚦</text>
+        <text x="60" y="116" font-size="12.5" text-anchor="middle" fill="#5a5448">认出骗局</text>
+        <text x="180" y="78" font-size="44" text-anchor="middle">✋</text>
+        <text x="180" y="116" font-size="12.5" text-anchor="middle" fill="#5a5448">当场叫停</text>
+        <text x="300" y="78" font-size="44" text-anchor="middle">📞</text>
+        <text x="300" y="116" font-size="12.5" text-anchor="middle" fill="#5a5448">找对的人·96110</text>
+      </svg>`
+  },
+  { type:'peer',
+    who:'同学小问号', q:'老师，我要是（或我同学）不小心点了骗局、转了钱，怕被家长骂死，不敢说怎么办？',
+    lines:[
+      '怕被家长骂，一点都不丢人，那是第一次碰到这种事很正常的反应。',
+      '但你只要记住三件不危险的事：第一，先稳住，别再按骗子的指令操作，把手机锁屏；第二，把聊天记录、转账凭证截图留好，这就是证据；第三，马上找对的人——打96110或110，或者鼓起勇气告诉家长、老师。',
+      '越早说，钱越可能追回来。就像小强，早说一天，警察就早一天去追；瞒着不说，骗子早就把钱转走了。',
+      '家长可能会生气，但比起钱没了、你一个人担惊受怕，让家长帮你一起解决，才是真的保护你自己。'
+    ],
+    html:`<p>怕被家长骂，<b>一点都不丢人</b>，那是第一次碰到这种事很正常的反应。</p><p>但你只要记住三件不危险的事：<b>第一，先稳住</b>，别再按骗子的指令操作，把手机锁屏；<b>第二，把聊天记录、转账凭证截图留好</b>，这就是证据；<b>第三，马上找对的人</b>——打 96110 或 110，或者鼓起勇气告诉家长、老师。</p><p><b>越早说，钱越可能追回来</b>。就像小强，早说一天，警察就早一天去追；瞒着不说，骗子早就把钱转走了。</p><p>家长可能会生气，但比起钱没了、你一个人担惊受怕，让家长帮你一起解决，才是真的保护你自己。</p>`
+  },
+  { type:'talk', tag:'口诀', title:'来，背新口诀（接前8课一起念）',
+    lines:[
+      '把今天的招数，也压成顺口溜，接在前几句后面一起念。',
+      '别人被骗钱，我先稳住神；',
+      '认出骗局样，当场就喊停；',
+      '止损留证据，96110 找对的人；',
+      '九课连成串，见义又敢为又稳。'
+    ],
+    rhyme:[
+      '别人被骗钱，我先稳住神；',
+      '认出骗局样，当场就喊停；',
+      '止损留证据，96110 找对的人；',
+      '九课连成串，见义又敢为又稳。'
+    ],
+    html:`<p>把今天的招数，也压成顺口溜，接在前几句后面一起念——</p><div class="rhyme">别人被骗钱，我先稳住神；<br>认出骗局样，当场就喊停；<br>止损留证据，96110 找对的人；<br>九课连成串，见义又敢为又稳。</div>`
+  },
+  { type:'ask', mode:'open',
+    q:'费曼时间到！用自己的话，把「认出骗局、当场叫停、找对的人」讲给想象中的同学听——你会怎么解释？最好举一个你生活里能用的例子。',
+    hint:'比如同学说「客服说我犯法了要转账证明清白」，别慌也别帮着转，先锁屏挂断告诉他这是骗局，再打96110或告诉家长老师。',
+    fbOk:'能讲出来就赢了！费曼法就是说：你讲得清，才是真懂。哪怕只说出「别帮着转、认出骗局、找对的人」，这就对了。'
+  },
+  { type:'ask', mode:'choice',
+    q:'模拟演练：同学慌慌张张跑来说：「客服说我未成年操作失误，要我拿爸爸手机发红包解冻，不然我爸妈要被抓！」你第一步干嘛？',
+    options:['A. 跟着他一起害怕，帮他找爸爸手机来发红包','B. 先稳住，告诉他这是冒充公检法的骗局，锁屏挂断，打96110或告诉家长老师','C. 觉得多一事不如少一事，让他自己处理','D. 自己上网跟那个假客服对线，想把钱骗回来'],
+    answer:1,
+    fbOk:'对！选 B。这是典型的「冒充公检法」骗局，专挑没经验的学生吓。先稳住、认出骗局、当场叫停，再打 96110 或告诉家长老师。A 越帮越乱，C 放任，D 耽误止损。',
+    fbNo:'想想「认出骗局、当场叫停、找对的人」。A 帮着转最危险，C 放任，D 硬刚。最好选 B。'
+  },
+  { type:'talk', tag:'下课', title:'今天的小结',
+    lines:[
+      '今天借武汉冰晴、还有小强这两个真实新闻，学了一招：别人正被骗、正要转账时，认出骗局、当场叫停、帮着止损、找对的人（96110/110/银行/平台）。',
+      '别人被骗钱，你不慌、不帮着转、不帮着瞒，先认出骗局、帮着叫停，再找能管事的人，就是最好的应对。',
+      '前8课加今天这课，你已经攒了九招：旁观、喊帮手、自圆场、提前彩排、稳稳出手、用一句公道话站对的一边、用证据说话找对的人、留证据找对的人不硬刚不认栽、认出骗局当场叫停帮着止损找对的人。',
+      '下课！下次在新闻里、生活里看见同学、长辈正掉进骗局，记得偷偷在心里彩排一遍：要是我，我会怎么认出、叫停、找对的人。'
+    ],
+    html:`<p>今天借武汉冰晴、还有小强这两个真实新闻，学了一招：<b>别人正被骗、正要转账时，认出骗局、当场叫停、帮着止损、找对的人（96110/110/银行/平台）。</b></p><p>别人被骗钱，你<b>不慌、不帮着转、不帮着瞒</b>，先认出骗局、帮着叫停，再找能管事的人，就是最好的应对。</p><p>前8课加今天这课，你已经攒了九招：<b>旁观、喊帮手、自圆场、提前彩排、稳稳出手、用一句公道话站对的一边、用证据说话找对的人、留证据找对的人不硬刚不认栽、认出骗局当场叫停帮着止损找对的人。</b></p><p>下课！下次在新闻里、生活里看见同学、长辈正掉进骗局，记得偷偷在心里彩排一遍：<b>要是我，我会怎么认出、叫停、找对的人。</b></p>`
+  }
+];
+
+/* ============ 全局播放位置映射（用于「播放位置」滑块） ============ */
+function getLines(s){ return (s.type==='ask') ? [s.q] : (s.lines||[]); }
+const GLOBAL = [];
+SEG.forEach((s,si)=>{ const n=getLines(s).length; for(let l=0;l<n;l++) GLOBAL.push({seg:si,line:l}); });
+SEG.forEach(s=>{ if(s.type==='ask' && !s.lines) s.lines=[s.q]; });
+
+/* ============ 语音 ============ */
+let voices=[], curVoice=null, speakingGen=0;
+const synth = window.speechSynthesis;
+function loadVoices(){
+  voices = synth ? synth.getVoices() : [];
+  const sel = document.getElementById('voiceSel'); sel.innerHTML='';
+  const zh = voices.filter(v=>/^zh/i.test(v.lang));
+  zh.forEach((v,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=v.name; sel.appendChild(o); });
+  let idx = zh.findIndex(v=>/xiaoxiao|晓晓|neural/i.test(v.name));
+  if(idx<0) idx = zh.findIndex(v=>/female|女|huihui|yaoyao|xiaoyi/i.test(v.name));
+  if(idx>=0){ sel.value=idx; curVoice=zh[idx]; }
+}
+if(synth){
+  loadVoices();
+  synth.onvoiceschanged = loadVoices;
+}
+document.getElementById('voiceSel').addEventListener('change',e=>{
+  const zh=voices.filter(v=>/^zh/i.test(v.lang)); curVoice=zh[e.target.value];
+});
+
+function updateSub(t){ document.getElementById('subText').textContent = t||''; }
+function globalIndexOf(seg,line){ for(let i=0;i<GLOBAL.length;i++){ if(GLOBAL[i].seg===seg && GLOBAL[i].line===line) return i; } return -1; }
+function updateSent(seg, line){
+  const n=getLines(SEG[seg]).length;
+  document.getElementById('sentInfo').textContent = `第 ${line+1} / ${n} 句`;
+  const gi=globalIndexOf(seg,line);
+  if(gi>=0){ seek.max = GLOBAL.length-1; seek.value=gi; seekInfo.textContent=`${gi+1}/${GLOBAL.length}`; }
+}
+
+/* 朗读某一句；cont=true 时自动连播下一句 */
+function speakLine(segIdx, lineIdx, cont, onDone){
+  const s=SEG[segIdx]; const lines=getLines(s);
+  if(lineIdx<0 || lineIdx>=lines.length){ onDone&&onDone(); return; }
+  const myGen=++speakingGen;
+  synth.cancel();
+  const u=new SpeechSynthesisUtterance(lines[lineIdx]);
+  u.lang='zh-CN'; u.rate=parseFloat(document.getElementById('rate').value); u.pitch=1.0;
+  if(curVoice) u.voice=curVoice;
+  const av=document.getElementById('teaAvatar'); av.classList.add('speaking');
+  u.onend=()=>{
+    if(myGen!==speakingGen) return;            // 已被上一句/下一句打断
+    av.classList.remove('speaking');
+    if(cont && lineIdx+1<lines.length){ speakLine(segIdx, lineIdx+1, true, onDone); }
+    else { onDone&&onDone(); }
+  };
+  u.onerror=()=>{ if(myGen!==speakingGen) return; av.classList.remove('speaking'); onDone&&onDone(); };
+  curLine=lineIdx; updateSub(lines[lineIdx]); updateSent(segIdx, lineIdx);
+  synth.speak(u);
+}
+
+/* ============ 渲染 ============ */
+const board=document.getElementById('board');
+const segTag=document.getElementById('segTag');
+const segTitle=document.getElementById('segTitle');
+const segBody=document.getElementById('segBody');
+const dots=document.getElementById('dots');
+const askArea=document.getElementById('askArea');
+const btnStart=document.getElementById('btnStart');
+const btnPrev=document.getElementById('btnPrev');
+const btnNext=document.getElementById('btnNext');
+const btnReplay=document.getElementById('btnReplay');
+const seek=document.getElementById('seek');
+const seekInfo=document.getElementById('seekInfo');
+
+let curSeg=0, curLine=0, askAnswered=false, finished=false;
+
+function buildDots(){
+  dots.innerHTML='';
+  SEG.forEach((s,i)=>{ const d=document.createElement('div'); d.className='dot'; d.dataset.i=i;
+    d.addEventListener('click',()=>{ if(synth) synth.cancel(); renderSeg(i); }); dots.appendChild(d); });
+}
+function refreshDots(){
+  [...dots.children].forEach((d,i)=>{ d.className='dot'+(i<curSeg?' done':'')+(i===curSeg?' cur':''); });
+}
+function showSegControls(i){
+  btnReplay.style.display='inline-block';
+  btnNext.style.display='inline-block';
+  if(i+1>=SEG.length){ btnNext.textContent='✓ 完成'; } else { btnNext.textContent='下一句 ⤼'; }
+}
+
+function renderSeg(i, opt){
+  opt=opt||{};
+  curSeg=i; refreshDots(); askArea.innerHTML=''; askAnswered=false; finished=false;
+  btnNext.style.display='none'; btnReplay.style.display='none'; btnPrev.style.display='inline-block';
+  const s=SEG[i];
+  if(s.type==='ask'){ renderAsk(s); return; }
+  segTag.textContent = s.tag||'课堂';
+  segTitle.textContent = s.title||'';
+  let body = s.html||'';
+  if(s.type==='peer'){ body += `<div class="peer"><div class="who">${s.who}：</div><div class="q">「${s.q}」</div></div>`; }
+  segBody.innerHTML = body;
+  const lines=getLines(s);
+  let start = (opt.from==='last') ? Math.max(0,lines.length-1) : (opt.from||0);
+  let cont = (opt.cont!==false);
+  if(lines.length){ speakLine(i, start, cont, ()=>showSegControls(i)); }
+}
+
+function renderAsk(s){
+  segTag.textContent='晓晓老师提问';
+  segTitle.textContent='✋ 停一下，该你出场了';
+  segBody.innerHTML = `<p>${s.q}</p>`;
+  const box=document.createElement('div'); box.className='ask';
+  let inner = `<div class="label">📝 你的回答（费曼记忆：讲出来才算懂）</div>`;
+  if(s.mode==='choice'){
+    inner += `<div class="opts">`+s.options.map((o,oi)=>`<div class="opt" data-i="${oi}">${o}</div>`).join('')+`</div>`;
+  }else{
+    inner += `<textarea id="ans" placeholder="${s.hint||'在这里写你的想法…'}"></textarea>`;
+  }
+  const fb=document.createElement('div'); fb.className='fb'; fb.id='fb';
+  const go=document.createElement('button'); go.className='ctrl primary'; go.textContent='提交回答'; go.style.marginTop='10px';
+  box.innerHTML=inner; box.appendChild(go); box.appendChild(fb); askArea.appendChild(box);
+
+  if(s.mode==='choice'){
+    box.querySelectorAll('.opt').forEach(opt=>{ opt.addEventListener('click',()=>{
+      box.querySelectorAll('.opt').forEach(o=>o.classList.remove('pick')); opt.classList.add('pick'); }); });
+    go.addEventListener('click',()=>{
+      const picked=box.querySelector('.opt.pick'); if(!picked){ alert('先选一个答案哦～'); return; }
+      const pi=+picked.dataset.i;
+      box.querySelectorAll('.opt').forEach(o=>o.classList.remove('pick','right','wrong'));
+      if(pi===s.answer){ picked.classList.add('right'); showFb('ok',s.fbOk); }
+      else{ picked.classList.add('wrong'); box.querySelectorAll('.opt')[s.answer].classList.add('right'); showFb('no',s.fbNo); }
+      go.style.display='none'; askAnswered=true; showSegControls(curSeg);
+      speakLine(curSeg,0,false,null);
+    });
+  }else{
+    go.addEventListener('click',()=>{
+      const t=document.getElementById('ans').value.trim(); if(!t){ alert('先写几句吧，哪怕一句话也行～'); return; }
+      showFb('ok', s.fbOk); go.style.display='none'; askAnswered=true; showSegControls(curSeg);
+      speakLine(curSeg,0,false,null);
+    });
+  }
+  function showFb(cls,txt){ fb.className='fb '+cls; fb.textContent=txt; }
+  const gi=globalIndexOf(curSeg,0); if(gi>=0){ seek.max = GLOBAL.length-1; seek.value=gi; seekInfo.textContent=`${gi+1}/${GLOBAL.length}`; }
+  speakLine(curSeg,0,false,null);   // 老师先读题
+}
+
+/* ============ 上一句 / 下一句（逐句调位置） ============ */
+function prevSentence(){
+  const s=SEG[curSeg];
+  if(s.type==='ask'){ if(curSeg>0) renderSeg(curSeg-1); return; }
+  speakingGen++; if(synth) synth.cancel();
+  const lines=getLines(s);
+  if(curLine>0){ speakLine(curSeg, curLine-1, false, null); }
+  else if(curSeg>0){ renderSeg(curSeg-1, {from:'last', cont:false}); }
+}
+function nextSentence(){
+  const s=SEG[curSeg];
+  if(s.type==='ask'){
+    if(askAnswered){ if(curSeg+1<SEG.length) renderSeg(curSeg+1); else finish(); }
+    else { alert('先回答晓晓老师的问题，再往后走哦～'); }
+    return;
+  }
+  speakingGen++; if(synth) synth.cancel();
+  const lines=getLines(s);
+  if(curLine < lines.length-1){ speakLine(curSeg, curLine+1, false, null); }
+  else { if(curSeg+1<SEG.length) renderSeg(curSeg+1); else finish(); }
+}
+
+function finish(){
+  finished=true; speakingGen++; if(synth) synth.cancel();
+  segTag.textContent='下课'; segTitle.textContent='🎉 这节课上完啦！';
+  segBody.innerHTML=`<p>你跟着晓晓老师，从武汉冰晴、小强这两个真实新闻里，学会了<b>看见别人被骗被坑钱，怎么稳住、认出骗局、当场叫停、帮着止损、找对的人（96110/110）。</b></p><p>加上前8课，你已经攒了九招：旁观、喊帮手、自圆场、提前彩排、稳稳出手、用一句公道话站对的一边、用证据说话找对的人、留证据找对的人不硬刚不认栽、认出骗局当场叫停帮着止损找对的人。记住那首顺口溜，下次看见骗局，先稳住自己。</p>`;
+  document.getElementById('subText').textContent='下课！有问题随时来找晓晓老师。';
+  btnNext.style.display='none'; btnReplay.style.display='none'; btnPrev.style.display='none'; btnStart.style.display='none';
+  if(GLOBAL.length) seek.value=GLOBAL.length-1;
+  refreshDots();
+}
+
+/* ============ 控制绑定 ============ */
+btnStart.addEventListener('click',()=>{ btnStart.style.display='none'; buildDots(); seek.max = GLOBAL.length-1; renderSeg(0); });
+btnPrev.addEventListener('click', prevSentence);
+btnNext.addEventListener('click', nextSentence);
+btnReplay.addEventListener('click',()=>{
+  const s=SEG[curSeg];
+  if(s.type==='ask'){ speakLine(curSeg,0,false,null); }
+  else { speakLine(curSeg, 0, true, ()=>showSegControls(curSeg)); }
+});
+seek.addEventListener('input', ()=>{
+  const g=+seek.value; const m=GLOBAL[g]; if(!m) return;
+  speakingGen++; if(synth) synth.cancel();
+  renderSeg(m.seg, {from:m.line, cont:false});
+});
+document.getElementById('fontSel').addEventListener('change',e=>{
+  document.documentElement.style.setProperty('--fs', e.target.value+'px');
+});
+/* 初始字号 */
+document.documentElement.style.setProperty('--fs', document.getElementById('fontSel').value+'px');
+</script>
+</body>
+</html>
