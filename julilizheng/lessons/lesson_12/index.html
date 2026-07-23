@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>据理力争小课堂 · 第12课 当众被批评怎么稳：被当众点名怎么稳住不崩 · 晓晓老师</title>
+<style>
+  :root{
+    --bg1:#fef6ec; --bg2:#fdeede; --board:#2f7a5b; --board2:#276349;
+    --ink:#3a2f28; --paper:#fffaf3; --accent:#ff8a3d; --accent2:#ffb703;
+    --good:#2f9e6f; --bad:#e5674b; --line:#e7d8c4; --chalk:#f6fff9;
+    --shadow:0 10px 30px rgba(120,80,40,.16);
+    --serif:"Songti SC","SimSun","宋体","Noto Serif SC",serif;
+    --sans:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--sans);
+    background:radial-gradient(1200px 600px at 50% -10%,var(--bg2),var(--bg1));
+    color:var(--ink); min-height:100vh; display:flex; flex-direction:column;
+    padding:14px 14px 24px;
+  }
+  .wrap{max-width:960px;margin:0 auto;width:100%;flex:1;display:flex;flex-direction:column}
+
+  header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .logo{font-size:30px}
+  header h1{font-size:20px;letter-spacing:.5px}
+  header .sub{font-size:12px;color:#a58b6f}
+  .badge{margin-left:auto;background:#fff;border:1px solid var(--line);border-radius:20px;
+    padding:6px 12px;font-size:12px;color:#a06a2c;box-shadow:var(--shadow)}
+
+  .progress{height:8px;background:#f0e2d0;border-radius:20px;overflow:hidden;margin-bottom:6px}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .5s}
+  .dots{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+  .dots button{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:#fff;
+    color:#b5906a;font-size:11px;cursor:pointer;transition:.2s;font-family:var(--serif)}
+  .dots button.done{background:#ffe6cf;color:#c8792f;border-color:#f5cfa5}
+  .dots button.cur{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow)}
+
+  .stage{position:relative;background:linear-gradient(160deg,var(--board),var(--board2));
+    border-radius:22px;padding:22px 22px 20px;box-shadow:var(--shadow);
+    border:10px solid #6b4a2e;min-height:440px;display:flex;flex-direction:column}
+  .stage:before{content:"";position:absolute;inset:0;border-radius:12px;
+    background:radial-gradient(600px 260px at 78% 8%,rgba(255,255,255,.07),transparent);pointer-events:none}
+  .tagline{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .chip{background:rgba(255,255,255,.16);color:#eafff4;border:1px solid rgba(255,255,255,.25);
+    border-radius:20px;padding:3px 12px;font-size:12px}
+  .stage h2{color:var(--chalk);font-size:23px;text-shadow:0 1px 0 rgba(0,0,0,.25);margin:2px 0 12px;font-family:var(--serif)}
+
+  /* 板书内容：宋体大字号（约小四偏上） */
+  .content{color:#eefff7;font-family:var(--serif);font-size:19px;line-height:1.95;flex:1}
+  .content .lead{font-size:19px;color:#dff6ea;margin:8px 0}
+  .content h3{color:#fff;font-size:21px;margin:8px 0;text-align:center;font-family:var(--serif)}
+  .content b{color:#ffe08a}
+  .content small{color:#bfe6d3;font-size:13.5px}
+  .three,.two,.brain{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+  .two .card{min-width:190px}
+  .card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:14px;
+    padding:14px 16px;text-align:center;min-width:120px;font-size:16.5px;font-family:var(--serif)}
+  .card.good{background:rgba(255,224,138,.16);border-color:#ffe08a}
+  .card.bad{background:rgba(229,103,75,.16);border-color:#f4a892}
+  .brain .vs{align-self:center;color:#ffe08a;font-weight:700}
+  .def{background:rgba(255,255,255,.12);border-left:4px solid var(--accent2);border-radius:10px;
+    padding:12px 14px;margin:12px 0;font-size:18.5px;color:#fff;font-family:var(--serif)}
+  .quote{background:rgba(0,0,0,.16);border-radius:12px;padding:14px 16px;margin:14px 0;
+    font-size:19px;color:#fff;text-align:center;font-style:italic;font-family:var(--serif)}
+  .quote small{font-style:normal}
+  .tip{background:rgba(255,224,138,.14);border:1px dashed #ffe08a;border-radius:12px;
+    padding:12px 14px;margin-top:12px;color:#fff;font-size:17px;font-family:var(--serif)}
+  .eg{background:rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;margin-top:12px;text-align:center;font-size:18px;color:#fff;font-family:var(--serif)}
+  .steps{list-style:none;margin:10px 0}
+  .steps li{background:rgba(255,255,255,.09);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:18.5px;font-family:var(--serif)}
+  .flow{margin:10px 0 6px 20px;color:#fff;font-family:var(--serif)}
+  .flow li{background:rgba(255,255,255,.09);border-radius:10px;padding:9px 12px;margin:7px 0;font-size:17.5px}
+  .scene{text-align:center;font-size:18.5px;background:rgba(0,0,0,.15);border-radius:12px;padding:12px;margin-bottom:10px;color:#fff;font-family:var(--serif)}
+  .scene-svg{display:block;margin:8px auto 2px;width:min(320px,82%)}
+  .big{font-size:70px;text-align:center;color:#ffe08a;font-weight:800;text-shadow:0 3px 0 rgba(0,0,0,.25);line-height:1}
+  .koujue{display:flex;gap:10px;justify-content:center;margin:6px 0 14px;flex-wrap:wrap}
+  .koujue span{width:60px;height:60px;border-radius:14px;background:linear-gradient(160deg,#ffb703,#ff8a3d);
+    color:#fff;font-size:30px;font-weight:800;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 14px rgba(0,0,0,.25);animation:pop .5s both;font-family:var(--serif)}
+  .koujue span:nth-child(2){animation-delay:.1s}.koujue span:nth-child(3){animation-delay:.2s}
+  .koujue span:nth-child(4){animation-delay:.3s}.koujue span:nth-child(5){animation-delay:.4s}
+  .koujue span:nth-child(6){animation-delay:.5s}
+  @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+  .rhyme{text-align:center;font-size:19px;line-height:2;color:#fff;background:rgba(0,0,0,.14);border-radius:12px;padding:14px;font-family:var(--serif)}
+  .banner{margin-top:14px;text-align:center;font-size:19px;font-weight:700;color:#3a2f28;
+    background:linear-gradient(90deg,#ffe08a,#ffb703);border-radius:12px;padding:10px;font-family:var(--serif)}
+
+  .teacher{position:absolute;right:16px;bottom:-6px;text-align:center;pointer-events:none;z-index:3}
+  .teacher .face{font-size:56px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3));transition:transform .2s}
+  .teacher.speaking .face{animation:talk .5s infinite}
+  @keyframes talk{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+  .teacher .name{font-size:11px;color:#eafff4;background:rgba(0,0,0,.25);border-radius:10px;padding:2px 8px;margin-top:2px}
+
+  .hint{text-align:center;font-size:12.5px;color:#b19478;margin-top:12px;line-height:1.7}
+  .hint b{color:#a06a2c}
+
+  /* ===== 可拖拽浮动播放器（字幕在面板内，不遮挡黑板）===== */
+  .player{position:fixed;right:18px;bottom:18px;width:min(372px,94vw);max-height:82vh;z-index:35;
+    background:var(--paper);border-radius:18px;box-shadow:0 16px 44px rgba(60,40,20,.32);
+    border:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+  .player-bar{display:flex;align-items:center;gap:8px;cursor:move;user-select:none;
+    background:linear-gradient(90deg,var(--accent),#ff6f2c);color:#fff;padding:9px 12px}
+  .player-bar .grip{font-size:16px;opacity:.9}
+  .player-bar .ptitle{font-size:14px;font-weight:700;letter-spacing:.5px}
+  .player-bar .pmin{margin-left:auto;cursor:pointer;font-size:18px;line-height:1;padding:0 4px}
+  .player-body{padding:12px;display:flex;flex-direction:column;gap:9px;overflow:auto}
+  .player.min .player-body{display:none}
+
+  .cap-box{background:#fff6e8;border:1px solid var(--line);border-radius:12px;padding:11px 13px;
+    font-family:var(--serif);font-size:18px;line-height:1.7;color:#5a3d1c;min-height:30px;max-height:120px;overflow:auto}
+  .cap-box.off{display:none}
+  .transcript{background:#fbf3e6;border:1px solid var(--line);border-radius:12px;padding:8px 10px;
+    max-height:190px;overflow:auto;font-family:var(--serif)}
+  .transcript .sent{font-size:17px;line-height:1.6;color:#7a6043;padding:5px 8px;border-radius:8px;
+    cursor:pointer;transition:.15s;border-left:3px solid transparent}
+  .transcript .sent:hover{background:#fff1dc}
+  .transcript .sent.cur{background:linear-gradient(90deg,#ffe2bd,#ffd49a);color:#5a3d1c;font-weight:700;
+    border-left-color:var(--accent)}
+
+  .prow{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
+  .btn{border:none;border-radius:12px;padding:10px 14px;font-size:14px;cursor:pointer;
+    background:#fff;color:#a05a1c;border:1px solid var(--line);box-shadow:var(--shadow);transition:.15s;font-weight:600;font-family:var(--sans)}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.primary{background:linear-gradient(90deg,var(--accent),#ff6f2c);color:#fff;border:none}
+  .btn.mini{padding:8px 11px;font-size:13px}
+  .toggle{display:flex;align-items:center;gap:6px;font-size:13px;color:#8a6b4a;background:#fff;
+    border:1px solid var(--line);border-radius:12px;padding:8px 11px;cursor:pointer;font-family:var(--sans)}
+  .toggle.off{opacity:.5}
+
+  /* 弹窗（费曼提问 / 同学小剧场） */
+  .overlay{position:fixed;inset:0;background:rgba(35,25,15,.55);backdrop-filter:blur(3px);
+    display:none;align-items:center;justify-content:center;z-index:40;padding:18px}
+  .overlay.show{display:flex}
+  .modal{background:var(--paper);border-radius:20px;max-width:600px;width:100%;padding:24px;
+    box-shadow:0 20px 60px rgba(0,0,0,.3);animation:rise .35s both;border-top:8px solid var(--accent);max-height:86vh;overflow:auto}
+  @keyframes rise{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+  .modal .hand{font-size:40px;text-align:center}
+  .modal h3{text-align:center;margin:6px 0 4px;color:#c8792f;font-size:15px}
+  .modal .qtext{font-size:19px;line-height:1.65;text-align:center;margin:10px 0 16px;color:#4a3a2c;font-family:var(--serif)}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:13px 16px;
+    font-size:16px;cursor:pointer;text-align:left;transition:.15s;font-family:var(--serif)}
+  .opt:hover{border-color:var(--accent);background:#fff7ee}
+  .opt.right{border-color:var(--good);background:#e9f8f0;color:#1d7a52}
+  .opt.wrong{border-color:var(--bad);background:#fdece7;color:#b03d24}
+  .feedback{margin-top:14px;background:#fff6e8;border:1px dashed var(--accent2);border-radius:12px;
+    padding:13px 15px;font-size:15.5px;line-height:1.8;color:#6a4a24;display:none;font-family:var(--serif)}
+  .feedback.show{display:block;animation:rise .3s both}
+  .reveal-ans{white-space:pre-wrap;background:#eef8f1;border:1px solid #bfe6cf;border-radius:12px;
+    padding:14px;font-size:15.5px;line-height:1.85;color:#245c40;display:none;margin-top:6px;font-family:var(--serif)}
+  .reveal-ans.show{display:block}
+  .modal .row{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+
+  /* 同学小剧场 */
+  .stu-theater .avatar{font-size:46px;text-align:center}
+  .stu-theater h3{color:#5b6fb0}
+  .st-chat{display:flex;flex-direction:column;gap:12px;margin:12px 0 4px;max-height:320px;overflow:auto}
+  .bubble{max-width:90%;padding:12px 15px;border-radius:16px;font-size:16px;line-height:1.8;white-space:pre-wrap;font-family:var(--serif)}
+  .bubble.q{align-self:flex-start;background:#eef3ff;border:1px solid #cdd9ff;border-bottom-left-radius:4px}
+  .bubble.q .who{font-size:12px;color:#5b6fb0;font-weight:700;margin-bottom:4px}
+  .bubble.a{align-self:flex-end;background:linear-gradient(90deg,#fff3e0,#ffe7c2);border:1px solid #ffd49a;border-bottom-right-radius:4px}
+  .bubble.a .who{font-size:12px;color:#c8792f;font-weight:700;margin-bottom:4px;text-align:right}
+  .st-row{display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+
+  @media(max-width:560px){
+    .stage{padding:16px;min-height:400px}.big{font-size:56px}.koujue span{width:48px;height:48px;font-size:24px}
+    .teacher .face{font-size:44px}
+    .player{right:8px;left:8px;width:auto;bottom:8px}
+    .content{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">🏫</div>
+    <div>
+      <h1>据理力争小课堂 · 第12课</h1>
+      <div class="sub">当众被批评怎么稳：被当众点名、被当众否定，怎么稳住不崩、把道理说清或虚心接住 · 六字口诀「稳·听·分·应·收·进」· 初中生也能懂</div>
+    </div>
+    <div class="badge">👩‍🏫 晓晓老师语音授课</div>
+  </header>
+
+  <div class="progress"><i id="bar"></i></div>
+  <div class="dots" id="dots"></div>
+
+  <div class="stage" id="stage">
+    <div class="tagline"><span class="chip" id="chip">开场</span><span class="chip" id="idx">1 / 12</span></div>
+    <h2 id="title"></h2>
+    <div class="content" id="content"></div>
+    <div class="teacher" id="teacher"><div class="face">👩‍🏫</div><div class="name">晓晓老师</div></div>
+  </div>
+
+  <div class="hint">💡 上课中晓晓老师会<b>随堂提问（费曼）</b>，还会<b>不定时抽考</b>、安排<b>同学小剧场</b>。播放器可<b>拖动</b>到任意位置，用「上一句/下一句」逐句跟读。能讲出来、答上来，才是真学会。</div>
+</div>
+
+<!-- 可拖拽浮动播放器 -->
+<div class="player" id="player">
+  <div class="player-bar" id="playerBar">
+    <span class="grip">⠿</span>
+    <span class="ptitle">🎧 晓晓老师播放器</span>
+    <span class="pmin" id="playerMin" title="收起/展开">▾</span>
+  </div>
+  <div class="player-body">
+    <div class="cap-box" id="capBox">点击 ▶ 开始上课，晓晓老师就来啦～</div>
+    <div class="transcript" id="transcript"></div>
+    <div class="prow">
+      <button class="btn mini" id="prevSec">⏮ 上节</button>
+      <button class="btn primary" id="play">▶ 播放</button>
+      <button class="btn mini" id="nextSec">下节 ⏭</button>
+    </div>
+    <div class="prow">
+      <button class="btn mini" id="prevSent">↑ 上一句</button>
+      <button class="btn mini" id="replay">🔁 重播本节</button>
+      <button class="btn mini" id="nextSent">下一句 ↓</button>
+    </div>
+    <div class="prow">
+      <div class="toggle" id="capToggle">💬 字幕：开</div>
+      <div class="toggle" id="quizToggle">🎯 抽考：开</div>
+      <button class="btn mini" id="feynman">🎤 费曼复述</button>
+    </div>
+  </div>
+</div>
+
+<!-- 提问弹窗 -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="hand">🙋</div>
+    <h3>晓晓老师随堂提问 · 费曼时间</h3>
+    <div class="qtext" id="qtext"></div>
+    <div class="opts" id="opts"></div>
+    <div class="reveal-ans" id="revealAns"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="row" id="qrow"></div>
+  </div>
+</div>
+
+<!-- 同学小剧场 -->
+<div class="overlay stu-theater" id="studentOverlay">
+  <div class="modal">
+    <div class="avatar" id="stAvatar">🧑‍🎓</div>
+    <h3>同学小剧场 · 课堂互动</h3>
+    <div class="st-chat">
+      <div class="bubble q"><div class="who" id="stWho"></div><span id="stQ"></span></div>
+      <div class="bubble a"><div class="who">👩‍🏫 晓晓老师</div><span id="stA"></span></div>
+    </div>
+    <div class="st-row">
+      <button class="btn mini" id="stRead">🔊 听晓晓老师读</button>
+      <button class="btn" id="stContinue">继续上课 ▶</button>
+    </div>
+  </div>
+</div>
+
+<audio id="audio"></audio>
+<script src="content.js"></script>
+<script>
+(function(){
+  const L = window.LESSON, QZ = window.QUIZZES, ST = window.STUDENTS, SURPRISE = window.SURPRISE || {};
+  const audio = document.getElementById('audio');
+  let i = 0, capOn = true, surpriseOn = true, done = new Set();
+  let lastCue = -1, surprises = [];
+
+  const $ = id => document.getElementById(id);
+  const stage=$('stage'), teacher=$('teacher');
+
+  function renderDots(){
+    const d=$('dots'); d.innerHTML='';
+    L.forEach((s,k)=>{
+      const b=document.createElement('button');
+      b.textContent=k+1;
+      if(done.has(k)) b.classList.add('done');
+      if(k===i) b.classList.add('cur');
+      b.onclick=()=>{ goto(k); };
+      d.appendChild(b);
+    });
+    $('bar').style.width = ((done.size)/L.length*100)+'%';
+  }
+
+  function buildTranscript(){
+    const t=$('transcript'); t.innerHTML='';
+    L[i].cues.forEach((q,k)=>{
+      const d=document.createElement('div');
+      d.className='sent'; d.dataset.i=k; d.textContent=q.text;
+      d.onclick=()=>{ seekTo(k); };
+      t.appendChild(d);
+    });
+    lastCue=-1;
+  }
+
+  function highlightSent(cur){
+    const sents=$('transcript').children;
+    for(let k=0;k<sents.length;k++) sents[k].classList.toggle('cur', k===cur);
+    if(cur>=0 && sents[cur]){
+      const el=sents[cur];
+      el.scrollIntoView({block:'nearest',behavior:'smooth'});
+    }
+  }
+
+  function loadSection(k){
+    i=k; const s=L[i];
+    $('chip').textContent=s.tag;
+    $('idx').textContent=(i+1)+' / '+L.length;
+    $('title').textContent=s.title;
+    const c=$('content'); c.style.opacity=0;
+    setTimeout(()=>{ c.innerHTML=s.html; c.style.transition='opacity .4s'; c.style.opacity=1; },120);
+    buildTranscript();
+    audio.src=s.mp3; audio.load();
+    $('capBox').classList.toggle('off',!capOn);
+    $('capBox').textContent='准备好了吗？点击 ▶ 让晓晓老师开讲～';
+    renderDots();
+  }
+
+  function play(){
+    const p=audio.play();
+    if(p && p.catch) p.catch(()=>{ $('capBox').innerHTML='⚠️ 微信里请再点一下 ▶ 播放按钮解锁声音～'; });
+  }
+  function speaking(on){ teacher.classList.toggle('speaking',on); }
+  function seekTo(k){
+    const cues=L[i].cues; if(!cues.length) return;
+    const idx=Math.max(0,Math.min(cues.length-1,k));
+    audio.currentTime=cues[idx].start;
+    if(audio.paused) play();
+  }
+
+  // 字幕同步（句级）+ 不定时抽考
+  audio.addEventListener('timeupdate',()=>{
+    const cues=L[i].cues, t=audio.currentTime; let cur=-1;
+    for(let k=0;k<cues.length;k++){ if(t>=cues[k].start-0.05) cur=k; else break; }
+    if(cur!==lastCue){
+      lastCue=cur;
+      highlightSent(cur);
+      if(capOn && cur>=0) $('capBox').textContent=cues[cur].text;
+      if(surpriseOn && !audio.paused && cur>=0){
+        for(const sp of surprises){
+          if(!sp.fired && sp.sec===i && sp.cue===cur){ sp.fired=true; fireSurprise(sp); break; }
+        }
+      }
+    }
+  });
+  audio.addEventListener('play',()=>{ speaking(true); $('play').textContent='⏸ 暂停'; });
+  audio.addEventListener('pause',()=>{ speaking(false); $('play').textContent='▶ 播放'; });
+  audio.addEventListener('ended',()=>{
+    speaking(false); done.add(i); renderDots();
+    const s=L[i];
+    if(s.student){ showStudent(s.student); }
+    else if(s.quiz){ askQuiz(QZ[s.quiz], autoNext); }
+    else { autoNext(); }
+  });
+
+  function autoNext(){
+    if(i < L.length-1){
+      $('capBox').innerHTML='✅ 这一节讲完啦，正在进入下一节…';
+      setTimeout(()=>{ loadSection(i+1); setTimeout(play,400); },1100);
+    } else {
+      $('capBox').innerHTML='🎉 全部课程完成！你已经掌握了「稳·听·分·应·收·进」六字法，去实战吧！';
+      $('play').textContent='▶ 重新上课';
+    }
+  }
+
+  // ===== 不定时抽考安排 =====
+  function buildSurprises(){
+    surprises=[];
+    if(!surpriseOn) return;
+    const keys=Object.keys(SURPRISE);
+    if(!keys.length) return;
+    for(let a=keys.length-1;a>0;a--){const b=Math.floor(Math.random()*(a+1));[keys[a],keys[b]]=[keys[b],keys[a]];}
+    const secs=[1,2,3,4,5,6,7,8,9,10];
+    for(let a=secs.length-1;a>0;a--){const b=Math.floor(Math.random()*(a+1));[secs[a],secs[b]]=[secs[b],secs[a]];}
+    const n=Math.min(3,keys.length);
+    for(let x=0;x<n;x++){
+      const sec=secs[x];
+      const cues=L[sec].cues;
+      const cue=Math.max(0,Math.min(cues.length-1, Math.floor(cues.length/2)+(x%2?1:-1)));
+      surprises.push({sec,cue,qid:keys[x],fired:false});
+    }
+  }
+  function fireSurprise(sp){
+    audio.pause();
+    askQuiz(SURPRISE[sp.qid], ()=>{ if(i<L.length) audio.play(); });
+  }
+
+  // ===== 提问（费曼）=====
+  const overlay=$('overlay');
+  function askQuiz(q, onDone){
+    const opts=$('opts'), row=$('qrow'), fb=$('feedback'), rv=$('revealAns');
+    opts.innerHTML=''; row.innerHTML=''; fb.className='feedback'; fb.innerHTML='';
+    rv.className='reveal-ans'; rv.textContent='';
+    $('qtext').textContent=q.ask;
+    if(q.type==='choice'){
+      q.options.forEach((o,k)=>{
+        const b=document.createElement('button'); b.className='opt'; b.textContent=String.fromCharCode(65+k)+'. '+o;
+        b.onclick=()=>{
+          [...opts.children].forEach(x=>x.style.pointerEvents='none');
+          if(k===q.answer){ b.classList.add('right'); fb.innerHTML='🎉 答对了！'+q.explain; }
+          else { b.classList.add('wrong'); opts.children[q.answer].classList.add('right');
+                 fb.innerHTML='💡 再想想～ 正确答案是 '+String.fromCharCode(65+q.answer)+'。'+q.explain; }
+          fb.classList.add('show');
+          addContinue(row,onDone);
+        };
+        opts.appendChild(b);
+      });
+    } else {
+      const rb=document.createElement('button'); rb.className='btn primary'; rb.textContent='🔎 我说完了，看参考答案';
+      rb.onclick=()=>{ rv.textContent=q.answer_text; rv.classList.add('show'); rb.remove(); addContinue(row,onDone); };
+      row.appendChild(rb);
+    }
+    overlay.classList.add('show');
+  }
+  function addContinue(row,onDone){
+    const c=document.createElement('button'); c.className='btn'; c.textContent='继续上课 ▶';
+    c.onclick=()=>{ overlay.classList.remove('show'); if(onDone) onDone(); };
+    row.appendChild(c);
+  }
+
+  // ===== 同学小剧场 =====
+  const sOverlay=$('studentOverlay');
+  let stAnswer='';
+  function showStudent(sid){
+    const st=ST[sid];
+    $('stAvatar').textContent=st.avatar||'🧑‍🎓';
+    $('stWho').textContent=st.asker+' 举手提问';
+    $('stQ').textContent=st.question;
+    $('stA').textContent=st.answer;
+    stAnswer=st.answer;
+    sOverlay.classList.add('show');
+  }
+  $('stContinue').onclick=()=>{ sOverlay.classList.remove('show'); autoNext(); };
+  $('stRead').onclick=()=>{
+    try{
+      const u=new SpeechSynthesisUtterance(stAnswer.replace(/\n/g,'。'));
+      u.lang='zh-CN'; u.rate=0.95;
+      const vs=speechSynthesis.getVoices();
+      const v=vs.find(x=>/XiaoxiaoNeural/i.test(x.voiceURI||''))||vs.find(x=>/zh-CN/i.test(x.lang||''));
+      if(v) u.voice=v;
+      speechSynthesis.cancel(); speechSynthesis.speak(u);
+    }catch(e){}
+  };
+  if('speechSynthesis' in window && typeof speechSynthesis.getVoices==='function'){
+    speechSynthesis.onvoiceschanged=()=>{};
+  } else {
+    const r=document.getElementById('stRead'); if(r) r.style.display='none';
+  }
+
+  // ===== 控制 =====
+  $('play').onclick=()=>{
+    if(audio.paused){
+      if(i===L.length-1 && audio.ended){ done.clear(); loadSection(0); setTimeout(play,300); }
+      else play();
+    } else audio.pause();
+  };
+  $('prevSec').onclick=()=>{ if(i>0){ loadSection(i-1); setTimeout(play,300); } };
+  $('nextSec').onclick=()=>{ if(i<L.length-1){ loadSection(i+1); setTimeout(play,300); } };
+  $('replay').onclick=()=>{ audio.currentTime=0; play(); };
+  $('prevSent').onclick=()=>{ seekTo(Math.max(0,(lastCue<0?0:lastCue)-1)); };
+  $('nextSent').onclick=()=>{ seekTo((lastCue<0?0:lastCue)+1); };
+  function goto(k){ loadSection(k); setTimeout(play,300); }
+  $('capToggle').onclick=()=>{
+    capOn=!capOn; $('capToggle').textContent='💬 字幕：'+(capOn?'开':'关');
+    $('capToggle').classList.toggle('off',!capOn);
+    $('capBox').classList.toggle('off',!capOn);
+  };
+  $('quizToggle').onclick=()=>{
+    surpriseOn=!surpriseOn; $('quizToggle').textContent='🎯 抽考：'+(surpriseOn?'开':'关');
+    $('quizToggle').classList.toggle('off',!surpriseOn);
+    buildSurprises();
+  };
+  $('feynman').onclick=()=>{
+    const q={type:'reveal',
+      ask:'🎤 费曼复述：用你自己的话讲一遍今天学的「稳·听·分·应·收·进」，讲完点开看参考答案。',
+      answer_text: (QZ.qfinal&&QZ.qfinal.answer_text)||''};
+    if(!audio.paused) audio.pause();
+    askQuiz(q, ()=>{ if(i<L.length) audio.play(); });
+  };
+
+  // ===== 拖拽播放器 =====
+  (function(){
+    const p=$('player'), bar=$('playerBar'), min=$('playerMin');
+    let drag=false, ox=0, oy=0;
+    function down(e){
+      if(e.target===min) return;
+      drag=true;
+      const pt=e.touches?e.touches[0]:e;
+      const r=p.getBoundingClientRect();
+      ox=pt.clientX-r.left; oy=pt.clientY-r.top;
+      p.style.right='auto'; p.style.bottom='auto';
+      p.style.left=r.left+'px'; p.style.top=r.top+'px';
+      e.preventDefault();
+    }
+    function move(e){
+      if(!drag) return;
+      const pt=e.touches?e.touches[0]:e;
+      let nx=pt.clientX-ox, ny=pt.clientY-oy;
+      nx=Math.max(4,Math.min(window.innerWidth-p.offsetWidth-4,nx));
+      ny=Math.max(4,Math.min(window.innerHeight-p.offsetHeight-4,ny));
+      p.style.left=nx+'px'; p.style.top=ny+'px';
+      e.preventDefault();
+    }
+    function up(){ drag=false; }
+    bar.addEventListener('mousedown',down); document.addEventListener('mousemove',move); document.addEventListener('mouseup',up);
+    bar.addEventListener('touchstart',down,{passive:false}); document.addEventListener('touchmove',move,{passive:false}); document.addEventListener('touchend',up);
+    min.onclick=()=>{ p.classList.toggle('min'); min.textContent=p.classList.contains('min')?'▴':'▾'; };
+  })();
+
+  // 启动
+  buildSurprises();
+  loadSection(0);
+})();
+</script>
+</body>
+</html>
